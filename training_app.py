@@ -160,7 +160,7 @@ with col_admin:
 st.markdown("---")
 
 # Video chiếm trung tâm
-st.subheader("📺 Phim Giới thiệu & Đào tạo Năng lực")
+st.subheader("📺 Video Giới thiệu và Hội nhập")
 st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ") 
 
 st.markdown("<br><br>", unsafe_allow_html=True)
