@@ -52,7 +52,7 @@ def save_to_github(name, score):
 # ==========================================
 # CỬA SỔ POPUP BÀI KIỂM TRA (DIALOG)
 # ==========================================
-@st.dialog("📝 BÀI KIỂM TRA NĂNG LỰC & HỘI NHẬP", width="large")
+@st.dialog("📝 BÀI KIỂM TRA HỘI NHẬP", width="large")
 def take_quiz_dialog():
     st.markdown("Vui lòng điền họ tên và hoàn thành các câu hỏi dưới đây. Bài thi sẽ được tự động lưu vào hệ thống nhân sự.")
     
@@ -104,7 +104,7 @@ col_logo, col_title = st.columns([1, 5])
 with col_logo:
     if os.path.exists("rkv_logo.png"): st.image("rkv_logo.png", use_container_width=True)
 with col_title:
-    st.title("🎓 Cổng Đào Tạo Năng Lực & Hội Nhập")
+    st.title("🎓 Cổng Đào Tạo Hội Nhập")
 
 st.markdown("---")
 
