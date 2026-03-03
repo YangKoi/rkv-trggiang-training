@@ -1,9 +1,8 @@
 import streamlit as st
 import os
-import plotly.graph_objects as go
+import pandas as pd
 from datetime import datetime
 
-# Thử import PyGithub, nếu chưa cài thì bỏ qua để web không bị sập
 try:
     from github import Github
 except ImportError:
@@ -18,121 +17,162 @@ if 'quiz_passed' not in st.session_state:
     st.session_state.quiz_passed = False
 
 # ==========================================
-# HÀM LƯU KẾT QUẢ LÊN GITHUB
+# 2. CÁC HÀM GIAO TIẾP VỚI GITHUB (ĐỌC/GHI)
 # ==========================================
-def save_to_github(name, score):
-    if Github is None:
-        return False, "Chưa cài đặt thư viện PyGithub."
-    
+def save_to_github(name, score, q1_ans, q2_ans, q3_ans):
+    if Github is None: return False, "Chưa cài đặt thư viện PyGithub."
     try:
-        # Lấy thông tin bảo mật từ Streamlit Secrets (Sẽ thiết lập ở Bước 3)
         token = st.secrets["GITHUB_TOKEN"]
-        repo_name = st.secrets["GITHUB_REPO"] # Ví dụ: "trggiang/rikenviet-training"
+        repo_name = st.secrets["GITHUB_REPO"]
         
         g = Github(token)
         repo = g.get_repo(repo_name)
         
-        # Định dạng tên file và nội dung
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         safe_name = name.replace(" ", "_")
-        file_path = f"KetQua_DaoTao/{safe_name}_{now}.txt" # Lưu vào thư mục KetQua_DaoTao
+        file_path = f"KetQua_DaoTao/{safe_name}_{now}.txt" 
         
+        # Nội dung file
         content = f"--- KẾT QUẢ ĐÀO TẠO HỘI NHẬP RIKEN VIỆT ---\n"
         content += f"Họ và Tên: {name}\n"
         content += f"Thời gian hoàn thành: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}\n"
         content += f"Điểm số đạt được: {score}/3\n"
         content += f"Trạng thái: {'ĐẠT' if score == 3 else 'CHƯA ĐẠT'}\n"
+        content += f"--- CHI TIẾT BÀI LÀM ---\n"
+        content += f"Câu 1 chọn: {q1_ans}\n"
+        content += f"Câu 2 chọn: {q2_ans}\n"
+        content += f"Câu 3 chọn: {q3_ans}\n"
         
-        # Lệnh đẩy file lên GitHub
         repo.create_file(file_path, f"Lưu bài thi của {name}", content, branch="main")
         return True, "Thành công"
     except Exception as e:
         return False, str(e)
 
+def fetch_history_from_github():
+    if Github is None: return None
+    try:
+        token = st.secrets["GITHUB_TOKEN"]
+        repo_name = st.secrets["GITHUB_REPO"]
+        g = Github(token)
+        repo = g.get_repo(repo_name)
+        
+        try:
+            contents = repo.get_contents("KetQua_DaoTao")
+        except:
+            return [] 
+            
+        records = []
+        for file in contents:
+            if file.name.endswith(".txt"):
+                text = file.decoded_content.decode("utf-8")
+                lines = text.split('\n')
+                name, date, score, status = "", "", "", ""
+                ans1, ans2, ans3 = "N/A", "N/A", "N/A" 
+                
+                # Bóc tách dữ liệu nâng cao
+                for line in lines:
+                    if line.startswith("Họ và Tên:"): name = line.split(":", 1)[1].strip()
+                    if line.startswith("Thời gian hoàn thành:"): date = line.replace("Thời gian hoàn thành:", "").strip()
+                    if line.startswith("Điểm số đạt được:"): score = line.split(":", 1)[1].strip()
+                    if line.startswith("Trạng thái:"): status = line.split(":", 1)[1].strip()
+                    if line.startswith("Câu 1 chọn:"): ans1 = line.split(":", 1)[1].strip()
+                    if line.startswith("Câu 2 chọn:"): ans2 = line.split(":", 1)[1].strip()
+                    if line.startswith("Câu 3 chọn:"): ans3 = line.split(":", 1)[1].strip()
+                
+                records.append({
+                    "Họ Tên": name,
+                    "Thời gian": date,
+                    "Điểm": score,
+                    "Kết quả": status,
+                    "Câu 1 (Đúng: C)": ans1[:15] + "..." if len(ans1) > 15 else ans1, 
+                    "Câu 2 (Đúng: B)": ans2[:15] + "..." if len(ans2) > 15 else ans2,
+                    "Câu 3 (Đúng: C)": ans3[:15] + "..." if len(ans3) > 15 else ans3
+                })
+        return records
+    except Exception as e:
+        st.error(f"Lỗi truy xuất: {e}")
+        return None
+
 # ==========================================
-# CỬA SỔ POPUP BÀI KIỂM TRA (DIALOG)
+# 3. CỬA SỔ POPUP BÀI KIỂM TRA (DÀNH CHO NHÂN VIÊN)
 # ==========================================
-@st.dialog("📝 BÀI KIỂM TRA HỘI NHẬP", width="large")
+@st.dialog("📝 BÀI KIỂM TRA NĂNG LỰC & HỘI NHẬP", width="large")
 def take_quiz_dialog():
-    st.markdown("Vui lòng điền họ tên và hoàn thành các câu hỏi dưới đây. Bài thi sẽ được tự động lưu vào hệ thống nhân sự.")
-    
-    # Nhập tên
+    st.markdown("Vui lòng điền họ tên và hoàn thành các câu hỏi dưới đây.")
     user_name = st.text_input("👤 Nhập Họ và Tên của bạn (*Bắt buộc):", placeholder="VD: Nguyễn Văn A")
     st.markdown("---")
     
-    # Câu hỏi
     q1 = st.radio("Câu 1: Giải pháp cốt lõi mà công ty chúng ta cung cấp là gì?",
                   ["A. Thiết bị PCCC", "B. Hệ thống camera an ninh", "C. Thiết bị đo, cảnh báo rò rỉ khí", "D. Thiết bị y tế"], index=None)
-    
     q2 = st.radio("Câu 2: Tủ điều khiển trung tâm trong hệ thống đo khí có chức năng chính là gì?",
                   ["A. Đo nhiệt độ phòng", "B. Thu thập tín hiệu, hiển thị nồng độ và kích hoạt rơ-le", "C. Đóng ngắt điện", "D. Bơm hóa chất"], index=None)
-    
     q3 = st.radio("Câu 3: Nguyên tắc xử lý liên động (Interlock) cơ bản khi Alarm 2 kích hoạt?",
                   ["A. Phát nhạc nền", "B. Chỉ nháy đèn vàng", "C. Đóng van ngắt cấp khí và bật quạt hút", "D. Mở tung cửa"], index=None)
 
-    # Nút Gửi bài
     if st.button("📤 NỘP BÀI VÀ LƯU KẾT QUẢ", type="primary", use_container_width=True):
-        if not user_name:
-            st.error("⚠️ Vui lòng nhập Họ và Tên trước khi nộp bài!")
-        elif not q1 or not q2 or not q3:
-            st.error("⚠️ Vui lòng trả lời đầy đủ cả 3 câu hỏi!")
+        if not user_name: st.error("⚠️ Vui lòng nhập Họ và Tên!")
+        elif not q1 or not q2 or not q3: st.error("⚠️ Vui lòng trả lời đầy đủ 3 câu hỏi!")
         else:
-            with st.spinner("Đang tự động chấm điểm và lưu hồ sơ lên hệ thống GitHub..."):
+            with st.spinner("Đang chấm điểm và lưu chi tiết đáp án lên máy chủ..."):
                 score = 0
                 if q1.startswith("C"): score += 1
                 if q2.startswith("B"): score += 1
                 if q3.startswith("C"): score += 1
                 
-                # Gọi hàm lưu lên GitHub
-                success, msg = save_to_github(user_name, score)
+                success, msg = save_to_github(user_name, score, str(q1), str(q2), str(q3))
                 
                 if success:
-                    st.success(f"✅ Đã lưu kết quả của **{user_name}** thành công vào cơ sở dữ liệu!")
                     if score == 3:
                         st.session_state.quiz_passed = True
-                        st.success("🎉 CHÚC MỪNG! Bạn đã đạt điểm tuyệt đối 3/3.")
+                        st.success("🎉 CHÚC MỪNG! Bạn đã trả lời đúng hoàn toàn. Hãy tắt bảng này để nhận chứng nhận.")
                     else:
                         st.session_state.quiz_passed = False
-                        st.error(f"⚠️ Bạn đạt {score}/3 điểm. Vui lòng tắt cửa sổ, xem lại video và làm lại nhé!")
+                        st.error(f"⚠️ Bạn đạt {score}/3 điểm. Vui lòng xem lại kiến thức và thực hiện lại bài thi!")
                 else:
-                    st.warning(f"⚠️ Chấm điểm hoàn tất ({score}/3) nhưng chưa thể lưu file lên GitHub (Lỗi: {msg}). Vui lòng kiểm tra lại cấu hình Secret Key.")
+                    st.warning("⚠️ Lỗi kết nối máy chủ GitHub!")
 
 # ==========================================
-# GIAO DIỆN CHÍNH (TRANG CHỦ)
+# 4. GIAO DIỆN CHÍNH (TRANG CHỦ)
 # ==========================================
-col_logo, col_title = st.columns([1, 5]) 
+col_logo, col_title, col_admin = st.columns([1, 4, 1.5]) 
+
 with col_logo:
     if os.path.exists("rkv_logo.png"): st.image("rkv_logo.png", use_container_width=True)
+
 with col_title:
-    st.title("🎓 Cổng Đào Tạo Hội Nhập")
+    st.title("🎓 Cổng Đào Tạo Năng Lực & Hội Nhập")
+
+with col_admin:
+    st.markdown("<br>", unsafe_allow_html=True)
+    with st.popover("🗄️ Dành cho Quản lý (Admin)", use_container_width=True):
+        st.markdown("**📂 Kho lưu trữ Lịch sử Đào tạo**")
+        st.caption("Truy xuất trực tiếp từ máy chủ GitHub")
+        
+        if st.button("🔄 Tải dữ liệu mới nhất", use_container_width=True):
+            with st.spinner("Đang trích xuất chi tiết bài làm..."):
+                records = fetch_history_from_github()
+                if records:
+                    df = pd.DataFrame(records)
+                    st.dataframe(df, use_container_width=True, hide_index=True)
+                elif records == []:
+                    st.info("Trống! Chưa có nhân viên nào nộp bài.")
 
 st.markdown("---")
 
-# 1. Bản đồ (Giữ nguyên như bản cũ)
-st.subheader("🗺️ Hành trình vươn xa của Riken Việt (2014 - Nay)")
-fig = go.Figure()
-fig.add_trace(go.Scattergeo(lon=[106.660172, 106.688084], lat=[10.762622, 20.844912], text=["<b>Trụ sở HCM</b>", "<b>CN Hải Phòng</b>"], mode='markers+text', textposition="top right", textfont=dict(color="white", size=13), marker=dict(size=14, color='red', line=dict(width=2, color='white'))))
-fig.add_trace(go.Scattergeo(lon=[105.8542], lat=[21.0285], text=["<b>Hà Nội</b>"], mode='markers+text', textposition="top left", textfont=dict(color="yellow", size=14), marker=dict(size=20, color='red', symbol='star', line=dict(width=1.5, color='yellow'))))
-fig.add_trace(go.Scattergeo(lon=[112.0, 114.2], lat=[16.5, 9.0], text=["<b>Hoàng Sa (VN)</b>", "<b>Trường Sa (VN)</b>"], mode='markers+text', textposition="bottom center", textfont=dict(color="#00FFFF", size=12), marker=dict(size=6, color='#00FFFF')))
-fig.update_layout(geo=dict(resolution=50, showland=True, landcolor="rgb(30,30,30)", coastlinecolor="cyan", lataxis=dict(range=[6, 24]), lonaxis=dict(range=[101, 118])), paper_bgcolor="rgba(0,0,0,0)", margin=dict(l=0, r=0, t=10, b=10), height=400)
-st.plotly_chart(fig, use_container_width=True)
-
-st.markdown("---")
-
-# 2. Chiếu Video ở giữa trang
+# Video chiếm trung tâm
 st.subheader("📺 Phim Giới thiệu & Đào tạo Năng lực")
 st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ") 
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 
-# 3. Nút mở Popup làm bài kiểm tra (Ẩn dưới cùng)
+# Nút mở Popup làm bài nằm trang trọng phía dưới
 st.markdown("<h3 style='text-align: center;'>Đánh giá mức độ hội nhập</h3>", unsafe_allow_html=True)
 col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
 with col_btn2:
     if st.button("🚀 BẮT ĐẦU LÀM BÀI KIỂM TRA", type="primary", use_container_width=True):
-        take_quiz_dialog() # Gọi hàm mở cửa sổ Dialog
+        take_quiz_dialog() 
 
-# 4. Hiển thị phần hoàn thành sau khi Pass
+# Khu vực Hoàn thành (Chỉ hiện khi pass)
 if st.session_state.quiz_passed:
     st.balloons() 
     st.markdown("---")
