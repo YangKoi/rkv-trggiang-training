@@ -1,19 +1,19 @@
 import streamlit as st
 import os
+import plotly.graph_objects as go
 
 # ==========================================
-# CẤU HÌNH TRANG & BỘ NHỚ (SESSION STATE)
+# 1. CẤU HÌNH TRANG & BỘ NHỚ (SESSION STATE)
 # ==========================================
-# Đổi layout="centered" thành layout="wide" để tràn viền 16:9
 st.set_page_config(page_title="Riken Viet - Đào tạo nội bộ", page_icon="🎓", layout="wide")
 
 if 'quiz_passed' not in st.session_state:
     st.session_state.quiz_passed = False
 
 # ==========================================
-# KHU VỰC 1: HEADER (Dàn ngang)
+# 2. KHU VỰC HEADER TỔNG
 # ==========================================
-col_logo, col_title = st.columns([1, 5]) # Chia tỷ lệ phần Header
+col_logo, col_title = st.columns([1, 5]) 
 
 with col_logo:
     if os.path.exists("rkv_logo.png"):
@@ -23,25 +23,77 @@ with col_logo:
 
 with col_title:
     st.title("🎓 Cổng Đào Tạo Năng Lực & Hội Nhập")
-    st.markdown("**Xin chào thành viên mới!** Vui lòng theo dõi video bên trái và hoàn thành bài kiểm tra ở cột bên phải để hoàn tất thủ tục hội nhập.")
+    st.markdown("**Xin chào thành viên mới!** Vui lòng tìm hiểu về lịch sử công ty, theo dõi video và hoàn thành bài kiểm tra để hoàn tất thủ tục hội nhập.")
 
 st.markdown("---")
 
 # ==========================================
-# KHU VỰC 2: CHIA CỘT MÀN HÌNH 16:9
+# 3. KHU VỰC BẢN ĐỒ LỊCH SỬ TƯƠNG TÁC
 # ==========================================
-# Cột trái chiếu video to (tỷ lệ 1.5), cột phải làm bài Quiz (tỷ lệ 1.0)
+st.subheader("🗺️ Hành trình vươn xa của Riken Việt (2014 - Nay)")
+
+# Tọa độ [Vĩ độ (Lat), Kinh độ (Lon)]
+cities = ["TP. Hồ Chí Minh", "Hải Phòng"]
+lats = [10.762622, 20.844912]
+lons = [106.660172, 106.688084]
+texts = [
+    "<b>Trụ sở chính TP.HCM</b><br>Thành lập: 16/10/2014",
+    "<b>Chi nhánh Miền Bắc (Hải Phòng)</b><br>Thành lập: 28/03/2017"
+]
+
+fig = go.Figure()
+
+# Thêm các điểm sáng (Markers)
+fig.add_trace(go.Scattergeo(
+    lon = lons,
+    lat = lats,
+    text = texts,
+    hoverinfo = 'text',
+    mode = 'markers+text',
+    textposition = "top right",
+    textfont=dict(color="white", size=12),
+    marker = dict(
+        size = 15,
+        color = 'red', # Điểm sáng màu đỏ Riken
+        line = dict(width = 2, color = 'white')
+    )
+))
+
+# Cấu hình giao diện bản đồ công nghệ
+fig.update_layout(
+    geo = dict(
+        scope = 'asia',
+        resolution = 50,
+        showland = True,
+        landcolor = "rgb(30, 30, 30)", 
+        countrycolor = "rgb(100, 100, 100)",
+        coastlinecolor = "rgb(0, 255, 255)", 
+        center = dict(lon=106.0, lat=16.0), # Căn giữa Việt Nam
+        projection_scale = 5.5 # Mức độ Zoom
+    ),
+    paper_bgcolor="rgba(0,0,0,0)",
+    margin=dict(l=0, r=0, t=10, b=10),
+    height=450
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
+st.markdown("---")
+
+# ==========================================
+# 4. KHU VỰC VIDEO & BÀI QUIZ (CHIA CỘT 16:9)
+# ==========================================
 col_video, col_quiz = st.columns([1.5, 1.0], gap="large")
 
 with col_video:
     st.subheader("📺 Phim Giới thiệu & Đào tạo Năng lực")
-    # Streamlit sẽ tự động stretch video ra vừa khít tỷ lệ cột
+    # Thay đường link video YouTube thực tế của công ty bạn vào đây
     VIDEO_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ" 
     st.video(VIDEO_URL)
 
 with col_quiz:
     st.subheader("📝 Bài Kiểm Tra Kiến Thức")
-    st.info("Vui lòng trả lời đúng 100% các câu hỏi để qua môn.")
+    st.info("Vui lòng trả lời đúng 100% các câu hỏi để hoàn thành.")
 
     with st.form("quiz_form"):
         q1 = st.radio(
@@ -71,11 +123,11 @@ with col_quiz:
             index=None
         )
 
-        # Nút nộp bài trải rộng hết cỡ của cột phải
+        # Nút nộp bài trải rộng
         submit_btn = st.form_submit_button("📤 Nộp bài kiểm tra", type="primary", use_container_width=True)
 
 # ==========================================
-# KHU VỰC 3: XỬ LÝ KẾT QUẢ & CẤP CHỨNG NHẬN
+# 5. XỬ LÝ KẾT QUẢ & CẤP CHỨNG NHẬN
 # ==========================================
 if submit_btn:
     score = 0
@@ -90,7 +142,7 @@ if submit_btn:
         st.session_state.quiz_passed = False
         st.error(f"⚠️ Bạn mới trả lời đúng {score}/3 câu hỏi. Vui lòng xem lại video và chọn lại đáp án nhé!")
 
-# Bảng hoàn thành khóa học dàn rộng ở dưới cùng
+# Bảng hoàn thành khóa học xuất hiện khi Pass
 if st.session_state.quiz_passed:
     st.balloons() 
     st.markdown("---")
@@ -100,11 +152,11 @@ if st.session_state.quiz_passed:
         st.subheader("🎓 Hoàn thành Khóa học")
         st.success("Hệ thống đã ghi nhận bạn hoàn thành khóa Onboarding hội nhập!")
     with col_cert2:
-        st.markdown("<br>", unsafe_allow_html=True) # Đẩy nút bấm xuống một chút cho cân bằng
+        st.markdown("<br>", unsafe_allow_html=True) 
         st.download_button(
             label="📥 Tải Sổ tay nhân viên (PDF)",
-            data="Nội dung file giả lập", 
-            file_name="SoTay_NhanVien.pdf",
+            data="Nội dung file PDF giả lập...", # Có thể dùng `open('file.pdf', 'rb').read()` sau này
+            file_name="SoTay_NhanVien_RikenViet.pdf",
             type="primary",
             use_container_width=True
         )
