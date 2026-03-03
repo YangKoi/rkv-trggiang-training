@@ -32,48 +32,66 @@ st.markdown("---")
 # ==========================================
 st.subheader("🗺️ Hành trình vươn xa của Riken Việt (2014 - Nay)")
 
-# Tọa độ [Vĩ độ (Lat), Kinh độ (Lon)]
-cities = ["TP. Hồ Chí Minh", "Hải Phòng"]
-lats = [10.762622, 20.844912]
-lons = [106.660172, 106.688084]
-texts = [
-    "<b>Trụ sở chính TP.HCM</b><br>Thành lập: 16/10/2014",
-    "<b>Chi nhánh Miền Bắc (Hải Phòng)</b><br>Thành lập: 28/03/2017"
-]
-
 fig = go.Figure()
 
-# Thêm các điểm sáng (Markers)
+# 3.1. Các điểm sáng Chi nhánh (TP.HCM & Hải Phòng)
 fig.add_trace(go.Scattergeo(
-    lon = lons,
-    lat = lats,
-    text = texts,
+    lon = [106.660172, 106.688084],
+    lat = [10.762622, 20.844912],
+    text = [
+        "<b>Trụ sở chính TP.HCM</b><br>Thành lập: 16/10/2014",
+        "<b>Chi nhánh Miền Bắc (Hải Phòng)</b><br>Thành lập: 28/03/2017"
+    ],
     hoverinfo = 'text',
     mode = 'markers+text',
     textposition = "top right",
-    textfont=dict(color="white", size=12),
-    marker = dict(
-        size = 15,
-        color = 'red', # Điểm sáng màu đỏ Riken
-        line = dict(width = 2, color = 'white')
-    )
+    textfont=dict(color="white", size=13),
+    marker = dict(size = 14, color = 'red', line = dict(width = 2, color = 'white'))
 ))
 
-# Cấu hình giao diện bản đồ công nghệ
+# 3.2. Thủ đô Hà Nội (Ngôi sao đỏ viền vàng)
+fig.add_trace(go.Scattergeo(
+    lon = [105.8542],
+    lat = [21.0285],
+    text = ["<b>Thủ đô Hà Nội</b>"],
+    hoverinfo = 'text',
+    mode = 'markers+text',
+    textposition = "top left",
+    textfont=dict(color="yellow", size=14, weight="bold"),
+    marker = dict(size = 20, color = 'red', symbol = 'star', line = dict(width = 1.5, color = 'yellow'))
+))
+
+# 3.3. Quần đảo Hoàng Sa và Trường Sa (Việt Nam)
+fig.add_trace(go.Scattergeo(
+    lon = [112.0, 114.2], # Kinh độ (Tương đối để hiển thị đẹp trên web)
+    lat = [16.5, 9.0],    # Vĩ độ 
+    text = ["<b>QĐ. Hoàng Sa (Việt Nam)</b>", "<b>QĐ. Trường Sa (Việt Nam)</b>"],
+    hoverinfo = 'text',
+    mode = 'markers+text',
+    textposition = "bottom center",
+    textfont=dict(color="#00FFFF", size=12, weight="bold"),
+    marker = dict(size = 6, color = '#00FFFF', symbol = 'circle')
+))
+
+# Cấu hình giao diện bản đồ: Cắt cúp chuẩn khu vực Việt Nam và Biển Đông
 fig.update_layout(
     geo = dict(
-        scope = 'asia',
         resolution = 50,
         showland = True,
         landcolor = "rgb(30, 30, 30)", 
-        countrycolor = "rgb(100, 100, 100)",
+        showocean = True,
+        oceancolor = "rgba(0,0,0,0)",
+        showcountries = True,
+        countrycolor = "gray",
         coastlinecolor = "rgb(0, 255, 255)", 
-        center = dict(lon=106.0, lat=16.0), # Căn giữa Việt Nam
-        projection_scale = 5.5 # Mức độ Zoom
+        # Khung giới hạn tọa độ (Bounding Box) chỉ hiển thị Việt Nam
+        lataxis = dict(range=[6, 24]), 
+        lonaxis = dict(range=[101, 118])
     ),
     paper_bgcolor="rgba(0,0,0,0)",
     margin=dict(l=0, r=0, t=10, b=10),
-    height=450
+    height=550, # Kéo dài bản đồ ra cho đẹp
+    showlegend=False
 )
 
 st.plotly_chart(fig, use_container_width=True)
@@ -123,7 +141,6 @@ with col_quiz:
             index=None
         )
 
-        # Nút nộp bài trải rộng
         submit_btn = st.form_submit_button("📤 Nộp bài kiểm tra", type="primary", use_container_width=True)
 
 # ==========================================
@@ -142,7 +159,6 @@ if submit_btn:
         st.session_state.quiz_passed = False
         st.error(f"⚠️ Bạn mới trả lời đúng {score}/3 câu hỏi. Vui lòng xem lại video và chọn lại đáp án nhé!")
 
-# Bảng hoàn thành khóa học xuất hiện khi Pass
 if st.session_state.quiz_passed:
     st.balloons() 
     st.markdown("---")
@@ -155,7 +171,7 @@ if st.session_state.quiz_passed:
         st.markdown("<br>", unsafe_allow_html=True) 
         st.download_button(
             label="📥 Tải Sổ tay nhân viên (PDF)",
-            data="Nội dung file PDF giả lập...", # Có thể dùng `open('file.pdf', 'rb').read()` sau này
+            data="Nội dung file PDF giả lập...", 
             file_name="SoTay_NhanVien_RikenViet.pdf",
             type="primary",
             use_container_width=True
