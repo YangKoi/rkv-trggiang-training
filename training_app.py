@@ -124,7 +124,6 @@ def take_quiz_dialog():
 # THANH ĐIỀU HƯỚNG BÊN TRÁI (SIDEBAR)
 # ==========================================
 with st.sidebar:
-    # Đã cập nhật đường dẫn vào thư mục images
     if os.path.exists("images/rkv_logo.png"):
         st.image("images/rkv_logo.png", use_container_width=True)
     st.markdown("## 📑 Menu Đào Tạo")
@@ -181,7 +180,6 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
 
 # ---------------- TRANG 2: KIẾN THỨC VỀ KHÍ ----------------
 elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
-    # Giữ lại các thanh cảnh báo có màu cố định (an toàn cho mọi mode)
     st.markdown("""
     <style>
     @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 78, 80, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0); } }
@@ -207,8 +205,6 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     with tab1:
         st.header("🔥 Khí dễ cháy (Combustible gases)")
         st.markdown('<div class="alert-box"><b>⚠️ ĐỊNH NGHĨA:</b> Khí có thể gây cháy hoặc nổ nếu hòa trộn với oxy ở nồng độ nhất định và gặp nguồn cháy.</div>', unsafe_allow_html=True)
-        
-        # Đã cập nhật thư mục images
         if os.path.exists("images/image_combustible.png"):
             st.image("images/image_combustible.png", use_container_width=True)
 
@@ -219,7 +215,6 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
         col1, col2 = st.columns([1.2, 1], gap="medium")
         with col1:
             st.markdown("### 📋 Bảng tra cứu Giới hạn cháy nổ")
-            # Sử dụng Markdown Table bản địa của Streamlit thay vì HTML để tương thích 100% Dark/Light mode
             st.markdown("""
             | Tên Khí (Công thức) | LEL (%) | UEL (%) |
             | :--- | :---: | :---: |
@@ -241,14 +236,12 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     with tab2:
         st.header("☠️ Khí độc (Toxic gases)")
         st.markdown('<div class="toxic-glow">☢️ ĐỊNH NGHĨA: Gây hại cho sức khỏe con người. Đánh giá qua "nồng độ cho phép".</div>', unsafe_allow_html=True)
-        
         if os.path.exists("images/image_toxic.png"):
             st.image("images/image_toxic.png", use_container_width=True)
 
         col_conv1, col_conv2 = st.columns([1.2, 1], gap="medium")
         with col_conv1:
             st.markdown("### 🔄 Quy đổi % Thể tích (%vol) sang Phần triệu (PPM)")
-            # Sử dụng Markdown Table
             st.markdown("""
             | % Thể tích (% vol) | Phần triệu (ppm) | Mức độ / Ví dụ |
             | :--- | :--- | :--- |
@@ -268,7 +261,6 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     with tab3:
         st.header("💨 Tình trạng thiếu oxy và ngạt khí (Anoxia)")
         st.markdown("Tình trạng 'thiếu oxy' được xác định khi nồng độ oxy trong không khí **giảm xuống dưới 18%**.")
-        
         if os.path.exists("images/image_oxygen.png"):
             st.image("images/image_oxygen.png", use_container_width=True)
 
@@ -291,8 +283,16 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
 
 # ---------------- TRANG 3: PHÂN LOẠI THIẾT BỊ ----------------
 elif app_mode == "📟 Phân Loại Thiết Bị":
+    st.markdown("""
+    <style>
+    .sub-branch-title { font-size: 1.1rem; font-weight: bold; padding-bottom: 5px; border-bottom: 2px solid #ddd; margin-bottom: 15px; margin-top: 10px; display: flex; align-items: center; gap: 8px; }
+    .title-diff { color: #28a745; border-bottom-color: #28a745; }
+    .title-pump { color: #fd7e14; border-bottom-color: #fd7e14; }
+    </style>
+    """, unsafe_allow_html=True)
+
     st.title("📟 Sơ Đồ Phân Loại Thiết Bị Đo Khí")
-    st.markdown("Dựa theo chuẩn Catalog RIKEN KEIKI, các thiết bị được phân chia hệ thống để giúp khách hàng dễ dàng lựa chọn đúng giải pháp.")
+    st.markdown("Dựa theo chuẩn Catalog RIKEN KEIKI, thiết bị cầm tay được phân chia làm 2 nhóm chính: **Đa khí (Multi Gas)** và **Đơn khí (Single Gas)**. Trong mỗi nhóm lại chia tiếp thành công nghệ **Khuếch tán (Diffusion)** hoặc **Bơm hút (Pump Suction)**.")
     st.markdown("---")
 
     tab_portable, tab_fixed = st.tabs(["📱 NHÁNH 1: MÁY ĐO KHÍ CẦM TAY (PORTABLE)", "🏭 NHÁNH 2: HỆ THỐNG CỐ ĐỊNH (FIXED)"])
@@ -302,86 +302,87 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
         
         # --- NHÁNH LỚN A: ĐA KHÍ ---
         st.subheader("🅰️ MÁY ĐO ĐA KHÍ (Multi Gas Detectors)")
-        st.markdown("*Đo đồng thời nhiều loại khí (thường là 4 hoặc 5 khí cơ bản).*")
+        st.markdown("*Đo đồng thời nhiều loại khí (thường là 4 đến 6 khí cơ bản).*")
         
         col_m_diff, col_m_pump = st.columns(2, gap="large")
         
-        # Đa khí -> Khuếch tán
+        # 1. Đa khí -> Khuếch tán
         with col_m_diff:
-            st.success("💨 1. Loại Khuếch Tán (Diffusion)\n\nNhỏ gọn, kẹp áo đo liên tục.")
+            st.markdown('<div class="sub-branch-title title-diff">💨 1. Loại Khuếch Tán (Diffusion)</div>', unsafe_allow_html=True)
+            st.success("Không có bơm. Nhỏ gọn, kẹp áo đo liên tục.")
             
-            # Thay thế Custom HTML Card bằng st.container bản địa của Streamlit
             with st.container(border=True):
                 if os.path.exists("images/gx-3r.png"): st.image("images/gx-3r.png", use_container_width=True)
                 st.markdown("#### GX-3R")
-                st.markdown("- Thiết kế **nhỏ nhẹ nhất thế giới**.\n- Đo đồng thời 4 khí cơ bản.\n- Bảo hành cảm biến 3 năm.")
+                st.markdown("- Thiết kế **nhỏ & nhẹ nhất thế giới**, không vướng víu.\n- Đo đồng thời 4 khí cơ bản.\n- Bảo hành cảm biến 3 năm. Chuẩn kháng nước/bụi IP66/68.")
             
             with st.container(border=True):
                 if os.path.exists("images/gx-3r-pro.png"): st.image("images/gx-3r-pro.png", use_container_width=True)
                 st.markdown("#### GX-3R Pro")
-                st.markdown("- Dòng cao cấp, đo tối đa **5 loại khí**.\n- Tích hợp **Bluetooth** kết nối app điện thoại.")
+                st.markdown("- Dòng cao cấp (High-spec), đo tối đa **5 loại khí**.\n- Tích hợp **Bluetooth** kết nối app điện thoại chia sẻ cảnh báo theo thời gian thực.")
 
-        # Đa khí -> Bơm hút
+        # 2. Đa khí -> Bơm hút
         with col_m_pump:
-            st.warning("🧲 2. Loại Bơm Hút (Pump Suction)\n\nTích hợp bơm, dùng ống hút đo hầm cống.")
+            st.markdown('<div class="sub-branch-title title-pump">🧲 2. Loại Bơm Hút (Pump Suction)</div>', unsafe_allow_html=True)
+            st.warning("Tích hợp bơm hút bên trong, dùng kèm ống hút để đo hầm, cống.")
             
             with st.container(border=True):
                 if os.path.exists("images/gx-force.png"): st.image("images/gx-force.png", use_container_width=True)
                 st.markdown("#### GX-Force")
-                st.markdown("- Gọn nhẹ (300g). Đo 4 khí.\n- Pin siêu khủng: **30 tiếng liên tục**.\n- Vượt qua bài test thả rơi 3 mét.")
+                st.markdown("- Dòng bơm hút nhẹ (khoảng 300g). Đo 4 khí.\n- Pin khủng hoạt động **30 giờ liên tục**.\n- Vượt qua bài kiểm tra chịu lực thả rơi 3 mét.")
 
             with st.container(border=True):
                 if os.path.exists("images/gx-9000.png"): st.image("images/gx-9000.png", use_container_width=True)
                 st.markdown("#### GX-9000 / SC-9000")
-                st.markdown("- Đo tối đa **6 loại khí** đồng thời.\n- SC-9000 chuyên biệt đo 3 loại khí độc (3-in-1).\n- Hỗ trợ Bluetooth.")
+                st.markdown("- GX-9000: Đo tối đa **6 loại khí** đồng thời.\n- SC-9000: Chuyên đo 3 loại khí độc cùng lúc (3-in-1).\n- Hỗ trợ Bluetooth. Giao diện lớn, thiết kế cực kỳ hầm hố.")
             
             with st.container(border=True):
                 if os.path.exists("images/gx-6000.png"): st.image("images/gx-6000.png", use_container_width=True)
                 st.markdown("#### GX-6000 / GX-2012")
-                st.markdown("- GX-6000: Có cảm biến PID chuyên **đo VOCs**.\n- GX-2012: Dòng tiêu chuẩn 4 khí, báo động cực lớn.")
+                st.markdown("- **GX-6000**: Có cảm biến quang hóa (PID) chuyên biệt **đo VOCs**.\n- **GX-2012**: Dòng máy tiêu chuẩn 4 khí, báo động cực lớn (95dB), có chế độ tìm rò rỉ (Leak Check).")
                 
         st.markdown("---")
 
         # --- NHÁNH LỚN B: ĐƠN KHÍ ---
-        st.subheader("🅱️ MÁY ĐO ĐƠN KHÍ (Single-Component Detectors)")
-        st.markdown("*Đo chuyên biệt 1 loại khí (hoặc tối đa 2 khí đặc thù).*")
+        st.subheader("🅱️ MÁY ĐO ĐƠN KHÍ / 2 KHÍ (Single/2-Component Detectors)")
+        st.markdown("*Đo chuyên biệt 1 loại khí (hoặc tối đa 2 khí).*")
         
         col_s_diff, col_s_pump = st.columns(2, gap="large")
         
-        # Đơn khí -> Khuếch tán
+        # 1. Đơn khí -> Khuếch tán
         with col_s_diff:
-            st.success("💨 1. Loại Khuếch Tán (Diffusion)")
+            st.markdown('<div class="sub-branch-title title-diff">💨 1. Loại Khuếch Tán (Diffusion)</div>', unsafe_allow_html=True)
             
             with st.container(border=True):
                 if os.path.exists("images/04-series.png"): st.image("images/04-series.png", use_container_width=True)
                 st.markdown("#### 04 Series")
-                st.markdown("- Đo 1 hoặc 2 khí (CO/H2S).\n- Vượt qua test thả rơi **7 mét**.\n- Tuổi thọ pin dài (hàng nghìn giờ).")
+                st.markdown("- Đo 1 hoặc 2 khí (CO/H2S).\n- Cực kỳ bền bỉ: Vượt qua bài test thả rơi **7 mét**.\n- Tuổi thọ pin siêu dài lên tới 9.000 giờ hoạt động.")
 
             with st.container(border=True):
                 if os.path.exists("images/gw-3.png"): st.image("images/gw-3.png", use_container_width=True)
                 st.markdown("#### GW-3 Series")
-                st.markdown("- Thuộc top nhỏ nhẹ nhất thế giới.\n- Thiết kế có thể **đeo như đồng hồ đeo tay**.")
+                st.markdown("- Nằm trong top thiết bị nhỏ nhẹ nhất thế giới.\n- Thiết kế mang tính cách mạng: Có thể **đeo như một chiếc đồng hồ đeo tay**.\n- Tích hợp cảm biến mới tuổi thọ cao.")
 
-        # Đơn khí -> Bơm hút
+        # 2. Đơn khí -> Bơm hút
         with col_s_pump:
-            st.warning("🧲 2. Loại Bơm Hút (Pump Suction)")
+            st.markdown('<div class="sub-branch-title title-pump">🧲 2. Loại Bơm Hút (Pump Suction)</div>', unsafe_allow_html=True)
             
             with st.container(border=True):
                 if os.path.exists("images/series-1000.png"): st.image("images/series-1000.png", use_container_width=True)
-                st.markdown("#### Series 1000 (GP/NC/NP)")
-                st.markdown("- Chuyên đo khí cháy nổ.\n- GP/NC có chức năng **chuyển đổi đa dạng khí cháy**.")
+                st.markdown("#### Series 1000 (GP / NC / NP)")
+                st.markdown("- Dòng bơm hút chuyên đo đơn khí cháy nổ.\n- **Tính năng độc quyền**: Chuyển đổi đo tới 25 loại khí cháy khác nhau trên cùng 1 máy (GP-1000 / NC-1000).")
 
             with st.container(border=True):
                 if os.path.exists("images/sp-230.png"): st.image("images/sp-230.png", use_container_width=True)
                 st.markdown("#### SP-230 Series")
-                st.markdown("- Chuyên **dò tìm điểm rò rỉ** khí.\n- Đo khí làm lạnh, hydro, hoặc khử trùng.")
+                st.markdown("- Chuyên **dò tìm điểm rò rỉ** khí.\n- Có các phiên bản chuyên biệt: Khí làm lạnh (TYPE F), khí Hydro (TYPE H2), khí khử trùng/hun trùng (TYPE FUM), khí bán dẫn (TYPE SC).")
             
             with st.container(border=True):
                 if os.path.exists("images/fi-8000.png"): st.image("images/fi-8000.png", use_container_width=True)
                 st.markdown("#### FI-8000")
-                st.markdown("- Máy đo bằng công nghệ **giao thoa quang học**.\n- Chuyên đo khí gây mê y tế và hun trùng.")
+                st.markdown("- Máy đo nồng độ bằng công nghệ **giao thoa quang học** (Optical Interferometric).\n- Độ chính xác tuyệt đối, không bị suy giảm độ nhạy theo thời gian, chuyên đo khí gây mê y tế và hun trùng.")
 
     # ================= KHU VỰC HỆ THỐNG CỐ ĐỊNH =================
     with tab_fixed:
         st.subheader("🏭 NHÁNH 2: Hệ thống Cố định (Fixed Systems)")
-        st.info("Tab này sẽ được hệ thống hóa ngay khi có tài liệu Catalog của Hệ thống thiết bị cố định (Fixed Detectors)!")
+        st.info("Tab này sẽ được hệ thống hóa ngay khi bạn cung cấp tài liệu Catalog của Hệ thống thiết bị đo cố định (Fixed Detectors) nhé!")
