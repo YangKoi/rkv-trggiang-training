@@ -179,32 +179,28 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
 
 # ---------------- TRANG 2: KIẾN THỨC VỀ KHÍ ----------------
 elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
-    # KHO CSS HIỆU ỨNG TỔNG HỢP CHO CẢ 3 TAB
+    # KHO CSS HIỆU ỨNG TỔNG HỢP CHO CẢ 4 TAB
     st.markdown("""
     <style>
-    @keyframes pulse-red {
-        0% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0.7); }
-        70% { box-shadow: 0 0 0 10px rgba(255, 78, 80, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0); }
-    }
+    @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 78, 80, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0); } }
     .alert-box { background: linear-gradient(45deg, #ff4e50, #f9d423); padding: 15px; border-radius: 8px; color: white; animation: pulse-red 2s infinite; margin-bottom: 15px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
     .toxic-glow { background-color: #1a1a1a; padding: 15px; border-radius: 8px; border-left: 5px solid #a8ff78; color: #a8ff78; margin-bottom: 15px; font-weight: bold; }
+    .special-glow { background: linear-gradient(90deg, #2c003e, #4c0070); padding: 15px; border-radius: 8px; border-left: 5px solid #d400ff; color: #f8e5ff; margin-bottom: 15px; font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
     .ppm-container { width: 100%; background-color: #e9ecef; border-radius: 5px; margin: 10px 0 25px 0; border: 1px solid #ccc; position: relative; height: 35px; box-shadow: inset 0 1px 3px rgba(0,0,0,.1); }
     .ppm-bar { height: 100%; border-radius: 5px 0 0 5px; display: flex; align-items: center; justify-content: flex-end; padding-right: 5px; color: white; font-weight: bold; font-size: 12px; }
+    .ppb-bar { height: 100%; border-radius: 5px; display: flex; align-items: center; justify-content: flex-start; padding-left: 10px; color: white; font-weight: bold; font-size: 13px; background: linear-gradient(90deg, #d400ff, #8a2be2); box-shadow: 0 0 10px #d400ff; }
     @keyframes blink { 50% { opacity: 0.5; } }
     .oxy-bg { background-color: #222; border-radius: 6px; width: 100%; margin-bottom: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
     .oxy-bar { height: 32px; border-radius: 6px; color: white; text-align: right; padding-right: 15px; font-weight: bold; line-height: 32px; font-size: 14px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); transition: width 1s ease-in-out; }
     .danger-blink { animation: blink 1s linear infinite; }
     
-    /* BẢNG CSS ĐƯỢC TỐI ƯU HÓA ĐỂ KHÔNG BỊ TRÀN VÀ LUÔN RÕ CHỮ */
     .custom-table { width: 100%; min-width: 350px; border-collapse: collapse; margin-top: 5px; margin-bottom: 15px; background-color: #ffffff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
     .custom-table th { background-color: #0056b3; color: #ffffff; padding: 12px; text-align: center; font-size: 15px; white-space: nowrap; border-bottom: 2px solid #004494; }
-    .custom-table td { padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: center; font-size: 14px; color: #212529 !important; } /* Ép màu chữ đen xám để rõ ràng trên nền trắng */
+    .custom-table td { padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: center; font-size: 14px; color: #212529 !important; } 
     .custom-table tr:nth-child(even) td { background-color: #f8f9fa; }
     .custom-table tr:nth-child(odd) td { background-color: #ffffff; }
     .custom-table tr:hover td { background-color: #e2e6ea; }
     .highlight-red { color: #dc3545 !important; font-weight: bold; }
-    
     .scroll-wrapper { width: 100%; overflow-x: auto; border-radius: 8px; }
     </style>
     """, unsafe_allow_html=True)
@@ -213,128 +209,98 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     st.markdown("Trong môi trường công nghiệp, rủi ro về khí là những **'Kẻ thù vô hình'**. Việc sử dụng các thiết bị dò khí (gas detectors) để theo dõi nồng độ của các loại khí này cũng như đảm bảo lượng oxy luôn ở mức an toàn là điều bắt buộc để bảo vệ tính mạng con người.")
     st.markdown("---")
 
-    tab1, tab2, tab3 = st.tabs(["🔥 1. Khí dễ cháy", "☠️ 2. Khí độc", "💨 3. Thiếu oxy & Ngạt khí"])
+    tab1, tab2, tab3, tab4 = st.tabs(["🔥 1. Khí dễ cháy", "☠️ 2. Khí độc", "💨 3. Thiếu oxy & Ngạt khí", "🏥 4. Y tế & Khử trùng"])
 
     # ---------------- TAB 1: KHÍ DỄ CHÁY ----------------
     with tab1:
         st.header("🔥 Khí dễ cháy (Combustible gases)")
         st.markdown('<div class="alert-box"><b>⚠️ ĐỊNH NGHĨA:</b> Là loại khí có thể gây cháy hoặc nổ nếu chúng hòa trộn với oxy (trong không khí) ở một nồng độ nhất định và tiếp xúc với nguồn gây cháy (tia lửa, nhiệt độ cao).</div>', unsafe_allow_html=True)
-        
-        if os.path.exists("image_combustible.png"):
-            st.image("image_combustible.png", use_container_width=True)
-
-        st.markdown("### 📊 Trực quan hóa Giới hạn cháy nổ (Explosive Range)")
-        html_lel_uel = """
-        <div style="width: 100%; background-color: #f1f3f4; border-radius: 8px; position: relative; height: 40px; margin-bottom: 30px; display: flex; text-align: center; color: white; font-weight: bold; line-height: 40px; font-size: 14px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <div style="width: 25%; background-color: #28a745; border-radius: 8px 0 0 8px;">Quá loãng (Chưa thể cháy)</div>
-            <div style="width: 45%; background-color: #dc3545; position: relative;">
-                <span style="position: absolute; top: -30px; left: 0; color: #dc3545; font-size: 16px;">▼ LEL</span>
-                🔥 VÙNG CHÁY NỔ (NGUY HIỂM) 🔥
-                <span style="position: absolute; top: -30px; right: 0; color: #dc3545; font-size: 16px;">UEL ▼</span>
-            </div>
-            <div style="width: 30%; background-color: #ffc107; border-radius: 0 8px 8px 0; color: #333;">Quá đặc (Thiếu Oxy)</div>
-        </div>
-        """
+        html_lel_uel = """<div style="width: 100%; background-color: #f1f3f4; border-radius: 8px; position: relative; height: 40px; margin-bottom: 30px; display: flex; text-align: center; color: white; font-weight: bold; line-height: 40px; font-size: 14px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"><div style="width: 25%; background-color: #28a745; border-radius: 8px 0 0 8px;">Quá loãng (Chưa thể cháy)</div><div style="width: 45%; background-color: #dc3545; position: relative;"><span style="position: absolute; top: -30px; left: 0; color: #dc3545; font-size: 16px;">▼ LEL</span>🔥 VÙNG CHÁY NỔ (NGUY HIỂM) 🔥<span style="position: absolute; top: -30px; right: 0; color: #dc3545; font-size: 16px;">UEL ▼</span></div><div style="width: 30%; background-color: #ffc107; border-radius: 0 8px 8px 0; color: #333;">Quá đặc (Thiếu Oxy)</div></div>"""
         st.markdown(html_lel_uel, unsafe_allow_html=True)
 
-        # Điều chỉnh lại chia cột [1.2, 1] và thêm khoảng cách (gap)
         col1, col2 = st.columns([1.2, 1], gap="medium")
         with col1:
-            st.markdown("### 📋 Bảng tra cứu Giới hạn cháy nổ các khí phổ biến")
-            # Bảng dữ liệu LEL/UEL bọc trong thẻ scroll-wrapper
-            gas_table_html = """
-            <div class="scroll-wrapper">
-                <table class="custom-table">
-                    <tr><th>Tên Khí (Công thức)</th><th>LEL (%)</th><th>UEL (%)</th></tr>
-                    <tr><td><b>Methane (CH4)</b></td><td class="highlight-red">5.0</td><td>15.0</td></tr>
-                    <tr><td><b>Hydrogen (H2)</b></td><td class="highlight-red">4.0</td><td>75.6</td></tr>
-                    <tr><td><b>Propane (C3H8)</b></td><td class="highlight-red">2.1</td><td>9.5</td></tr>
-                    <tr><td><b>Iso-butane (i-C4H10)</b></td><td class="highlight-red">1.8</td><td>8.4</td></tr>
-                    <tr><td><b>Acetylene (C2H2)</b></td><td class="highlight-red">2.5</td><td>100.0</td></tr>
-                    <tr><td><b>Carbon Monoxide (CO)</b></td><td class="highlight-red">12.5</td><td>74.0</td></tr>
-                </table>
-            </div>
-            """
+            st.markdown("### 📋 Bảng tra cứu Giới hạn cháy nổ")
+            gas_table_html = """<div class="scroll-wrapper"><table class="custom-table"><tr><th>Tên Khí (Công thức)</th><th>LEL (%)</th><th>UEL (%)</th></tr><tr><td><b>Methane (CH4)</b></td><td class="highlight-red">5.0</td><td>15.0</td></tr><tr><td><b>Hydrogen (H2)</b></td><td class="highlight-red">4.0</td><td>75.6</td></tr><tr><td><b>Propane (C3H8)</b></td><td class="highlight-red">2.1</td><td>9.5</td></tr><tr><td><b>Iso-butane (i-C4H10)</b></td><td class="highlight-red">1.8</td><td>8.4</td></tr><tr><td><b>Acetylene (C2H2)</b></td><td class="highlight-red">2.5</td><td>100.0</td></tr><tr><td><b>Carbon Monoxide (CO)</b></td><td class="highlight-red">12.5</td><td>74.0</td></tr></table></div>"""
             st.markdown(gas_table_html, unsafe_allow_html=True)
 
         with col2:
-            st.markdown("""
-            <div style="background-color: #e8f4f8; padding: 20px; border-radius: 10px; border-left: 5px solid #0056b3; height: 100%;">
-                <h4 style="color: #0056b3; margin-top: 0;">💡 Tiêu chuẩn An toàn</h4>
-                <p style="color: #333; font-size: 15px;">
-                    Điểm báo động (Alarm) <b>KHÔNG ĐƯỢC PHÉP</b> cài đặt vượt quá <b>1/4 (tức 25%) của mức LEL</b>.<br><br>
-                    Ví dụ: Methane (CH4) có LEL = 5.0%. Máy Riken Keiki sẽ báo động ngay khi nồng độ đạt <b>1.25%</b> thể tích.<br>
-                    Nhờ đó công nhân có "thời gian vàng" để sơ tán trước khi đạt ngưỡng nổ.
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown("""<div style="background-color: #e8f4f8; padding: 20px; border-radius: 10px; border-left: 5px solid #0056b3; height: 100%;"><h4 style="color: #0056b3; margin-top: 0;">💡 Tiêu chuẩn An toàn</h4><p style="color: #333; font-size: 15px;">Điểm báo động (Alarm) <b>KHÔNG ĐƯỢC PHÉP</b> cài đặt vượt quá <b>1/4 (tức 25%) của mức LEL</b>.<br><br>Ví dụ: Methane (CH4) có LEL = 5.0%. Máy Riken Keiki sẽ báo động ngay khi nồng độ đạt <b>1.25%</b> thể tích.</p></div>""", unsafe_allow_html=True)
 
     # ---------------- TAB 2: KHÍ ĐỘC ----------------
     with tab2:
         st.header("☠️ Khí độc (Toxic gases)")
-        st.markdown('<div class="toxic-glow">☢️ ĐỊNH NGHĨA: Là các loại khí gây hại cho sức khỏe con người. Mức độ nguy hiểm thường được đánh giá qua "nồng độ cho phép" – mức tối đa mà người lao động có thể tiếp xúc nhiều lần nhưng không bị ảnh hưởng xấu.</div>', unsafe_allow_html=True)
-        
-        if os.path.exists("image_toxic.png"):
-            st.image("image_toxic.png", use_container_width=True)
-
-        st.markdown("### 🔄 Quy đổi nồng độ: % Thể tích (%vol) sang Phần triệu (PPM)")
-        st.info("💡 **Công thức:** 1% vol = 10,000 ppm. \nVì khí độc nguy hiểm ở nồng độ cực thấp, người ta dùng 'ppm' thay vì '%' để tránh phải viết quá nhiều số 0 gây nhầm lẫn.")
-        
+        st.markdown('<div class="toxic-glow">☢️ ĐỊNH NGHĨA: Là các loại khí gây hại cho sức khỏe con người. Đánh giá qua "nồng độ cho phép" – mức tối đa tiếp xúc mà không bị ảnh hưởng xấu.</div>', unsafe_allow_html=True)
         col_conv1, col_conv2 = st.columns([1.2, 1], gap="medium")
         with col_conv1:
-            # Bảng quy đổi PPM
-            conversion_html = """
-            <div class="scroll-wrapper">
-                <table class="custom-table">
-                    <tr><th>% Thể tích (% vol)</th><th>Phần triệu (ppm)</th><th>Mức độ / Ví dụ</th></tr>
-                    <tr><td>100 %</td><td><b>1,000,000</b> ppm</td><td>Khí nguyên chất</td></tr>
-                    <tr><td class="highlight-red">1 %</td><td class="highlight-red">10,000 ppm</td><td>Nguy hiểm chết người</td></tr>
-                    <tr><td>0.1 %</td><td><b>1,000</b> ppm</td><td>Mức báo động nghiêm trọng</td></tr>
-                    <tr><td>0.01 %</td><td><b>100</b> ppm</td><td>Ngưỡng phơi nhiễm (VD: CO)</td></tr>
-                    <tr><td>0.001 %</td><td><b>10</b> ppm</td><td>Mức báo động (VD: H2S)</td></tr>
-                    <tr><td>0.0001 %</td><td><b>1</b> ppm</td><td>Dấu vết cực nhỏ</td></tr>
-                </table>
-            </div>
-            """
+            st.markdown("### 🔄 Quy đổi % Thể tích (%vol) sang Phần triệu (PPM)")
+            conversion_html = """<div class="scroll-wrapper"><table class="custom-table"><tr><th>% Thể tích (% vol)</th><th>Phần triệu (ppm)</th><th>Ví dụ</th></tr><tr><td>100 %</td><td>1,000,000 ppm</td><td>Khí nguyên chất</td></tr><tr><td class="highlight-red">1 %</td><td class="highlight-red">10,000 ppm</td><td>Chết người</td></tr><tr><td>0.1 %</td><td>1,000 ppm</td><td>Báo động nghiêm trọng</td></tr><tr><td>0.01 %</td><td>100 ppm</td><td>Ngưỡng phơi nhiễm</td></tr><tr><td>0.001 %</td><td>10 ppm</td><td>Mức báo động (H2S)</td></tr></table></div>"""
             st.markdown(conversion_html, unsafe_allow_html=True)
             
         with col_conv2:
-            st.markdown("### 🔬 Sát thủ tàng hình nguy hiểm cỡ nào?")
-            st.write("Hãy xem trực quan tỷ lệ % nhỏ bé có thể giết người như thế nào:")
-            html_ppm = """
-            <div class="ppm-container">
-                <div class="ppm-bar" style="width: 1.28%; background-color: #dc3545;">1.28%</div>
-                <span style="position:absolute; left: 2%; top: 7px; color: #333; font-weight: bold;">CO: 12,800 ppm (Tử vong trong 1-3 phút)</span>
-            </div>
-            <div class="ppm-container">
-                <div class="ppm-bar" style="width: 0.5%; background-color: #8b0000;">0.5%</div>
-                <span style="position:absolute; left: 1%; top: 7px; color: #333; font-weight: bold;">H2S: 5,000 ppm (Tử vong NGAY LẬP TỨC)</span>
-            </div>
-            """
+            st.markdown("### 🔬 Trực quan tỷ lệ giết người:")
+            html_ppm = """<div class="ppm-container"><div class="ppm-bar" style="width: 1.28%; background-color: #dc3545;">1.28%</div><span style="position:absolute; left: 2%; top: 7px; color: #333; font-weight: bold;">CO: 12,800 ppm (Tử vong trong 1-3 phút)</span></div><div class="ppm-container"><div class="ppm-bar" style="width: 0.5%; background-color: #8b0000;">0.5%</div><span style="position:absolute; left: 1%; top: 7px; color: #333; font-weight: bold;">H2S: 5,000 ppm (Tử vong NGAY LẬP TỨC)</span></div>"""
             st.markdown(html_ppm, unsafe_allow_html=True)
-            st.markdown("""
-            * **Carbon monoxide (CO):** Khí không màu/mùi. Xâm nhập máu ngăn hồng cầu chở oxy.
-            * **Hydrogen sulfide (H2S):** Khí mùi trứng thối. Vượt quá 10ppm sẽ gây ngộ độc. Nó gây **tê liệt khứu giác** khiến bạn tưởng đã hết nguy hiểm.
-            """)
+            st.write("**Carbon monoxide (CO):** Không màu/mùi. Xâm nhập máu ngăn hồng cầu chở oxy.")
+            st.write("**Hydrogen sulfide (H2S):** Mùi trứng thối. Vượt quá 10ppm gây ngộ độc. Đặc biệt gây **tê liệt khứu giác**.")
 
     # ---------------- TAB 3: THIẾU OXY ----------------
     with tab3:
         st.header("💨 Tình trạng thiếu oxy và ngạt khí (Anoxia)")
         st.markdown("Trong điều kiện bình thường, không khí chúng ta hít thở chứa khoảng **20,93% oxy**. Tình trạng 'thiếu oxy' được xác định khi nồng độ oxy trong không khí **giảm xuống dưới 18%**.")
-        
-        if os.path.exists("image_oxygen.png"):
-            st.image("image_oxygen.png", use_container_width=True)
-
-        st.markdown("### 📊 Mức độ đe dọa sinh tồn khi Oxy suy giảm:")
-        
-        html_oxy = """
-        <div class="oxy-bg"><div class="oxy-bar" style="width: 100%; background: linear-gradient(90deg, #11998e, #38ef7d);">20.93% - KHÔNG KHÍ BÌNH THƯỜNG</div></div>
-        <div class="oxy-bg"><div class="oxy-bar" style="width: 86%; background: linear-gradient(90deg, #f2c94c, #f2994a); color: #000;">Dưới 18% - THIẾU OXY (Báo động an toàn)</div></div>
-        <div class="oxy-bg"><div class="oxy-bar" style="width: 67%; background: linear-gradient(90deg, #e65c00, #F9D423);">16% ~ 12% - Thở gấp, tăng nhịp tim, buồn nôn</div></div>
-        <div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 38%; background: linear-gradient(90deg, #b20a2c, #fffbd5); color: #000;">10% ~ 6% - Ảo giác, co giật, bất tỉnh</div></div>
-        <div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 15%; background: linear-gradient(90deg, #cb2d3e, #ef473a);">≤ 6% - TỬ VONG NGAY LẬP TỨC</div></div>
-        """
+        html_oxy = """<div class="oxy-bg"><div class="oxy-bar" style="width: 100%; background: linear-gradient(90deg, #11998e, #38ef7d);">20.93% - KHÔNG KHÍ BÌNH THƯỜNG</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 86%; background: linear-gradient(90deg, #f2c94c, #f2994a); color: #000;">Dưới 18% - THIẾU OXY (Báo động an toàn)</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 67%; background: linear-gradient(90deg, #e65c00, #F9D423);">16% ~ 12% - Thở gấp, tăng nhịp tim, buồn nôn</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 38%; background: linear-gradient(90deg, #b20a2c, #fffbd5); color: #000;">10% ~ 6% - Ảo giác, co giật, bất tỉnh</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 15%; background: linear-gradient(90deg, #cb2d3e, #ef473a);">≤ 6% - TỬ VONG NGAY LẬP TỨC</div></div>"""
         st.markdown(html_oxy, unsafe_allow_html=True)
-        st.markdown("<br>", unsafe_allow_html=True)
-        
-        st.success("💡 **Bài học sinh tử:** Không một ai có thể tự 'ngửi' hay 'cảm nhận' được lượng Oxy đang giảm đi trong không gian hạn hẹp. Do đó, đeo máy đo khí đa chỉ tiêu (như dòng GX) là quy tắc bắt buộc để sống sót.")
+
+    # ---------------- TAB 4: KHÍ Y TẾ & KHỬ TRÙNG ----------------
+    with tab4:
+        st.header("🏥 Khí đặc thù: Y tế, Khử trùng & Hun trùng")
+        st.markdown('<div class="special-glow">☣️ CẢNH BÁO NGHIÊM NGẶT: Các loại khí dùng trong y tế, khử trùng và hun trùng (fumigation) được pháp luật và tiêu chuẩn an toàn phân loại nghiêm ngặt vào nhóm khí độc nguy hiểm tột độ. Bắt buộc phải có thiết bị phát hiện và báo động rò rỉ tại cơ sở lưu trữ.</div>', unsafe_allow_html=True)
+
+        col1, col2 = st.columns([1.2, 1], gap="large")
+        with col1:
+            st.markdown("### 1. Khí Khử trùng / Hun trùng (Fumigation)")
+            st.markdown("""
+            * **Các loại phổ biến:** Phosphine (PH3), Methyl bromide (CH3Br), Ethylene oxide (EO - khử trùng y tế), Hydrogen cyanide, Sulfuryl fluoride, Methyl iodide, Propylene oxide.
+            * **Mức độ nguy hiểm cực cao:** Lấy ví dụ **Phosphine (PH3)**, nồng độ giới hạn cho phép (TLV) chỉ ở mức **0.05 ppm** (Một con số vô cùng nhỏ so với CO hay H2S).
+            """)
+            
+            # CSS mô phỏng khái niệm ppb (parts per billion)
+            st.info("💡 **Khái niệm PPB (Phần tỷ):** 0.05 ppm tương đương với **50 ppb**. Để đo lường một lượng khí nhỏ đến mức này, đòi hỏi cảm biến phải có công nghệ cực kỳ tối tân.")
+            html_ppb = """
+            <div class="ppm-container" style="height: 40px;">
+                <div class="ppb-bar" style="width: 5%;">50 ppb (Mức báo động PH3)</div>
+                <span style="position:absolute; right: 10px; top: 10px; color: #777; font-size: 12px;">1 Tỷ hạt không khí</span>
+            </div>
+            """
+            st.markdown(html_ppb, unsafe_allow_html=True)
+
+            st.markdown("### 2. Khí Gây mê trong Y tế (Anesthetic)")
+            st.markdown("""
+            * **Các loại phổ biến:** Nitrous oxide (khí cười - N2O), Halothane, Isoflurane, Sevoflurane, Desflurane, và Enflurane.
+            * **Nguy cơ:** Rò rỉ trong phòng mổ sẽ gây ảnh hưởng nghiêm trọng đến sức khỏe và sự tỉnh táo của các y bác sĩ phẫu thuật.
+            """)
+
+        with col2:
+            st.markdown("### 🛡️ Thiết bị đo chuyên dụng RIKEN KEIKI")
+            st.write("Vì tính chất đặc thù, các loại khí này yêu cầu các thiết bị phát hiện có độ nhạy bén riêng biệt thay vì máy đo khí thông thường:")
+            
+            st.markdown("""
+            <div style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 10px;">
+                <h5 style="color: #d400ff; margin-top: 0;">📟 SP-230 (TYPE FUM)</h5>
+                <p style="font-size: 14px; color: #555; margin-bottom: 0;">Máy dò rò rỉ di động kiểu bơm hút. Một máy duy nhất có thể hỗ trợ đo tới <b>7 loại khí khử trùng</b> khác nhau.</p>
+            </div>
+            
+            <div style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 10px;">
+                <h5 style="color: #d400ff; margin-top: 0;">📼 FP-300 / FP-301</h5>
+                <p style="font-size: 14px; color: #555; margin-bottom: 0;">Hệ thống phát hiện <b>siêu nhạy</b> sử dụng công nghệ băng cassette. Khả năng phát hiện sự rò rỉ ở mức ppb (phần tỷ), chuyên dụng cho PH3.</p>
+            </div>
+            
+            <div style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px;">
+                <h5 style="color: #d400ff; margin-top: 0;">🔭 FI-8000 (Giao thoa quang học)</h5>
+                <p style="font-size: 14px; color: #555; margin-bottom: 0;">Sử dụng phương pháp đo chiết suất ánh sáng. Không làm suy giảm độ nhạy của cảm biến theo thời gian.<br>
+                • <b>Buồng đo 48mm:</b> Đo nồng độ khí hun trùng trong không gian kín.<br>
+                • <b>Buồng đo 24mm:</b> Chuyên đo lường nồng độ khí gây mê trong y tế.</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+    st.markdown("---")
