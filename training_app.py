@@ -620,4 +620,4 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
                 <b>Giá trị giới hạn ngưỡng.</b><br>
                 Một thuật ngữ chung (do hiệp hội ACGIH của Mỹ ban hành) chỉ nồng độ của một chất trong không khí mà hầu hết người lao động có thể tiếp xúc hàng ngày mà không bị ảnh hưởng xấu. TWA và STEL chính là 2 loại của TLV.
             </div>
-            """, unsafe_allow_html=True)rm-box-red"><div class="term-title">TLV (Threshold Limit Value)</div><b>Giá trị giới hạn ngưỡng.</b> Một thuật ngữ chung (do ACGIH của Mỹ ban hành) chỉ nồng độ của một chất trong không khí mà hầu hết người lao động có thể tiếp xúc hàng ngày mà không bị ảnh hưởng xấu. TWA và STEL chính là 2 loại của TLV.</div>', unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
