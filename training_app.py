@@ -86,7 +86,7 @@ def fetch_history_from_github():
 # ==========================================
 # CỬA SỔ POPUP BÀI KIỂM TRA
 # ==========================================
-@st.dialog("📝 BÀI KIỂM TRA HỘI NHẬP", width="large")
+@st.dialog("📝 BÀI KIỂM TRA NĂNG LỰC & HỘI NHẬP", width="large")
 def take_quiz_dialog():
     st.markdown("Vui lòng điền họ tên và hoàn thành các câu hỏi dưới đây.")
     user_name = st.text_input("👤 Nhập Họ và Tên của bạn (*Bắt buộc):", placeholder="VD: Nguyễn Văn A")
@@ -143,7 +143,7 @@ with st.sidebar:
 if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
     col_title, col_admin = st.columns([4, 1.5]) 
     with col_title:
-        st.title("🎓 Cổng Đào Tạo Hội Nhập")
+        st.title("🎓 Cổng Đào Tạo Năng Lực & Hội Nhập")
         st.markdown("**Xin chào thành viên mới!** Vui lòng tìm hiểu về lịch sử công ty, theo dõi video và hoàn thành bài kiểm tra để hoàn tất thủ tục hội nhập.")
     with col_admin:
         st.markdown("<br>", unsafe_allow_html=True)
@@ -159,7 +159,7 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
                         st.info("Trống! Chưa có nhân viên nào nộp bài.")
 
     st.markdown("---")
-    st.subheader("📺 Video giới thiệu hội nhập")
+    st.subheader("📺 Phim Giới thiệu & Đào tạo Năng lực")
     st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ") 
     st.markdown("<br><br>", unsafe_allow_html=True)
     
@@ -185,7 +185,7 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 78, 80, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0); } }
     .alert-box { background: linear-gradient(45deg, #ff4e50, #f9d423); padding: 15px; border-radius: 8px; color: white; animation: pulse-red 2s infinite; margin-bottom: 15px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
     .toxic-glow { background-color: #1a1a1a; padding: 15px; border-radius: 8px; border-left: 5px solid #a8ff78; color: #a8ff78; margin-bottom: 15px; font-weight: bold; }
-    .special-glow { background: linear-gradient(90deg, #2c003e, #4c0070); padding: 15px; border-radius: 8px; border-left: 5px solid #d400ff; color: #f8e5ff; margin-bottom: 15px; font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    .special-glow { background: linear-gradient(90deg, #2c003e, #4c0070); padding: 15px; border-radius: 8px; border-left: 5px solid #d400ff; color: #f8e5ff; margin-bottom: 15px; font-weight: bold; }
     .ppm-container { width: 100%; background-color: #e9ecef; border-radius: 5px; margin: 10px 0 25px 0; border: 1px solid #ccc; position: relative; height: 35px; box-shadow: inset 0 1px 3px rgba(0,0,0,.1); }
     .ppm-bar { height: 100%; border-radius: 5px 0 0 5px; display: flex; align-items: center; justify-content: flex-end; padding-right: 5px; color: white; font-weight: bold; font-size: 12px; }
     .ppb-bar { height: 100%; border-radius: 5px; display: flex; align-items: center; justify-content: flex-start; padding-left: 10px; color: white; font-weight: bold; font-size: 13px; background: linear-gradient(90deg, #d400ff, #8a2be2); box-shadow: 0 0 10px #d400ff; }
@@ -269,155 +269,229 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
 
     with tab4:
         st.header("🏥 Khí đặc thù: Y tế, Khử trùng & Hun trùng")
-        st.markdown('<div class="special-glow">☣️ CẢNH BÁO NGHIÊM NGẶT: Các loại khí dùng trong y tế, khử trùng và hun trùng (fumigation) được pháp luật và tiêu chuẩn an toàn phân loại nghiêm ngặt vào nhóm khí độc nguy hiểm tột độ. Bắt buộc phải có thiết bị phát hiện và báo động rò rỉ tại cơ sở lưu trữ.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="special-glow">☣️ CẢNH BÁO NGHIÊM NGẶT: Các loại khí dùng trong y tế, khử trùng và hun trùng được phân loại nghiêm ngặt vào nhóm khí độc nguy hiểm tột độ.</div>', unsafe_allow_html=True)
 
         col1, col2 = st.columns([1.2, 1], gap="large")
         with col1:
             st.markdown("### 1. Khí Khử trùng / Hun trùng (Fumigation)")
-            st.markdown("""
-            * **Các loại phổ biến:** Phosphine (PH3), Methyl bromide (CH3Br), Ethylene oxide (EO - khử trùng y tế), Hydrogen cyanide, Sulfuryl fluoride, Methyl iodide, Propylene oxide.
-            * **Mức độ nguy hiểm cực cao:** Lấy ví dụ **Phosphine (PH3)**, nồng độ giới hạn cho phép (TLV) chỉ ở mức **0.05 ppm** (Một con số vô cùng nhỏ so với CO hay H2S).
-            """)
-            
-            st.info("💡 **Khái niệm PPB (Phần tỷ):** 0.05 ppm tương đương với **50 ppb**. Để đo lường một lượng khí nhỏ đến mức này, đòi hỏi cảm biến phải có công nghệ cực kỳ tối tân.")
-            html_ppb = """
-            <div class="ppm-container" style="height: 40px;">
-                <div class="ppb-bar" style="width: 5%;">50 ppb (Mức báo động PH3)</div>
-                <span style="position:absolute; right: 10px; top: 10px; color: #777; font-size: 12px;">1 Tỷ hạt không khí</span>
-            </div>
-            """
+            st.markdown("* **Các loại phổ biến:** Phosphine (PH3), Methyl bromide, Ethylene oxide (EO). \n* **Mức độ nguy hiểm:** Ví dụ Phosphine (PH3), nồng độ an toàn chỉ ở mức **0.05 ppm**.")
+            st.info("💡 **Khái niệm PPB (Phần tỷ):** 0.05 ppm tương đương với **50 ppb**. Rất khó để phát hiện.")
+            html_ppb = """<div class="ppm-container" style="height: 40px;"><div class="ppb-bar" style="width: 5%;">50 ppb (Báo động PH3)</div><span style="position:absolute; right: 10px; top: 10px; color: #777; font-size: 12px;">1 Tỷ hạt không khí</span></div>"""
             st.markdown(html_ppb, unsafe_allow_html=True)
 
             st.markdown("### 2. Khí Gây mê trong Y tế (Anesthetic)")
-            st.markdown("""
-            * **Các loại phổ biến:** Nitrous oxide (khí cười - N2O), Halothane, Isoflurane, Sevoflurane, Desflurane, và Enflurane.
-            * **Nguy cơ:** Rò rỉ trong phòng mổ sẽ gây ảnh hưởng nghiêm trọng đến sức khỏe và sự tỉnh táo của các y bác sĩ phẫu thuật.
-            """)
+            st.markdown("* **Các loại phổ biến:** Nitrous oxide (N2O), Halothane, Isoflurane...\n* **Nguy cơ:** Rò rỉ phòng mổ ảnh hưởng đến y bác sĩ phẫu thuật.")
 
         with col2:
             st.markdown("### 🛡️ Thiết bị đo chuyên dụng RIKEN KEIKI")
-            st.write("Vì tính chất đặc thù, các loại khí này yêu cầu thiết bị phát hiện có độ nhạy bén riêng biệt thay vì máy đo khí thông thường. Lưu ý, với các hộp thông tin dưới đây, bạn có thể đọc rõ ràng trong cả nền tối lẫn sáng vì nền của chúng được khóa cứng màu sáng:")
-            
             st.markdown("""
             <div style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 10px;">
                 <h5 style="color: #d400ff; margin-top: 0;">📟 SP-230 (TYPE FUM)</h5>
-                <p style="font-size: 14px; color: #555; margin-bottom: 0;">Máy dò rò rỉ di động kiểu bơm hút. Một máy duy nhất có thể hỗ trợ đo tới <b>7 loại khí khử trùng</b> khác nhau.</p>
+                <p style="font-size: 14px; color: #555; margin-bottom: 0;">Dò rò rỉ di động kiểu bơm hút. Hỗ trợ tới <b>7 loại khí khử trùng</b>.</p>
             </div>
-            
             <div style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 10px;">
                 <h5 style="color: #d400ff; margin-top: 0;">📼 FP-300 / FP-301</h5>
-                <p style="font-size: 14px; color: #555; margin-bottom: 0;">Hệ thống phát hiện <b>siêu nhạy</b> sử dụng công nghệ băng cassette. Khả năng phát hiện sự rò rỉ ở mức ppb (phần tỷ), chuyên dụng cho PH3.</p>
+                <p style="font-size: 14px; color: #555; margin-bottom: 0;">Hệ thống phát hiện <b>siêu nhạy</b> công nghệ băng cassette, đo mức ppb cho PH3.</p>
             </div>
-            
             <div style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px;">
                 <h5 style="color: #d400ff; margin-top: 0;">🔭 FI-8000 (Giao thoa quang học)</h5>
-                <p style="font-size: 14px; color: #555; margin-bottom: 0;">Sử dụng phương pháp đo chiết suất ánh sáng. Không làm suy giảm độ nhạy của cảm biến theo thời gian.<br>
-                • <b>Buồng đo 48mm:</b> Đo nồng độ khí hun trùng trong không gian kín.<br>
-                • <b>Buồng đo 24mm:</b> Chuyên đo lường nồng độ khí gây mê trong y tế.</p>
+                <p style="font-size: 14px; color: #555; margin-bottom: 0;">Đo chiết suất ánh sáng không suy giảm độ nhạy. Đo nồng độ khí gây mê, hun trùng.</p>
             </div>
             """, unsafe_allow_html=True)
 
-
 # ---------------- TRANG 3: PHÂN LOẠI THIẾT BỊ ----------------
 elif app_mode == "📟 Phân Loại Thiết Bị":
-    # KHÔNG DÙNG CSS ÉP MÀU CHỮ NỮA ĐỂ TRÁNH LỖI DARK MODE
+    # CSS HIỆU ỨNG CHO TAB FIXED
     st.markdown("""
     <style>
-    .branch-title { font-size: 1.2rem; font-weight: bold; color: #0056b3; padding-bottom: 5px; border-bottom: 2px solid #0056b3; margin-top: 20px; margin-bottom: 15px; }
+    .branch-title { font-size: 1.2rem; font-weight: bold; color: #0056b3; padding-bottom: 5px; border-bottom: 2px solid #0056b3; margin-top: 20px; margin-bottom: 15px; text-transform: uppercase; }
+    .branch-title-fixed { color: #dc3545; border-bottom: 2px solid #dc3545; }
+    
+    /* Flowchart CSS */
+    .flow-container { display: flex; justify-content: space-between; align-items: center; background-color: #212529; padding: 20px; border-radius: 10px; margin-bottom: 25px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+    .flow-box { background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%); color: white; padding: 15px; border-radius: 8px; text-align: center; flex: 1; font-size: 0.9rem; border: 1px solid #666; position: relative; }
+    .flow-arrow { color: #fff; font-size: 24px; font-weight: bold; margin: 0 10px; }
+    .flow-box h4 { margin-top: 0; color: #00d2ff; font-size: 1.1rem; }
+    
+    /* RM-6000 LCD Animation */
+    @keyframes lcd-alert {
+        0%, 33% { background-color: #28a745; color: white; box-shadow: 0 0 15px #28a745; }
+        34%, 66% { background-color: #fd7e14; color: white; box-shadow: 0 0 15px #fd7e14; }
+        67%, 100% { background-color: #dc3545; color: white; box-shadow: 0 0 15px #dc3545; }
+    }
+    .rm-lcd { animation: lcd-alert 6s infinite; padding: 10px; border-radius: 5px; text-align: center; font-weight: bold; font-family: 'Courier New', Courier, monospace; font-size: 1.2rem; border: 2px solid #333; margin-top: 10px;}
     </style>
     """, unsafe_allow_html=True)
 
-    st.title("📟 Thiết Bị Đo Khí Riken Keiki")
-    st.markdown("Dựa theo chuẩn Catalog RIKEN KEIKI, các thiết bị được phân chia bài bản thành 4 nhóm chiến lược nhằm giúp khách hàng dễ dàng lựa chọn đúng giải pháp.")
+    st.title("📟 Showroom: Thiết Bị Đo Khí Riken Keiki")
+    st.markdown("Hệ thống thiết bị được phân chia bài bản nhằm giúp Sales và Kỹ thuật lựa chọn chính xác giải pháp cho Khách hàng dựa trên nhu cầu Đo di động (Portable) hay Lắp giám sát cố định (Fixed).")
     st.markdown("---")
 
-    tab_portable, tab_fixed = st.tabs(["📱 MÁY ĐO KHÍ CẦM TAY (PORTABLE)", "🏭 HỆ THỐNG CỐ ĐỊNH (FIXED)"])
+    tab_portable, tab_fixed = st.tabs(["📱 NHÁNH 1: MÁY CẦM TAY (PORTABLE)", "🏭 NHÁNH 2: HỆ THỐNG CỐ ĐỊNH (FIXED)"])
 
+    # ================= KHU VỰC MÁY CẦM TAY =================
     with tab_portable:
         
         # 1. MÁY ĐO ĐA KHÍ
-        st.markdown('<div class="branch-title">1. Máy đo đa khí (Multi Gas Detectors)</div>', unsafe_allow_html=True)
+        st.markdown('<div class="branch-title">1. Máy đo Đa Khí (Multi Gas Detectors)</div>', unsafe_allow_html=True)
         col_m1, col_m2, col_m3 = st.columns(3, gap="medium")
         
         with col_m1:
             with st.container(border=True):
                 if os.path.exists("images/gx-3r.png"): st.image("images/gx-3r.png")
                 st.markdown("#### GX-3R (4 khí)")
-                # DÙNG NATIVE MARKDOWN ĐỂ CHỮ TỰ ĐỔI MÀU TRẮNG/ĐEN THEO THEME
-                st.markdown("- Là một trong những máy đo 4 khí kiểu khuếch tán **nhỏ và nhẹ nhất thế giới**.\n- Tích hợp R sensor (Bảo hành 3 năm).\n- Hỗ trợ Bluetooth báo động theo thời gian thực.\n- Chống bụi/nước IP66/68.")
+                st.markdown("- Dòng đo 4 khí khuếch tán **nhỏ và nhẹ nhất thế giới**.\n- Tích hợp R sensor (Bảo hành 3 năm).\n- Hỗ trợ Bluetooth báo động theo thời gian thực.\n- Chuẩn chống nước, chống bụi IP66/68.")
             
             with st.container(border=True):
                 if os.path.exists("images/sc-9000.png"): st.image("images/sc-9000.png")
                 st.markdown("#### SC-9000 (Khí độc)")
-                st.markdown("- Máy đo đa khí độc kiểu bơm hút, lắp tối đa 3 cảm biến (**3-in-1**).\n- Pin sạc dài 60 giờ.\n- Chống va đập, chống nước IP66/68, hỗ trợ Bluetooth.")
+                st.markdown("- Máy đa khí độc bơm hút, lắp tối đa 3 cảm biến (**3-in-1**).\n- Tuổi thọ pin sạc cực dài khoảng 60 giờ.\n- Chống va đập, IP66/68, hỗ trợ Bluetooth.")
 
         with col_m2:
             with st.container(border=True):
                 if os.path.exists("images/gx-3r-pro.png"): st.image("images/gx-3r-pro.png")
                 st.markdown("#### GX-3R Pro (5 khí)")
-                st.markdown("- Phiên bản cao cấp hỗ trợ Bluetooth, có thể đo tới **5 thành phần khí** (cảm biến kép).\n- Hoạt động bằng pin sạc hoặc pin khô.\n- Thiết kế không vướng víu.")
+                st.markdown("- Bản cao cấp, hỗ trợ Bluetooth. Đo tới **5 thành phần khí** bằng cảm biến kép.\n- Hoạt động linh hoạt bằng pin sạc hoặc pin khô.\n- Thiết kế không gây vướng víu.")
             
             with st.container(border=True):
                 if os.path.exists("images/gx-force.png"): st.image("images/gx-force.png")
                 st.markdown("#### GX-Force (4 khí)")
-                st.markdown("- Máy 4 khí kiểu bơm hút rất nhẹ gọn (300g).\n- Hoạt động liên tục **30 giờ**.\n- Vượt qua thả rơi 3m, BH cảm biến 3 năm.\n- Chuyển đổi kết quả cho 27 loại khí cháy.")
+                st.markdown("- Dòng bơm hút nhẹ gọn chỉ 300g.\n- Hoạt động liên tục **30 giờ**.\n- Chịu lực thả rơi 3m, cảm biến BH 3 năm.\n- Chuyển đổi đo cho 27 loại khí cháy khác nhau.")
 
         with col_m3:
             with st.container(border=True):
                 if os.path.exists("images/gx-9000.png"): st.image("images/gx-9000.png")
                 st.markdown("#### GX-9000 / GX-9000H")
-                st.markdown("- Bơm hút công suất cao (hút xa tới 45m).\n- GX-9000: Đo tối đa **6 khí (kể cả VOC)**.\n- GX-9000H: Dùng cho nồng độ H2S cao.\n- Vượt qua test thả rơi 1.5m, Bluetooth.")
+                st.markdown("- Bơm hút công suất cao (hút xa 45m).\n- GX-9000: Đo tối đa **6 khí (kể cả VOC)**.\n- GX-9000H: Chuyên dùng cho môi trường H2S nồng độ cao.\n- Vượt test thả rơi 1.5m.")
             
             with st.container(border=True):
-                if os.path.exists("images/gx-6100.png"): st.image("images/gx-6100.png")
-                st.markdown("#### GX-6100 (6 khí)")
-                st.markdown("- Bơm hút đo đồng thời 6 khí (bao gồm **VOCs**).\n- Chế độ đo chọn lọc Benzene.\n- Báo động hoảng loạn (panic), ngã (man down), tích hợp đèn pin LED.")
+                if os.path.exists("images/gx-6000.png"): st.image("images/gx-6000.png")
+                st.markdown("#### GX-6000 (6 khí)")
+                st.markdown("- Thiết bị bơm hút đo 6 khí, tích hợp đo **VOCs**.\n- Có chế độ đo chọn lọc Benzene.\n- Tính năng an toàn: Báo động hoảng loạn (panic), ngã (man down), tích hợp đèn LED.")
 
 
         # 2. ĐƠN KHÍ VÀ 2 KHÍ NHỎ GỌN
-        st.markdown('<div class="branch-title">2. Máy đo đơn khí và 2 khí nhỏ gọn</div>', unsafe_allow_html=True)
+        st.markdown('<div class="branch-title">2. Máy đo Đơn khí & 2 Khí nhỏ gọn</div>', unsafe_allow_html=True)
         col_s1, col_s2 = st.columns(2, gap="medium")
         with col_s1:
             with st.container(border=True):
                 if os.path.exists("images/04-series.png"): st.image("images/04-series.png")
                 st.markdown("#### Series 04")
-                st.markdown("- Dòng máy khuếch tán **siêu bền**, chịu được độ cao rơi lên tới 7m.\n- Thời lượng pin rất dài (cả pin khô & sạc).\n- 12 model để lựa chọn (CX-04 đo được 2 khí).")
+                st.markdown("- Dòng khuếch tán **siêu bền**, chịu rơi từ 7 mét.\n- Hỗ trợ cả pin khô và pin sạc thời lượng cao.\n- Có tới 12 model chuyên biệt (Model CX-04 đo được 2 khí cùng lúc).")
         with col_s2:
             with st.container(border=True):
                 if os.path.exists("images/gw-3.png"): st.image("images/gw-3.png")
                 st.markdown("#### Series GW-3")
-                st.markdown("- Thuộc nhóm thiết bị đo nhỏ gọn và **nhẹ nhất thế giới**.\n- Có thể **đeo trên cổ tay** như đồng hồ bằng dây đeo đi kèm.\n- Chuẩn chống bụi/nước IP66/68.")
+                st.markdown("- Thuộc nhóm thiết bị nhỏ gọn và **nhẹ nhất thế giới**.\n- Thiết kế mang tính cách mạng: Có thể **đeo trên cổ tay** bằng dây đeo đi kèm.\n- Chuẩn chống bụi/nước IP66/68.")
 
 
         # 3. KHÍ DỄ CHÁY
-        st.markdown('<div class="branch-title">3. Máy đo khí dễ cháy chuyên dụng</div>', unsafe_allow_html=True)
+        st.markdown('<div class="branch-title">3. Máy đo Khí dễ cháy chuyên dụng</div>', unsafe_allow_html=True)
         col_c1, col_c2 = st.columns(2, gap="medium")
         with col_c1:
             with st.container(border=True):
                 if os.path.exists("images/gp-1000.png"): st.image("images/gp-1000.png")
                 st.markdown("#### GP-1000 / NC-1000")
-                st.markdown("- **GP-1000 (Chống nổ):** Bơm hút dải đo 0-100% LEL, chuyển đổi tới 25 loại khí cháy. Tăng cường lực bơm hút xa.\n- **NC-1000:** Chuyên đo nồng độ cực thấp (ppm), tự động chuyển dải Low/High.")
+                st.markdown("- **GP-1000:** Bơm hút dải đo 0-100% LEL, chuyển đổi dễ dàng mục tiêu đo cho 25 loại khí cháy. Có bộ tăng cường bơm hút xa.\n- **NC-1000:** Chuyên đo LEL ở nồng độ cực thấp (ppm).")
         with col_c2:
             with st.container(border=True):
                 if os.path.exists("images/np-1000.png"): st.image("images/np-1000.png")
                 st.markdown("#### NP-1000 / GP-03")
-                st.markdown("- **NP-1000 (Nồng độ cao):** Đo tới 100 vol% trong môi trường khí trơ (N2, CO2). Linh hoạt chuyển đổi 5 loại khí.\n- **GP-03:** Khuếch tán đơn khí dễ cháy, kèm ốp chống sốc, chuẩn IP67.")
+                st.markdown("- **NP-1000:** Đo nồng độ cao tới 100 vol% trong môi trường khí trơ (N2, CO2). Linh hoạt chuyển đổi 5 loại khí gốc.\n- **GP-03:** Máy khuếch tán đơn khí dễ cháy kèm ốp cao su chống sốc.")
 
 
         # 4. RÒ RỈ VÀ ĐẶC BIỆT
-        st.markdown('<div class="branch-title">4. Máy phát hiện rò rỉ và các loại khí đặc biệt</div>', unsafe_allow_html=True)
+        st.markdown('<div class="branch-title">4. Máy phát hiện rò rỉ & Khí đặc biệt</div>', unsafe_allow_html=True)
         col_l1, col_l2 = st.columns(2, gap="medium")
         with col_l1:
             with st.container(border=True):
                 if os.path.exists("images/sp-230.png"): st.image("images/sp-230.png")
                 st.markdown("#### SP-230 Series")
-                st.markdown("- Dò rò rỉ bơm hút. Tích hợp đèn LED soi sáng.\n- **TYPE F:** Khí Fluorocarbon (Freon tủ lạnh).\n- **TYPE H2:** Dò Hydro.\n- **TYPE FUM:** 7 loại khí khử trùng/hun trùng.\n- **TYPE SC:** 50 loại khí nhà máy bán dẫn.")
+                st.markdown("- Dòng máy chuyên tìm tâm điểm rò rỉ kiểu bơm hút.\n- **TYPE F:** Đo khí Fluorocarbon (Freon tủ lạnh).\n- **TYPE FUM:** Đo 7 loại khí khử trùng.\n- **TYPE SC:** Dò tới 50 loại khí bán dẫn.")
         with col_l2:
             with st.container(border=True):
                 if os.path.exists("images/fi-8000.png"): st.image("images/fi-8000.png")
                 st.markdown("#### FI-8000 / FP-31")
-                st.markdown("- **FI-8000:** Cảm biến giao thoa quang học, đo rất chính xác (khí gây mê, hun trùng, dung môi). Đo max 8 khí, bơm tự động/bóp tay.\n- **FP-31:** Đo Formaldehyde (HCHO) bằng dải ruy băng quang điện, chuẩn WHO (0.08 ppm/30p).")
+                st.markdown("- **FI-8000:** Dùng cảm biến giao thoa quang học, đo độ chính xác tuyệt đối cho khí gây mê y tế, khí hun trùng, nồng độ dung môi.\n- **FP-31:** Đo Formaldehyde (HCHO) chuyên dụng qua ruy băng quang điện.")
 
+    # ================= KHU VỰC HỆ THỐNG CỐ ĐỊNH =================
     with tab_fixed:
-        st.subheader("🏭 NHÁNH 2: Hệ thống Cố định (Fixed Systems)")
-        st.info("Tab này sẽ được hệ thống hóa ngay khi bạn cung cấp tài liệu Catalog của Hệ thống thiết bị cố định (Fixed Detectors) nhé!")
+        st.markdown("Hệ thống giám sát khí cố định (Fixed Gas Monitoring Systems) được thiết kế để lắp đặt thường xuyên tại các vị trí có nguy cơ rò rỉ hoặc tích tụ khí, nhằm theo dõi nồng độ liên tục 24/7.")
+        
+        # 1. CẤU TRÚC HỆ THỐNG
+        st.markdown('<div class="branch-title branch-title-fixed">1. Các Mô Hình Cấu Trúc Hệ Thống Giám Sát</div>', unsafe_allow_html=True)
+        st.write("Hệ thống cố định có thể được cấu hình rất linh hoạt tùy theo quy mô nhà máy:")
+        
+        html_flowchart = """
+        <div class="flow-container">
+            <div class="flow-box"><h4>1️⃣ Standalone</h4>Một Đầu dò phát kết hợp trực tiếp còi/đèn tại chỗ.</div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-box"><h4>2️⃣ Single-point</h4>1 Đầu dò kết nối 1 Tủ điều khiển đơn để xem từ xa an toàn.</div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-box"><h4>3️⃣ Multi-point</h4>Nhiều Đầu dò truyền chung về Tủ điều khiển cảnh báo tập trung.</div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-box"><h4>4️⃣ Centralized</h4>Kết nối hệ thống PLC và Phần mềm giám sát PC quy mô lớn.</div>
+        </div>
+        """
+        st.markdown(html_flowchart, unsafe_allow_html=True)
+
+        # 2. ĐẦU DÒ KHÍ
+        st.markdown('<div class="branch-title branch-title-fixed">2. Đầu dò khí / Máy phát thông minh (Detectors & Transmitters)</div>', unsafe_allow_html=True)
+        col_f1, col_f2 = st.columns(2, gap="medium")
+        
+        with col_f1:
+            with st.container(border=True):
+                st.markdown("#### 🌐 Dòng Tiêu chuẩn Toàn cầu")
+                st.markdown("- **SD-3 Series:** Trang bị cảm biến F-sensor mới, vỏ chống khắc nghiệt, chuẩn chống nổ toàn cầu (IECEx/ATEX) và an toàn chức năng SIL2.\n- **SD-1 Series:** Tích hợp vận hành bằng **khóa từ (magnetic key)** cài đặt không cần mở nắp. Đo đa dạng khí cháy, độc, oxy.")
+                if os.path.exists("images/sd-series.png"): st.image("images/sd-series.png", caption="SD-3 / SD-1")
+
+            with st.container(border=True):
+                st.markdown("#### 🏭 Dòng Công nghiệp Nặng & Ống khói")
+                st.markdown("- **GD-A2400 / SD-2500 Series:** Đầu dò cắm trực tiếp vào đường ống/lò đốt (ống cắm dài 250mm) đo ở tâm dòng chảy.\n- **GD-D58 Series:** Bơm hút chống cháy nổ siêu bền, an toàn cả trong môi trường Hydro.")
+                if os.path.exists("images/gd-a2400.png"): st.image("images/gd-a2400.png", caption="GD-A2400 / GD-D58")
+
+        with col_f2:
+            with st.container(border=True):
+                st.markdown("#### 💻 Dòng chuyên dụng Bán dẫn / Cleanroom")
+                st.markdown("- **GD-70D Series:** Đầu thông minh chuyên phát hiện khí đặc biệt (SiH4, PH3, NH3). Dễ dàng thay nóng cảm biến.\n- **FP-300 / FP-301:** Đo khí độc siêu nhạy bằng phương pháp **băng cassette (tape method)**, lý tưởng cho phòng sạch.")
+                if os.path.exists("images/gd-70d.png"): st.image("images/gd-70d.png", caption="GD-70D / FP-300")
+
+            with st.container(border=True):
+                st.markdown("#### 🔬 Dòng Đo đạc Đặc thù & Dân dụng")
+                st.markdown("- **OHC-800:** Nhiệt lượng kế chống nổ, đo liên tục Nhiệt lượng (Calorific value), trọng lượng riêng, chỉ số Wobbe khí thiên nhiên.\n- **FI-900 / 915:** Cảm biến giao thoa quang học, không cần khởi động.\n- **600 Series:** Dùng trong văn phòng điều khiển thông gió (O2, CO, CO2).")
+                if os.path.exists("images/ohc-800.png"): st.image("images/ohc-800.png", caption="OHC-800 / 600 Series")
+
+        # 3. TỦ CẢNH BÁO
+        st.markdown('<div class="branch-title branch-title-fixed">3. Tủ cảnh báo và Bộ chỉ thị (Alarm & Indicator Units)</div>', unsafe_allow_html=True)
+        col_ctrl1, col_ctrl2 = st.columns([1, 1], gap="large")
+        
+        with col_ctrl1:
+            st.markdown("#### 🎛️ RM-6000 Series (Giám sát điểm đơn)")
+            st.write("Bộ chỉ thị hiển thị đồng thời dạng thanh (bar meter) và số điện tử.")
+            st.info("💡 **Điểm nổi bật:** Màn hình LCD 3 màu thay đổi trực quan theo trạng thái báo động.")
+            st.markdown('<div class="rm-lcd">20.9 %VOL (Mô phỏng Màn hình RM-6000)</div>', unsafe_allow_html=True)
+            if os.path.exists("images/rm-6000.png"): st.image("images/rm-6000.png")
+            
+        with col_ctrl2:
+            st.markdown("#### 🗄️ RM-5000 Series (Giám sát đa điểm)")
+            st.write("Tủ giám sát tập trung nhiều đầu dò với thao tác đơn giản.")
+            st.success("⚡ **Điểm nổi bật:** Tích hợp sẵn bộ lưu điện (UPS), đảm bảo hệ thống vẫn tiếp tục theo dõi rò rỉ khí ít nhất **3 ngày** trong trường hợp mất điện nhà máy.")
+            if os.path.exists("images/rm-5000.png"): st.image("images/rm-5000.png")
+
+        # 4. PHẦN MỀM KANSHIRO
+        st.markdown('<div class="branch-title branch-title-fixed">4. Phần mềm giám sát trung tâm RIKEN KEIKI Kanshiro II</div>', unsafe_allow_html=True)
+        st.write("Đối với các hệ thống đồ sộ quy mô toàn nhà máy, tín hiệu sẽ được thu thập về PLC và hiển thị qua phần mềm SCADA chuyên dụng.")
+        
+        col_scada1, col_scada2 = st.columns([2, 1])
+        with col_scada1:
+            st.markdown("""
+            * **Nền tảng:** Hoạt động trên trình duyệt web (Chrome, Edge), giám sát từ PC hoặc thiết bị di động.
+            * **Sức mạnh lưu trữ khủng:**
+                * Quản lý tối đa lên tới **60.000 thẻ (tags)** tín hiệu.
+                * Lưu trữ dữ liệu xu hướng (trend) liên tục trong **3 năm**.
+                * Lưu lịch sử lên tới **100 triệu sự kiện** cảnh báo.
+            * **Giao diện:** Hiển thị trực quan bằng bản đồ nhà máy (Map), đồ thị vạch, và chức năng tìm kiếm tự do theo thời gian thực.
+            """)
+        with col_scada2:
+            st.info("Kanshiro II đóng vai trò như 'Bộ não tổng' quản lý rủi ro khí cho toàn bộ hạ tầng công nghiệp.")
+            if os.path.exists("images/kanshiro.png"): st.image("images/kanshiro.png")
