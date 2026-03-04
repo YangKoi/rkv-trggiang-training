@@ -253,7 +253,7 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
         if os.path.exists("images/image_oxygen.png"): st.image("images/image_oxygen.png", use_container_width=True)
         
         st.markdown("### 📊 Mức độ đe dọa sinh tồn khi Oxy suy giảm:")
-        html_oxy = """<div class="oxy-bg"><div class="oxy-bar" style="width: 100%; background: linear-gradient(90deg, #11998e, #38ef7d);">20.93% - KHÔNG KHÍ BÌNH THƯỜNG</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 86%; background: linear-gradient(90deg, #f2c94c, #f2994a); color: #000;">Dưới 18% - THIẾU OXY (Báo động an toàn)</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 67%; background: linear-gradient(90deg, #e65c00, #F9D423);">16% ~ 12% - Thở gấp, tăng nhịp tim, buồn nôn</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 38%; background: linear-gradient(90deg, #b20a2c, #fffbd5); color: #000;">10% ~ 6% - Ảo giác, co giật, bất tỉnh</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 15%; background: linear-gradient(90deg, #cb2d3e, #ef473a);">≤ 6% - TỬ VONG NGAY LẬP TỨC</div></div>"""
+        html_oxy = """<div class="oxy-bg"><div class="oxy-bar" style="width: 100%; background: linear-gradient(90deg, #11998e, #38ef7d);">20.93% - KHÔNG KHÍ BÌNH THƯỜNG</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 86%; background: linear-gradient(90deg, #f2c94c, #f2994a); color: #000;">Dưới 18% - THIẾU OXY (Báo động an toàn)</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 67%; background: linear-gradient(90deg, #e65c00, #F9D423);">16% ~ 12% - Thở gấp, tăng nhịp tim, buồn nôn</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 38%; background: linear-gradient(90deg, #b20a2c, #fffbd5); color: #000;">10% ~ 6% - Ảo giác, co giật, bất tỉnh</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 15%; background: linear-gradient(90deg, #cb2d3e, #ef473a);">≤ 6% - TỬ VONG LẬP TỨC</div></div>"""
         st.markdown(html_oxy, unsafe_allow_html=True)
 
     with tab4:
@@ -313,7 +313,7 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
     .branch-title-fixed { color: #dc3545; border-bottom: 2px solid #dc3545; } 
     </style>""", unsafe_allow_html=True)
     
-    st.title("📟 Showroom: Thiết Bị Đo Khí Riken Keiki")
+    st.title("📟 Thiết Bị Đo Khí Riken Keiki")
     st.markdown("Hệ thống thiết bị được phân chia bài bản nhằm giúp Sales và Kỹ thuật lựa chọn chính xác giải pháp cho Khách hàng dựa trên nhu cầu Đo di động (Portable) hay Lắp giám sát cố định (Fixed).")
     st.markdown("---")
 
@@ -331,39 +331,39 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
                 if os.path.exists("images/gx-3r.png"): st.image("images/gx-3r.png")
                 st.markdown("#### GX-3R (4 khí)")
                 st.markdown("- Dòng đo 4 khí khuếch tán **nhỏ và nhẹ nhất thế giới**.\n- Tích hợp R sensor (Bảo hành 3 năm).\n- Hỗ trợ Bluetooth báo động theo thời gian thực.\n- Chuẩn chống nước, chống bụi IP66/68.")
-                st.link_button("📄 Chi tiết Catalog", "https://www.rikenkeiki.co.jp/english/products/gx-3r", use_container_width=True)
+                st.link_button("📄 Chi tiết Catalog", "https://rikenviet.vn/shop/may-do-da-khi-cam-tay-gx-3r/", use_container_width=True)
             
             with st.container(border=True):
                 if os.path.exists("images/sc-9000.png"): st.image("images/sc-9000.png")
                 st.markdown("#### SC-9000 (Khí độc)")
                 st.markdown("- Máy đa khí độc bơm hút, lắp tối đa 3 cảm biến (**3-in-1**).\n- Tuổi thọ pin sạc cực dài khoảng 60 giờ.\n- Chống va đập, IP66/68, hỗ trợ Bluetooth.")
-                st.link_button("📄 Chi tiết Catalog", "https://www.rikenkeiki.co.jp/english/products/sc-9000", use_container_width=True)
+                st.link_button("📄 Chi tiết Catalog", "https://rikenviet.vn/shop/may-do-khi-doc-sc-9000/", use_container_width=True)
 
         with col_m2:
             with st.container(border=True):
                 if os.path.exists("images/gx-3r-pro.png"): st.image("images/gx-3r-pro.png")
                 st.markdown("#### GX-3R Pro (5 khí)")
                 st.markdown("- Bản cao cấp, hỗ trợ Bluetooth. Đo tới **5 thành phần khí** bằng cảm biến kép.\n- Hoạt động linh hoạt bằng pin sạc hoặc pin khô.\n- Thiết kế không gây vướng víu.")
-                st.link_button("📄 Chi tiết Catalog", "https://www.rikenkeiki.co.jp/english/products/gx-3r-pro", use_container_width=True)
+                st.link_button("📄 Chi tiết Catalog", "https://rikenviet.vn/shop/may-do-da-khi-cam-tay-gx-3r-pro/", use_container_width=True)
             
             with st.container(border=True):
                 if os.path.exists("images/gx-force.png"): st.image("images/gx-force.png")
                 st.markdown("#### GX-Force (4 khí)")
                 st.markdown("- Dòng bơm hút nhẹ gọn chỉ 300g.\n- Hoạt động liên tục **30 giờ**.\n- Chịu lực thả rơi 3m, cảm biến BH 3 năm.\n- Chuyển đổi đo cho 27 loại khí cháy khác nhau.")
-                st.link_button("📄 Chi tiết Catalog", "https://www.rikenkeiki.co.jp/english/products/gx-force", use_container_width=True)
+                st.link_button("📄 Chi tiết Catalog", "https://rikenviet.vn/shop/may-do-khi-cam-tay-gx-force/", use_container_width=True)
 
         with col_m3:
             with st.container(border=True):
                 if os.path.exists("images/gx-9000.png"): st.image("images/gx-9000.png")
                 st.markdown("#### GX-9000 / GX-9000H")
                 st.markdown("- Bơm hút công suất cao (hút xa 45m).\n- GX-9000: Đo tối đa **6 khí (kể cả VOC)**.\n- GX-9000H: Chuyên dùng cho môi trường H2S nồng độ cao.\n- Vượt test thả rơi 1.5m.")
-                st.link_button("📄 Chi tiết Catalog", "https://www.rikenkeiki.co.jp/english/products/gx-9000", use_container_width=True)
+                st.link_button("📄 Chi tiết Catalog", "https://rikenviet.vn/shop/may-do-khi-cam-tay-gx-9000/", use_container_width=True)
             
             with st.container(border=True):
                 if os.path.exists("images/gx-6100.png"): st.image("images/gx-6100.png")
                 st.markdown("#### GX-6100 (6 khí)")
                 st.markdown("- Thiết bị bơm hút đo 6 khí, tích hợp đo **VOCs**.\n- Có chế độ đo chọn lọc Benzene.\n- Tính năng an toàn: Báo động hoảng loạn (panic), ngã (man down), tích hợp đèn LED.")
-                st.link_button("📄 Chi tiết Catalog", "https://www.rikenkeiki.co.jp/english/products/gx-6000", use_container_width=True)
+                st.link_button("📄 Chi tiết Catalog", "https://rikenviet.vn/shop/may-do-da-khi-cam-tay-gx-6100/", use_container_width=True)
 
         # 2. ĐƠN KHÍ VÀ 2 KHÍ NHỎ GỌN
         st.markdown('<div class="branch-title">2. Máy đo Đơn khí & 2 Khí nhỏ gọn</div>', unsafe_allow_html=True)
@@ -373,7 +373,7 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
                 if os.path.exists("images/04-series.png"): st.image("images/04-series.png")
                 st.markdown("#### Series 04")
                 st.markdown("- Dòng khuếch tán **siêu bền**, chịu rơi từ 7 mét.\n- Hỗ trợ cả pin khô và pin sạc thời lượng cao.\n- Có tới 12 model chuyên biệt (Model CX-04 đo được 2 khí cùng lúc).")
-                st.link_button("📄 Chi tiết Catalog", "https://www.rikenkeiki.co.jp/english/products/04-series", use_container_width=True)
+                st.link_button("📄 Chi tiết Catalog", "https://rikenviet.vn/?s=04&post_type=any", use_container_width=True)
         with col_s2:
             with st.container(border=True):
                 if os.path.exists("images/gw-3.png"): st.image("images/gw-3.png")
