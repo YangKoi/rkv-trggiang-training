@@ -298,7 +298,7 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
     .branch-title-fixed { color: #dc3545; border-bottom: 2px solid #dc3545; } 
     </style>""", unsafe_allow_html=True)
     
-    st.title("📟 Showroom: Thiết Bị Đo Khí Riken Keiki")
+    st.title("📟 Thiết Bị Đo Khí Riken Keiki")
     st.markdown("Hệ thống thiết bị được phân chia bài bản nhằm giúp Sales và Kỹ thuật lựa chọn chính xác giải pháp cho Khách hàng dựa trên nhu cầu Đo di động (Portable) hay Lắp giám sát cố định (Fixed).")
     st.markdown("---")
 
