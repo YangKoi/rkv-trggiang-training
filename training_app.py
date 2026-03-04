@@ -472,7 +472,7 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
                 if os.path.exists("images/gd-a2400.png"): st.image("images/gd-a2400.png")
                 st.markdown("#### GD-A2400 / SD-2500 Series")
                 st.markdown("- Chuyên dụng cho ống khói, lò đốt.\n- Có **thanh dài thọc sâu (250mm)** trực tiếp vào ống dẫn để lấy mẫu ở tâm dòng chảy.\n- Chịu nhiệt độ khắc nghiệt tới 160°C.")
-                st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gd-a2400&post_type=any", use_container_width=True)
+                st.link_button("🔍 Tra cứu trên Riken Viet", "https://product.rikenkeiki.co.jp/products/113-GD-A2400.html", use_container_width=True)
 
         # 3. MÁY PHÂN TÍCH & DÂN DỤNG
         st.markdown('<div class="branch-title branch-title-fixed">3. Máy phân tích đặc thù & Dùng trong nhà (Analyzers & Indoor)</div>', unsafe_allow_html=True)
