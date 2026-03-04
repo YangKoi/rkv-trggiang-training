@@ -131,6 +131,7 @@ with st.sidebar:
         "🎓 Cổng Đào Tạo Hội Nhập",
         "☣️ Kiến Thức: Phân Loại Khí",
         "📟 Phân Loại Thiết Bị"
+        "📖 Tiêu Chuẩn & Thuật Ngữ" # THÊM TAB MỚI
     ])
     st.markdown("---")
     # Đã bỏ phần Gợi ý (Mẹo)
@@ -505,3 +506,46 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
                 st.markdown("#### OHC-800 (Nhiệt lượng kế)")
                 st.markdown("- Chuyên ngành khí thiên nhiên chống cháy nổ.\n- Đo trực tiếp và liên tục giá trị **Nhiệt lượng (Calorific)** và **Trọng lượng riêng (Density)**.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=ohc-800&post_type=any", use_container_width=True)
+# ---------------- TRANG 4: TIÊU CHUẨN & THUẬT NGỮ ----------------
+elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
+    st.markdown("""<style>
+    .term-title { color: #0056b3; font-weight: bold; font-size: 1.1rem; margin-top: 10px;}
+    .term-box { background-color: #f8f9fa; border-left: 4px solid #0056b3; padding: 15px; border-radius: 4px; margin-bottom: 20px;}
+    .term-box-red { background-color: #fdf5f5; border-left: 4px solid #dc3545; padding: 15px; border-radius: 4px; margin-bottom: 20px;}
+    </style>""", unsafe_allow_html=True)
+    
+    st.title("📖 Từ Điển: Tiêu Chuẩn & Thuật Ngữ Đo Khí")
+    st.markdown("Khi làm việc trong lĩnh vực an toàn công nghiệp, việc thấu hiểu các chứng chỉ quốc tế và các giới hạn phơi nhiễm là yêu cầu bắt buộc để tư vấn giải pháp chính xác cho khách hàng.")
+    st.markdown("---")
+
+    tab_std, tab_expo = st.tabs(["🛡️ Tiêu Chuẩn Thiết Bị (ATEX, SIL...)", "⚠️ Giới Hạn Phơi Nhiễm (TWA, STEL...)"])
+
+    with tab_std:
+        st.subheader("Nhóm Tiêu chuẩn Chống cháy nổ & An toàn")
+        col1, col2 = st.columns(2, gap="large")
+        
+        with col1:
+            st.markdown('<div class="term-box"><div class="term-title">ATEX (Appareils destinés à être utilisés en ATmosphères EXplosibles)</div>Là tiêu chuẩn bắt buộc của Liên minh Châu Âu (EU) đối với các thiết bị sử dụng trong môi trường có nguy cơ cháy nổ. Bất kỳ máy dò khí nào lắp tại khu vực nguy hiểm (Hazardous Area) đều thường được yêu cầu phải có chứng chỉ này.</div>', unsafe_allow_html=True)
+            
+            st.markdown('<div class="term-box"><div class="term-title">IECEx (International Electrotechnical Commission Explosive)</div>Hệ thống chứng nhận quốc tế dựa trên các tiêu chuẩn của IEC liên quan đến thiết bị sử dụng trong môi trường dễ cháy nổ. Trong khi ATEX chủ yếu dành cho Châu Âu, IECEx được công nhận rộng rãi trên toàn cầu.</div>', unsafe_allow_html=True)
+
+        with col2:
+            st.markdown('<div class="term-box"><div class="term-title">SIL (Safety Integrity Level)</div>Mức độ toàn vẹn an toàn. Đây là một thang đo (từ SIL 1 đến SIL 4) dùng để đánh giá độ tin cậy của một hệ thống an toàn (Safety Instrumented System). Thiết bị đạt SIL càng cao (như SD-3 đạt SIL2) thì khả năng xảy ra lỗi gây nguy hiểm càng thấp.</div>', unsafe_allow_html=True)
+            
+            st.markdown('<div class="term-box"><div class="term-title">MED (Marine Equipment Directive)</div>Chỉ thị thiết bị hàng hải của Châu Âu (thường được nhận diện bằng dấu Wheelmark - Bánh lái tàu). Các máy đo khí muốn mang lên tàu biển quốc tế bắt buộc phải đạt chứng chỉ MED.</div>', unsafe_allow_html=True)
+
+    with tab_expo:
+        st.subheader("Nhóm Thuật ngữ Phơi nhiễm Khí độc")
+        st.markdown("Khí độc không giết người ngay mà gây tích tụ. Do đó, các tiêu chuẩn an toàn đặt ra các mức báo động dựa trên thời gian tiếp xúc.")
+        
+        col3, col4 = st.columns(2, gap="large")
+        
+        with col3:
+            st.markdown('<div class="term-box-red"><div class="term-title">TWA (Time-Weighted Average)</div><b>Trung bình gia quyền theo thời gian.</b> Đây là nồng độ khí độc trung bình mà một người lao động có thể tiếp xúc liên tục trong một ca làm việc tiêu chuẩn (8 giờ/ngày, 40 giờ/tuần) mà không gặp tác dụng phụ có hại nào. Thường được dùng làm mức <b>Báo động 1 (Alarm 1)</b> trên máy đo khí.</div>', unsafe_allow_html=True)
+            
+            st.markdown('<div class="term-box-red"><div class="term-title">STEL (Short-Term Exposure Limit)</div><b>Giới hạn phơi nhiễm ngắn hạn.</b> Là nồng độ tối đa mà người lao động có thể chịu đựng trong một khoảng thời gian ngắn (thường là <b>15 phút</b>), tối đa 4 lần/ngày. Thường được dùng làm mức <b>Báo động 2 (Alarm 2)</b>.</div>', unsafe_allow_html=True)
+
+        with col4:
+            st.markdown('<div class="term-box-red"><div class="term-title">IDLH (Immediately Dangerous to Life or Health)</div><b>Nguy hiểm tức thời đến tính mạng hoặc sức khỏe.</b> Đây là mức nồng độ khí độc cực kỳ nguy hiểm. Môi trường đạt ngưỡng IDLH yêu cầu người lao động phải sơ tán khẩn cấp hoặc phải đeo mặt nạ dưỡng khí độc lập.</div>', unsafe_allow_html=True)
+            
+            st.markdown('<div class="term-box-red"><div class="term-title">TLV (Threshold Limit Value)</div><b>Giá trị giới hạn ngưỡng.</b> Một thuật ngữ chung (do ACGIH của Mỹ ban hành) chỉ nồng độ của một chất trong không khí mà hầu hết người lao động có thể tiếp xúc hàng ngày mà không bị ảnh hưởng xấu. TWA và STEL chính là 2 loại của TLV.</div>', unsafe_allow_html=True)
