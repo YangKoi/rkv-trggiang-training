@@ -139,9 +139,8 @@ with st.sidebar:
 # NỘI DUNG TỪNG TRANG
 # ==========================================
 
-# ---------------- TRANG 1: ĐÀO TẠO HỘI NHẬP ----------------
+# ---------------- TRANG 1 & 2 (GIỮ NGUYÊN) ----------------
 if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
-    # MÃ NGUỒN TRANG 1 (GIỮ NGUYÊN)
     col_title, col_admin = st.columns([4, 1.5]) 
     with col_title:
         st.title("🎓 Cổng Đào Tạo Năng Lực & Hội Nhập")
@@ -176,9 +175,7 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
         with col_cert2:
             st.download_button("📥 Tải Sổ tay nhân viên (PDF)", data="Nội dung PDF...", file_name="SoTay_RikenViet.pdf", type="primary", use_container_width=True)
 
-# ---------------- TRANG 2: KIẾN THỨC VỀ KHÍ ----------------
 elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
-    # MÃ CSS TRANG 2 GIỮ NGUYÊN 
     st.markdown("""
     <style>
     @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 78, 80, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0); } }
@@ -250,95 +247,126 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
             st.markdown("### 🛡️ Thiết bị đo chuyên dụng RIKEN KEIKI")
             st.markdown("""<div style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 10px;"><h5 style="color: #d400ff; margin-top: 0;">📟 SP-230 (TYPE FUM)</h5><p style="font-size: 14px; color: #555; margin-bottom: 0;">Dò rò rỉ di động kiểu bơm hút. Hỗ trợ tới <b>7 loại khí khử trùng</b>.</p></div><div style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px;"><h5 style="color: #d400ff; margin-top: 0;">📼 FP-300 / FP-301</h5><p style="font-size: 14px; color: #555; margin-bottom: 0;">Hệ thống phát hiện <b>siêu nhạy</b> bằng cassette, đo mức ppb chuyên cho PH3.</p></div>""", unsafe_allow_html=True)
 
-# ---------------- TRANG 3: PHÂN LOẠI THIẾT BỊ (MỚI) ----------------
+# ---------------- TRANG 3: PHÂN LOẠI THIẾT BỊ (BẢN UPDATE TREE MAP) ----------------
 elif app_mode == "📟 Phân Loại Thiết Bị":
     st.markdown("""
     <style>
+    /* CSS cho sơ đồ nhánh */
+    .branch-container { padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+    .branch-multi { background-color: #f0f7ff; border-left: 6px solid #0056b3; }
+    .branch-single { background-color: #fdf5f5; border-left: 6px solid #dc3545; }
+    
+    .sub-branch-title { font-size: 1.1rem; font-weight: bold; padding-bottom: 5px; border-bottom: 2px solid #ddd; margin-bottom: 15px; margin-top: 10px; display: flex; align-items: center; gap: 8px; }
+    .title-diff { color: #28a745; border-bottom-color: #28a745; }
+    .title-pump { color: #fd7e14; border-bottom-color: #fd7e14; }
+
     .product-card {
-        background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px; transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 15px; transition: transform 0.2s ease; height: 100%;
     }
-    .product-card:hover {
-        transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); border-color: #0056b3;
-    }
-    .product-title { color: #0056b3; font-weight: bold; font-size: 1.1rem; margin-bottom: 8px; }
-    .product-tag { display: inline-block; background-color: #e9ecef; color: #495057; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; margin-right: 5px; margin-bottom: 8px; font-weight: bold;}
-    .tag-blue { background-color: #cce5ff; color: #004085; }
-    .tag-green { background-color: #d4edda; color: #155724; }
-    .tag-red { background-color: #f8d7da; color: #721c24; }
-    .tag-yellow { background-color: #fff3cd; color: #856404; }
+    .product-card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+    .product-title { color: #333; font-weight: bold; font-size: 1.05rem; margin-bottom: 5px; }
+    .highlight-text { font-size: 0.85rem; color: #555; line-height: 1.4; }
+    .highlight-text b { color: #000; }
     </style>
     """, unsafe_allow_html=True)
 
-    st.title("📟 Showroom Sản Phẩm: Thiết Bị Đo Khí Cầm Tay")
-    st.markdown("Thiết bị đo khí cầm tay (Portable) được chia thành 2 nhánh chính. Hãy cùng khám phá các dòng máy chiến lược của hãng RIKEN KEIKI nhé!")
+    st.title("📟 Sơ Đồ Phân Loại Thiết Bị Đo Khí")
+    st.markdown("Dựa theo chuẩn Catalog RIKEN KEIKI, các thiết bị được phân chia hệ thống để giúp khách hàng dễ dàng lựa chọn đúng giải pháp.")
     st.markdown("---")
 
-    tab_diff, tab_pump, tab_fixed = st.tabs(["💨 1. Loại Khuếch tán (Diffusion)", "🧲 2. Loại Bơm hút (Pump Suction)", "🏭 3. Hệ thống Cố định (Fixed)"])
+    tab_portable, tab_fixed = st.tabs(["📱 NHÁNH 1: MÁY ĐO KHÍ CẦM TAY (PORTABLE)", "🏭 NHÁNH 2: HỆ THỐNG CỐ ĐỊNH (FIXED)"])
 
-    with tab_diff:
-        st.subheader("💨 Loại Khuếch Tán (Diffusion Type)")
-        st.info("Đặc điểm: Không có bơm bên trong. Khí tự nhiên len lỏi vào cảm biến. Thiết kế siêu nhỏ gọn, nhẹ, tiết kiệm pin, thường kẹp trên cổ áo/mũ bảo hộ để giám sát liên tục vùng thở của kỹ sư.")
+    # ================= KHU VỰC MÁY CẦM TAY =================
+    with tab_portable:
         
-        col_d1, col_d2, col_d3 = st.columns(3)
-        with col_d1:
+        # --- NHÁNH LỚN A: ĐA KHÍ ---
+        st.markdown('<div class="branch-container branch-multi">', unsafe_allow_html=True)
+        st.subheader("🅰️ MÁY ĐO ĐA KHÍ (Multi Gas Detectors)")
+        st.markdown("*Đo đồng thời nhiều loại khí (thường là 4 hoặc 5 khí cơ bản).*")
+        
+        col_m_diff, col_m_pump = st.columns(2, gap="large")
+        
+        # Đa khí -> Khuếch tán
+        with col_m_diff:
+            st.markdown('<div class="sub-branch-title title-diff">💨 1. Loại Khuếch Tán (Diffusion)</div>', unsafe_allow_html=True)
+            st.info("Nhỏ gọn, kẹp áo đo liên tục.")
+            
             st.markdown('<div class="product-card">', unsafe_allow_html=True)
-            if os.path.exists("gx-3r.png"): st.image("gx-3r.png", use_container_width=True)
-            else: st.info("Hình ảnh: Cắt từ PDF lưu tên gx-3r.png")
             st.markdown('<div class="product-title">GX-3R</div>', unsafe_allow_html=True)
-            st.markdown('<span class="product-tag tag-blue">4 Loại Khí</span> <span class="product-tag tag-green">Nhẹ nhất TG</span>', unsafe_allow_html=True)
-            st.markdown("- Thiết kế siêu nhỏ gọn, không gây vướng víu.\n- Đo đồng thời: LEL, O2, H2S, CO.\n- Bảo hành cảm biến 3 năm.\n- Chống nước IP66/68.")
+            st.markdown('<div class="highlight-text">- Thiết kế <b>nhỏ nhẹ nhất thế giới</b>, không vướng víu.<br>- Đo đồng thời 4 khí cơ bản.<br>- Bảo hành cảm biến 3 năm, chống nước IP66/68.</div>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
 
-        with col_d2:
             st.markdown('<div class="product-card">', unsafe_allow_html=True)
-            if os.path.exists("gx-3r-pro.png"): st.image("gx-3r-pro.png", use_container_width=True)
-            else: st.info("Hình ảnh: Cắt từ PDF lưu tên gx-3r-pro.png")
             st.markdown('<div class="product-title">GX-3R Pro</div>', unsafe_allow_html=True)
-            st.markdown('<span class="product-tag tag-blue">5 Loại Khí</span> <span class="product-tag tag-red">Bluetooth</span>', unsafe_allow_html=True)
-            st.markdown("- Dòng máy High-spec hỗ trợ Bluetooth.\n- Có thể đo thêm khí thứ 5 (CO2, SO2...).\n- Quản lý dữ liệu qua app điện thoại.\n- Chống nước IP66/68.")
-            st.markdown('</div>', unsafe_allow_html=True)
-            
-        with col_d3:
-            st.markdown('<div class="product-card">', unsafe_allow_html=True)
-            if os.path.exists("04-series.png"): st.image("04-series.png", use_container_width=True)
-            else: st.info("Hình ảnh: Cắt từ PDF lưu tên 04-series.png")
-            st.markdown('<div class="product-title">04 Series & GW-3</div>', unsafe_allow_html=True)
-            st.markdown('<span class="product-tag tag-yellow">1-2 Loại Khí</span> <span class="product-tag tag-green">Đeo cổ tay</span>', unsafe_allow_html=True)
-            st.markdown("- Máy đo đơn khí hoặc 2 khí (CO/H2S).\n- Cực kỳ nhẹ, có thể đeo như đồng hồ (GW-3).\n- Tuổi thọ pin siêu dài (hàng nghìn giờ).\n- Chống nước IP66/68.")
+            st.markdown('<div class="highlight-text">- Dòng cao cấp, đo tối đa <b>5 loại khí</b>.<br>- Tích hợp <b>Bluetooth</b> kết nối app điện thoại quản lý dữ liệu.</div>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
 
-    with tab_pump:
-        st.subheader("🧲 Loại Bơm Hút (Pump Suction Type)")
-        st.warning("Đặc điểm: Tích hợp bơm hút mạnh mẽ bên trong. Kết hợp với ống nối dài để hút thử mẫu khí từ không gian hạn hẹp (hầm, cống, bồn chứa) trước khi kỹ sư bước vào.")
-        
-        col_p1, col_p2, col_p3 = st.columns(3)
-        with col_p1:
+        # Đa khí -> Bơm hút
+        with col_m_pump:
+            st.markdown('<div class="sub-branch-title title-pump">🧲 2. Loại Bơm Hút (Pump Suction)</div>', unsafe_allow_html=True)
+            st.warning("Tích hợp bơm, dùng ống hút đo hầm cống.")
+            
             st.markdown('<div class="product-card">', unsafe_allow_html=True)
-            if os.path.exists("gx-force.png"): st.image("gx-force.png", use_container_width=True)
-            else: st.info("Hình ảnh: Cắt từ PDF lưu tên gx-force.png")
             st.markdown('<div class="product-title">GX-Force</div>', unsafe_allow_html=True)
-            st.markdown('<span class="product-tag tag-blue">4 Loại Khí</span> <span class="product-tag tag-yellow">Pin 30 giờ</span>', unsafe_allow_html=True)
-            st.markdown("- Máy bơm hút thế hệ mới gọn nhẹ (300g).\n- Hoạt động liên tục 30 tiếng, không lo hết pin.\n- Chịu va đập rơi từ độ cao 3 mét.\n- Chuyển đổi đo 27 loại khí cháy khác nhau.")
+            st.markdown('<div class="highlight-text">- Gọn nhẹ (300g). Đo 4 khí.<br>- Tuổi thọ pin siêu khủng: <b>30 tiếng liên tục</b>.<br>- Vượt qua bài test thả rơi 3 mét.</div>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
 
-        with col_p2:
             st.markdown('<div class="product-card">', unsafe_allow_html=True)
-            if os.path.exists("gx-9000.png"): st.image("gx-9000.png", use_container_width=True)
-            else: st.info("Hình ảnh: Cắt từ PDF lưu tên gx-9000.png")
             st.markdown('<div class="product-title">GX-9000 / SC-9000</div>', unsafe_allow_html=True)
-            st.markdown('<span class="product-tag tag-red">Tối đa 6 Khí</span> <span class="product-tag tag-blue">Đa năng</span>', unsafe_allow_html=True)
-            st.markdown("- Dòng cao cấp thay thế máy đo truyền thống.\n- SC-9000 đo được 3 loại khí độc (3-in-1).\n- Hỗ trợ Bluetooth và có ứng dụng quản lý.\n- Thiết kế cực kỳ hầm hố và bền bỉ.")
+            st.markdown('<div class="highlight-text">- Đo tối đa <b>6 loại khí</b> đồng thời.<br>- SC-9000 chuyên biệt đo 3 loại khí độc (3-in-1).<br>- Hỗ trợ Bluetooth. Thiết kế cực kỳ hầm hố.</div>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
             
-        with col_p3:
             st.markdown('<div class="product-card">', unsafe_allow_html=True)
-            if os.path.exists("gx-6000.png"): st.image("gx-6000.png", use_container_width=True)
-            else: st.info("Hình ảnh: Cắt từ PDF lưu tên gx-6000.png")
             st.markdown('<div class="product-title">GX-6000 / GX-2012</div>', unsafe_allow_html=True)
-            st.markdown('<span class="product-tag tag-red">Đo VOC</span> <span class="product-tag tag-green">Báo động lớn</span>', unsafe_allow_html=True)
-            st.markdown("- GX-6000: Lý tưởng để đo hóa chất, VOC.\n- GX-2012: Dòng tiêu chuẩn huyền thoại.\n- Tích hợp chức năng đèn pin LED rọi sáng.\n- Nút bấm lớn dễ thao tác khi đeo găng tay.")
+            st.markdown('<div class="highlight-text">- GX-6000: Có cảm biến PID chuyên <b>đo VOCs</b> (tối đa 6 khí).<br>- GX-2012: Dòng tiêu chuẩn 4 khí, báo động cực lớn.</div>', unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
+            
+        st.markdown('</div>', unsafe_allow_html=True)
+
+
+        # --- NHÁNH LỚN B: ĐƠN KHÍ ---
+        st.markdown('<div class="branch-container branch-single">', unsafe_allow_html=True)
+        st.subheader("🅱️ MÁY ĐO ĐƠN KHÍ (Single-Component Detectors)")
+        st.markdown("*Đo chuyên biệt 1 loại khí (hoặc tối đa 2 khí đặc thù).*")
+        
+        col_s_diff, col_s_pump = st.columns(2, gap="large")
+        
+        # Đơn khí -> Khuếch tán
+        with col_s_diff:
+            st.markdown('<div class="sub-branch-title title-diff">💨 1. Loại Khuếch Tán (Diffusion)</div>', unsafe_allow_html=True)
+            
+            st.markdown('<div class="product-card">', unsafe_allow_html=True)
+            st.markdown('<div class="product-title">04 Series</div>', unsafe_allow_html=True)
+            st.markdown('<div class="highlight-text">- Đo 1 hoặc 2 khí (CO/H2S).<br>- Vượt qua test thả rơi <b>7 mét</b> cực kỳ bền bỉ.<br>- Tuổi thọ pin dài (hàng nghìn giờ).</div>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
 
+            st.markdown('<div class="product-card">', unsafe_allow_html=True)
+            st.markdown('<div class="product-title">GW-3 Series</div>', unsafe_allow_html=True)
+            st.markdown('<div class="highlight-text">- Thuộc top nhỏ nhẹ nhất thế giới.<br>- Thiết kế có thể <b>đeo như đồng hồ đeo tay</b>.<br>- Bảo hành cảm biến 3 năm.</div>', unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
+
+        # Đơn khí -> Bơm hút
+        with col_s_pump:
+            st.markdown('<div class="sub-branch-title title-pump">🧲 2. Loại Bơm Hút (Pump Suction)</div>', unsafe_allow_html=True)
+            
+            st.markdown('<div class="product-card">', unsafe_allow_html=True)
+            st.markdown('<div class="product-title">Series 1000 (GP / NC / NP)</div>', unsafe_allow_html=True)
+            st.markdown('<div class="highlight-text">- Chuyên đo khí cháy nổ.<br>- GP/NC đo mức LEL hoặc ppm, có chức năng <b>chuyển đổi đa dạng các loại khí cháy</b>.<br>- NP-1000 đo nồng độ cao (%vol).</div>', unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
+
+            st.markdown('<div class="product-card">', unsafe_allow_html=True)
+            st.markdown('<div class="product-title">SP-230 Series</div>', unsafe_allow_html=True)
+            st.markdown('<div class="highlight-text">- Chuyên <b>dò tìm điểm rò rỉ</b> khí.<br>- Có các phiên bản đo khí làm lạnh, khí hydro, hoặc khí khử trùng.<br>- Có màn hình LED phụ báo mức độ rò rỉ.</div>', unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
+            
+            st.markdown('<div class="product-card">', unsafe_allow_html=True)
+            st.markdown('<div class="product-title">FI-8000</div>', unsafe_allow_html=True)
+            st.markdown('<div class="highlight-text">- Máy đo nồng độ bằng công nghệ <b>giao thoa quang học</b>.<br>- Độ chính xác tuyệt đối, chuyên đo khí gây mê y tế và hun trùng.</div>', unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
+            
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    # ================= KHU VỰC HỆ THỐNG CỐ ĐỊNH =================
     with tab_fixed:
-        st.subheader("🏭 Nhánh 2: Hệ thống Cố định (Sẽ cập nhật sau)")
-        st.info("Trang này tạm thời tập trung hiển thị sâu cho các thiết bị cầm tay. Khi nào bạn có tài liệu của Fixed Systems, chúng ta sẽ xây dựng tiếp giao diện cho khu vực này nhé!")
+        st.subheader("🏭 NHÁNH 2: Hệ thống Cố định (Fixed Systems)")
+        st.info("Tab này sẽ được hệ thống hóa ngay khi có tài liệu Catalog của Hệ thống thiết bị cố định (Fixed Detectors)!")
