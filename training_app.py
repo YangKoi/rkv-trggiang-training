@@ -141,6 +141,7 @@ with st.sidebar:
 
 # ---------------- TRANG 1: ĐÀO TẠO HỘI NHẬP ----------------
 if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
+    # MÃ NGUỒN TRANG 1 (GIỮ NGUYÊN)
     col_title, col_admin = st.columns([4, 1.5]) 
     with col_title:
         st.title("🎓 Cổng Đào Tạo Năng Lực & Hội Nhập")
@@ -157,18 +158,15 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
                         st.dataframe(df, use_container_width=True, hide_index=True)
                     elif records == []:
                         st.info("Trống! Chưa có nhân viên nào nộp bài.")
-
     st.markdown("---")
     st.subheader("📺 Phim Giới thiệu & Đào tạo Năng lực")
     st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ") 
-
     st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center;'>Đánh giá mức độ hội nhập</h3>", unsafe_allow_html=True)
     col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
     with col_btn2:
         if st.button("🚀 BẮT ĐẦU LÀM BÀI KIỂM TRA", type="primary", use_container_width=True):
             take_quiz_dialog() 
-
     if st.session_state.quiz_passed:
         st.balloons() 
         st.markdown("---")
@@ -180,7 +178,7 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
 
 # ---------------- TRANG 2: KIẾN THỨC VỀ KHÍ ----------------
 elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
-    # MÃ CSS TRANG 2 GIỮ NGUYÊN (ĐÃ CHUẨN)
+    # MÃ CSS TRANG 2 GIỮ NGUYÊN 
     st.markdown("""
     <style>
     @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 78, 80, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0); } }
@@ -203,11 +201,9 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     .scroll-wrapper { width: 100%; overflow-x: auto; border-radius: 8px; }
     </style>
     """, unsafe_allow_html=True)
-
     st.title("☣️ Kiến Thức Cơ Bản Về Các Loại Khí Nguy Hiểm")
     st.markdown("Trong môi trường công nghiệp, rủi ro về khí là những **'Kẻ thù vô hình'**.")
     st.markdown("---")
-
     tab1, tab2, tab3, tab4 = st.tabs(["🔥 1. Khí dễ cháy", "☠️ 2. Khí độc", "💨 3. Thiếu oxy & Ngạt khí", "🏥 4. Y tế & Khử trùng"])
 
     with tab1:
@@ -215,7 +211,6 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
         st.markdown('<div class="alert-box"><b>⚠️ ĐỊNH NGHĨA:</b> Khí có thể gây cháy hoặc nổ nếu hòa trộn với oxy ở nồng độ nhất định và gặp nguồn cháy.</div>', unsafe_allow_html=True)
         html_lel_uel = """<div style="width: 100%; background-color: #f1f3f4; border-radius: 8px; position: relative; height: 40px; margin-bottom: 30px; display: flex; text-align: center; color: white; font-weight: bold; line-height: 40px; font-size: 14px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"><div style="width: 25%; background-color: #28a745; border-radius: 8px 0 0 8px;">Quá loãng (Chưa thể cháy)</div><div style="width: 45%; background-color: #dc3545; position: relative;"><span style="position: absolute; top: -30px; left: 0; color: #dc3545; font-size: 16px;">▼ LEL</span>🔥 VÙNG CHÁY NỔ (NGUY HIỂM) 🔥<span style="position: absolute; top: -30px; right: 0; color: #dc3545; font-size: 16px;">UEL ▼</span></div><div style="width: 30%; background-color: #ffc107; border-radius: 0 8px 8px 0; color: #333;">Quá đặc (Thiếu Oxy)</div></div>"""
         st.markdown(html_lel_uel, unsafe_allow_html=True)
-
         col1, col2 = st.columns([1.2, 1], gap="medium")
         with col1:
             gas_table_html = """<div class="scroll-wrapper"><table class="custom-table"><tr><th>Tên Khí (Công thức)</th><th>LEL (%)</th><th>UEL (%)</th></tr><tr><td><b>Methane (CH4)</b></td><td class="highlight-red">5.0</td><td>15.0</td></tr><tr><td><b>Hydrogen (H2)</b></td><td class="highlight-red">4.0</td><td>75.6</td></tr><tr><td><b>Propane (C3H8)</b></td><td class="highlight-red">2.1</td><td>9.5</td></tr><tr><td><b>Iso-butane (i-C4H10)</b></td><td class="highlight-red">1.8</td><td>8.4</td></tr><tr><td><b>Carbon Monoxide (CO)</b></td><td class="highlight-red">12.5</td><td>74.0</td></tr></table></div>"""
@@ -257,47 +252,93 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
 
 # ---------------- TRANG 3: PHÂN LOẠI THIẾT BỊ (MỚI) ----------------
 elif app_mode == "📟 Phân Loại Thiết Bị":
-    st.title("📟 Phân Loại Cơ Bản Thiết Bị Đo Khí")
-    st.markdown("Theo danh mục của **RIKEN KEIKI**, hệ thống thiết bị đo và giám sát khí được phân chia thành **2 nhánh chính** dựa trên phương thức hoạt động và tính ứng dụng thực tế:")
+    st.markdown("""
+    <style>
+    .product-card {
+        background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px; transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .product-card:hover {
+        transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); border-color: #0056b3;
+    }
+    .product-title { color: #0056b3; font-weight: bold; font-size: 1.1rem; margin-bottom: 8px; }
+    .product-tag { display: inline-block; background-color: #e9ecef; color: #495057; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; margin-right: 5px; margin-bottom: 8px; font-weight: bold;}
+    .tag-blue { background-color: #cce5ff; color: #004085; }
+    .tag-green { background-color: #d4edda; color: #155724; }
+    .tag-red { background-color: #f8d7da; color: #721c24; }
+    .tag-yellow { background-color: #fff3cd; color: #856404; }
+    </style>
+    """, unsafe_allow_html=True)
+
+    st.title("📟 Showroom Sản Phẩm: Thiết Bị Đo Khí Cầm Tay")
+    st.markdown("Thiết bị đo khí cầm tay (Portable) được chia thành 2 nhánh chính. Hãy cùng khám phá các dòng máy chiến lược của hãng RIKEN KEIKI nhé!")
     st.markdown("---")
 
-    # Sử dụng Cột (Columns) và Expander (Trình mở rộng) bản địa của Streamlit để giao diện mượt mà tuyệt đối
-    col_portable, col_fixed = st.columns(2, gap="large")
+    tab_diff, tab_pump, tab_fixed = st.tabs(["💨 1. Loại Khuếch tán (Diffusion)", "🧲 2. Loại Bơm hút (Pump Suction)", "🏭 3. Hệ thống Cố định (Fixed)"])
 
-    with col_portable:
-        st.subheader("📱 1. MÁY ĐO KHÍ CẦM TAY (Portable)")
-        st.info("Thiết bị nhỏ gọn, chạy bằng pin, dùng để bảo vệ cá nhân di động hoặc đo kiểm tra an toàn không gian hạn hẹp (Confined Space) trước khi cấp phép làm việc.")
+    with tab_diff:
+        st.subheader("💨 Loại Khuếch Tán (Diffusion Type)")
+        st.info("Đặc điểm: Không có bơm bên trong. Khí tự nhiên len lỏi vào cảm biến. Thiết kế siêu nhỏ gọn, nhẹ, tiết kiệm pin, thường kẹp trên cổ áo/mũ bảo hộ để giám sát liên tục vùng thở của kỹ sư.")
         
-        with st.expander("A. Phương pháp Khuếch tán tự nhiên (Diffusion)", expanded=True):
-            st.markdown("""
-            * **Nguyên lý:** Khí từ môi trường tự do thâm nhập vào bề mặt cảm biến (Sensor) mà không cần lực hút cơ học.
-            * **Đặc điểm:** Thiết kế siêu nhỏ gọn, tiết kiệm pin, thường kẹp trên cổ áo/mũ bảo hộ để giám sát vùng thở (Breathing zone) liên tục.
-            * **Ví dụ:** Các dòng máy nhỏ như *GX-3R, GX-3R Pro, Series 04.*
-            """)
-            
-        with st.expander("B. Phương pháp Lấy mẫu bằng bơm (Sample Draw / Pump)", expanded=True):
-            st.markdown("""
-            * **Nguyên lý:** Tích hợp bơm vi mô (Micro-pump) hút khí liên tục từ bên ngoài vào buồng cảm biến.
-            * **Đặc điểm:** Sử dụng kết hợp với ống lấy mẫu (Sampling hose) và que đo (Probe) để "thăm dò" khí từ khoảng cách xa (sâu dưới hầm, cống ngầm, bồn chứa) trước khi con người bước vào.
-            * **Ví dụ:** Máy cỡ trung và lớn như *GX-8000, RX-8000, Series 3000.*
-            """)
+        col_d1, col_d2, col_d3 = st.columns(3)
+        with col_d1:
+            st.markdown('<div class="product-card">', unsafe_allow_html=True)
+            if os.path.exists("gx-3r.png"): st.image("gx-3r.png", use_container_width=True)
+            else: st.info("Hình ảnh: Cắt từ PDF lưu tên gx-3r.png")
+            st.markdown('<div class="product-title">GX-3R</div>', unsafe_allow_html=True)
+            st.markdown('<span class="product-tag tag-blue">4 Loại Khí</span> <span class="product-tag tag-green">Nhẹ nhất TG</span>', unsafe_allow_html=True)
+            st.markdown("- Thiết kế siêu nhỏ gọn, không gây vướng víu.\n- Đo đồng thời: LEL, O2, H2S, CO.\n- Bảo hành cảm biến 3 năm.\n- Chống nước IP66/68.")
+            st.markdown('</div>', unsafe_allow_html=True)
 
-    with col_fixed:
-        st.subheader("🏭 2. HỆ THỐNG GIÁM SÁT CỐ ĐỊNH (Fixed)")
-        st.warning("Lắp đặt cố định để giám sát 24/7. Thường truyền tín hiệu (4-20mA, RS-485) về Tủ điều khiển trung tâm (Controller) để xử lý báo động liên động (Interlock).")
-        
-        with st.expander("Phân loại theo phương pháp lấy mẫu", expanded=True):
-            st.markdown("""
-            * **Khuếch tán (Diffusion):** Đầu dò (Detector Head) được gắn trực tiếp ngay tại vị trí có nguy cơ rò rỉ khí (nhà máy lọc dầu, trạm chiết nạp gas).
-            * **Lấy mẫu bằng bơm (Extractive / Sample Draw):** Đầu dò tích hợp bơm tự hút khí từ các môi trường khắc nghiệt (nhiệt độ/độ ẩm quá cao, phòng sạch bán dẫn) kéo về buồng đo an toàn.
-            """)
+        with col_d2:
+            st.markdown('<div class="product-card">', unsafe_allow_html=True)
+            if os.path.exists("gx-3r-pro.png"): st.image("gx-3r-pro.png", use_container_width=True)
+            else: st.info("Hình ảnh: Cắt từ PDF lưu tên gx-3r-pro.png")
+            st.markdown('<div class="product-title">GX-3R Pro</div>', unsafe_allow_html=True)
+            st.markdown('<span class="product-tag tag-blue">5 Loại Khí</span> <span class="product-tag tag-red">Bluetooth</span>', unsafe_allow_html=True)
+            st.markdown("- Dòng máy High-spec hỗ trợ Bluetooth.\n- Có thể đo thêm khí thứ 5 (CO2, SO2...).\n- Quản lý dữ liệu qua app điện thoại.\n- Chống nước IP66/68.")
+            st.markdown('</div>', unsafe_allow_html=True)
             
-        with st.expander("Phân loại theo tính năng an toàn & hiển thị", expanded=True):
-            st.markdown("""
-            * **Tính năng Hiển thị tại chỗ (Local Display):**
-                * **Có hiển thị (Smart Transmitter):** Đầu dò có màn hình LCD/OLED, cho phép theo dõi nồng độ và cài đặt trực tiếp tại hiện trường.
-                * **Không hiển thị (Blind Detector):** Chỉ là cụm cảm biến câm, có chức năng chuyển đổi nồng độ thành tín hiệu điện đẩy về tủ trung tâm.
-            * **Cấp bảo vệ chống cháy nổ (Explosion-Proof):**
-                * **Thiết kế chống cháy nổ (Ex-proof / Intrinsically Safe):** Đúc bằng hợp kim đặc biệt, bắt buộc dùng trong khu vực nguy hiểm dễ cháy (Hazardous Area) như Zone 1, Zone 2.
-                * **Thiết kế thông thường (General Purpose):** Dùng vỏ nhựa chịu lực, chuyên lắp đặt trong khu vực an toàn (Safe Area) như phòng thí nghiệm, xưởng thực phẩm.
-            """)
+        with col_d3:
+            st.markdown('<div class="product-card">', unsafe_allow_html=True)
+            if os.path.exists("04-series.png"): st.image("04-series.png", use_container_width=True)
+            else: st.info("Hình ảnh: Cắt từ PDF lưu tên 04-series.png")
+            st.markdown('<div class="product-title">04 Series & GW-3</div>', unsafe_allow_html=True)
+            st.markdown('<span class="product-tag tag-yellow">1-2 Loại Khí</span> <span class="product-tag tag-green">Đeo cổ tay</span>', unsafe_allow_html=True)
+            st.markdown("- Máy đo đơn khí hoặc 2 khí (CO/H2S).\n- Cực kỳ nhẹ, có thể đeo như đồng hồ (GW-3).\n- Tuổi thọ pin siêu dài (hàng nghìn giờ).\n- Chống nước IP66/68.")
+            st.markdown('</div>', unsafe_allow_html=True)
+
+    with tab_pump:
+        st.subheader("🧲 Loại Bơm Hút (Pump Suction Type)")
+        st.warning("Đặc điểm: Tích hợp bơm hút mạnh mẽ bên trong. Kết hợp với ống nối dài để hút thử mẫu khí từ không gian hạn hẹp (hầm, cống, bồn chứa) trước khi kỹ sư bước vào.")
+        
+        col_p1, col_p2, col_p3 = st.columns(3)
+        with col_p1:
+            st.markdown('<div class="product-card">', unsafe_allow_html=True)
+            if os.path.exists("gx-force.png"): st.image("gx-force.png", use_container_width=True)
+            else: st.info("Hình ảnh: Cắt từ PDF lưu tên gx-force.png")
+            st.markdown('<div class="product-title">GX-Force</div>', unsafe_allow_html=True)
+            st.markdown('<span class="product-tag tag-blue">4 Loại Khí</span> <span class="product-tag tag-yellow">Pin 30 giờ</span>', unsafe_allow_html=True)
+            st.markdown("- Máy bơm hút thế hệ mới gọn nhẹ (300g).\n- Hoạt động liên tục 30 tiếng, không lo hết pin.\n- Chịu va đập rơi từ độ cao 3 mét.\n- Chuyển đổi đo 27 loại khí cháy khác nhau.")
+            st.markdown('</div>', unsafe_allow_html=True)
+
+        with col_p2:
+            st.markdown('<div class="product-card">', unsafe_allow_html=True)
+            if os.path.exists("gx-9000.png"): st.image("gx-9000.png", use_container_width=True)
+            else: st.info("Hình ảnh: Cắt từ PDF lưu tên gx-9000.png")
+            st.markdown('<div class="product-title">GX-9000 / SC-9000</div>', unsafe_allow_html=True)
+            st.markdown('<span class="product-tag tag-red">Tối đa 6 Khí</span> <span class="product-tag tag-blue">Đa năng</span>', unsafe_allow_html=True)
+            st.markdown("- Dòng cao cấp thay thế máy đo truyền thống.\n- SC-9000 đo được 3 loại khí độc (3-in-1).\n- Hỗ trợ Bluetooth và có ứng dụng quản lý.\n- Thiết kế cực kỳ hầm hố và bền bỉ.")
+            st.markdown('</div>', unsafe_allow_html=True)
+            
+        with col_p3:
+            st.markdown('<div class="product-card">', unsafe_allow_html=True)
+            if os.path.exists("gx-6000.png"): st.image("gx-6000.png", use_container_width=True)
+            else: st.info("Hình ảnh: Cắt từ PDF lưu tên gx-6000.png")
+            st.markdown('<div class="product-title">GX-6000 / GX-2012</div>', unsafe_allow_html=True)
+            st.markdown('<span class="product-tag tag-red">Đo VOC</span> <span class="product-tag tag-green">Báo động lớn</span>', unsafe_allow_html=True)
+            st.markdown("- GX-6000: Lý tưởng để đo hóa chất, VOC.\n- GX-2012: Dòng tiêu chuẩn huyền thoại.\n- Tích hợp chức năng đèn pin LED rọi sáng.\n- Nút bấm lớn dễ thao tác khi đeo găng tay.")
+            st.markdown('</div>', unsafe_allow_html=True)
+
+    with tab_fixed:
+        st.subheader("🏭 Nhánh 2: Hệ thống Cố định (Sẽ cập nhật sau)")
+        st.info("Trang này tạm thời tập trung hiển thị sâu cho các thiết bị cầm tay. Khi nào bạn có tài liệu của Fixed Systems, chúng ta sẽ xây dựng tiếp giao diện cho khu vực này nhé!")
