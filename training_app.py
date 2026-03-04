@@ -196,13 +196,16 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     .oxy-bar { height: 32px; border-radius: 6px; color: white; text-align: right; padding-right: 15px; font-weight: bold; line-height: 32px; font-size: 14px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); transition: width 1s ease-in-out; }
     .danger-blink { animation: blink 1s linear infinite; }
     
-    /* Style cho bảng dữ liệu */
-    .custom-table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 25px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
-    .custom-table th { background-color: #0056b3; color: white; padding: 12px; text-align: center; font-size: 15px; }
-    .custom-table td { padding: 10px; border-bottom: 1px solid #ddd; text-align: center; font-size: 14px; }
-    .custom-table tr:nth-child(even) { background-color: #f8f9fa; }
-    .custom-table tr:hover { background-color: #e9ecef; }
-    .highlight-red { color: #dc3545; font-weight: bold; }
+    /* BẢNG CSS ĐƯỢC TỐI ƯU HÓA ĐỂ KHÔNG BỊ TRÀN VÀ LUÔN RÕ CHỮ */
+    .custom-table { width: 100%; min-width: 350px; border-collapse: collapse; margin-top: 5px; margin-bottom: 15px; background-color: #ffffff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
+    .custom-table th { background-color: #0056b3; color: #ffffff; padding: 12px; text-align: center; font-size: 15px; white-space: nowrap; border-bottom: 2px solid #004494; }
+    .custom-table td { padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: center; font-size: 14px; color: #212529 !important; } /* Ép màu chữ đen xám để rõ ràng trên nền trắng */
+    .custom-table tr:nth-child(even) td { background-color: #f8f9fa; }
+    .custom-table tr:nth-child(odd) td { background-color: #ffffff; }
+    .custom-table tr:hover td { background-color: #e2e6ea; }
+    .highlight-red { color: #dc3545 !important; font-weight: bold; }
+    
+    .scroll-wrapper { width: 100%; overflow-x: auto; border-radius: 8px; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -234,27 +237,30 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
         """
         st.markdown(html_lel_uel, unsafe_allow_html=True)
 
-        col1, col2 = st.columns([1.5, 1])
+        # Điều chỉnh lại chia cột [1.2, 1] và thêm khoảng cách (gap)
+        col1, col2 = st.columns([1.2, 1], gap="medium")
         with col1:
             st.markdown("### 📋 Bảng tra cứu Giới hạn cháy nổ các khí phổ biến")
-            # Bảng dữ liệu LEL/UEL
+            # Bảng dữ liệu LEL/UEL bọc trong thẻ scroll-wrapper
             gas_table_html = """
-            <table class="custom-table">
-                <tr><th>Tên Khí (Công thức)</th><th>LEL (%)</th><th>UEL (%)</th></tr>
-                <tr><td><b>Methane (CH4)</b></td><td class="highlight-red">5.0</td><td>15.0</td></tr>
-                <tr><td><b>Hydrogen (H2)</b></td><td class="highlight-red">4.0</td><td>75.6</td></tr>
-                <tr><td><b>Propane (C3H8)</b></td><td class="highlight-red">2.1</td><td>9.5</td></tr>
-                <tr><td><b>Iso-butane (i-C4H10)</b></td><td class="highlight-red">1.8</td><td>8.4</td></tr>
-                <tr><td><b>Acetylene (C2H2)</b></td><td class="highlight-red">2.5</td><td>100.0</td></tr>
-                <tr><td><b>Carbon Monoxide (CO)</b></td><td class="highlight-red">12.5</td><td>74.0</td></tr>
-            </table>
+            <div class="scroll-wrapper">
+                <table class="custom-table">
+                    <tr><th>Tên Khí (Công thức)</th><th>LEL (%)</th><th>UEL (%)</th></tr>
+                    <tr><td><b>Methane (CH4)</b></td><td class="highlight-red">5.0</td><td>15.0</td></tr>
+                    <tr><td><b>Hydrogen (H2)</b></td><td class="highlight-red">4.0</td><td>75.6</td></tr>
+                    <tr><td><b>Propane (C3H8)</b></td><td class="highlight-red">2.1</td><td>9.5</td></tr>
+                    <tr><td><b>Iso-butane (i-C4H10)</b></td><td class="highlight-red">1.8</td><td>8.4</td></tr>
+                    <tr><td><b>Acetylene (C2H2)</b></td><td class="highlight-red">2.5</td><td>100.0</td></tr>
+                    <tr><td><b>Carbon Monoxide (CO)</b></td><td class="highlight-red">12.5</td><td>74.0</td></tr>
+                </table>
+            </div>
             """
             st.markdown(gas_table_html, unsafe_allow_html=True)
 
         with col2:
             st.markdown("""
             <div style="background-color: #e8f4f8; padding: 20px; border-radius: 10px; border-left: 5px solid #0056b3; height: 100%;">
-                <h4 style="color: #0056b3; margin-top: 0;">💡 Tiêu chuẩn An toàn (Riken Keiki)</h4>
+                <h4 style="color: #0056b3; margin-top: 0;">💡 Tiêu chuẩn An toàn</h4>
                 <p style="color: #333; font-size: 15px;">
                     Điểm báo động (Alarm) <b>KHÔNG ĐƯỢC PHÉP</b> cài đặt vượt quá <b>1/4 (tức 25%) của mức LEL</b>.<br><br>
                     Ví dụ: Methane (CH4) có LEL = 5.0%. Máy Riken Keiki sẽ báo động ngay khi nồng độ đạt <b>1.25%</b> thể tích.<br>
@@ -274,19 +280,21 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
         st.markdown("### 🔄 Quy đổi nồng độ: % Thể tích (%vol) sang Phần triệu (PPM)")
         st.info("💡 **Công thức:** 1% vol = 10,000 ppm. \nVì khí độc nguy hiểm ở nồng độ cực thấp, người ta dùng 'ppm' thay vì '%' để tránh phải viết quá nhiều số 0 gây nhầm lẫn.")
         
-        col_conv1, col_conv2 = st.columns([1, 1])
+        col_conv1, col_conv2 = st.columns([1.2, 1], gap="medium")
         with col_conv1:
-            # Bảng quy đổi
+            # Bảng quy đổi PPM
             conversion_html = """
-            <table class="custom-table">
-                <tr><th>% Thể tích (% vol)</th><th>Phần triệu (ppm)</th><th>Mức độ / Ví dụ</th></tr>
-                <tr><td>100 %</td><td><b>1,000,000</b> ppm</td><td>Khí nguyên chất</td></tr>
-                <tr><td class="highlight-red">1 %</td><td class="highlight-red">10,000 ppm</td><td>Nguy hiểm chết người</td></tr>
-                <tr><td>0.1 %</td><td><b>1,000</b> ppm</td><td>Mức báo động nghiêm trọng</td></tr>
-                <tr><td>0.01 %</td><td><b>100</b> ppm</td><td>Ngưỡng phơi nhiễm (VD: CO)</td></tr>
-                <tr><td>0.001 %</td><td><b>10</b> ppm</td><td>Mức báo động (VD: H2S)</td></tr>
-                <tr><td>0.0001 %</td><td><b>1</b> ppm</td><td>Dấu vết cực nhỏ</td></tr>
-            </table>
+            <div class="scroll-wrapper">
+                <table class="custom-table">
+                    <tr><th>% Thể tích (% vol)</th><th>Phần triệu (ppm)</th><th>Mức độ / Ví dụ</th></tr>
+                    <tr><td>100 %</td><td><b>1,000,000</b> ppm</td><td>Khí nguyên chất</td></tr>
+                    <tr><td class="highlight-red">1 %</td><td class="highlight-red">10,000 ppm</td><td>Nguy hiểm chết người</td></tr>
+                    <tr><td>0.1 %</td><td><b>1,000</b> ppm</td><td>Mức báo động nghiêm trọng</td></tr>
+                    <tr><td>0.01 %</td><td><b>100</b> ppm</td><td>Ngưỡng phơi nhiễm (VD: CO)</td></tr>
+                    <tr><td>0.001 %</td><td><b>10</b> ppm</td><td>Mức báo động (VD: H2S)</td></tr>
+                    <tr><td>0.0001 %</td><td><b>1</b> ppm</td><td>Dấu vết cực nhỏ</td></tr>
+                </table>
+            </div>
             """
             st.markdown(conversion_html, unsafe_allow_html=True)
             
@@ -296,17 +304,17 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
             html_ppm = """
             <div class="ppm-container">
                 <div class="ppm-bar" style="width: 1.28%; background-color: #dc3545;">1.28%</div>
-                <span style="position:absolute; left: 2%; top: 7px; color: #333; font-weight: bold;">CO (Carbon monoxide): 12,800 ppm (Tử vong trong 1-3 phút)</span>
+                <span style="position:absolute; left: 2%; top: 7px; color: #333; font-weight: bold;">CO: 12,800 ppm (Tử vong trong 1-3 phút)</span>
             </div>
             <div class="ppm-container">
                 <div class="ppm-bar" style="width: 0.5%; background-color: #8b0000;">0.5%</div>
-                <span style="position:absolute; left: 1%; top: 7px; color: #333; font-weight: bold;">H2S (Hydrogen sulfide): 5,000 ppm (Tử vong NGAY LẬP TỨC)</span>
+                <span style="position:absolute; left: 1%; top: 7px; color: #333; font-weight: bold;">H2S: 5,000 ppm (Tử vong NGAY LẬP TỨC)</span>
             </div>
             """
             st.markdown(html_ppm, unsafe_allow_html=True)
             st.markdown("""
             * **Carbon monoxide (CO):** Khí không màu/mùi. Xâm nhập máu ngăn hồng cầu chở oxy.
-            * **Hydrogen sulfide (H2S):** Khí mùi trứng thối. Vượt quá 10ppm sẽ gây ngộ độc. Đặc biệt nó gây **tê liệt khứu giác** khiến bạn tưởng đã hết nguy hiểm.
+            * **Hydrogen sulfide (H2S):** Khí mùi trứng thối. Vượt quá 10ppm sẽ gây ngộ độc. Nó gây **tê liệt khứu giác** khiến bạn tưởng đã hết nguy hiểm.
             """)
 
     # ---------------- TAB 3: THIẾU OXY ----------------
