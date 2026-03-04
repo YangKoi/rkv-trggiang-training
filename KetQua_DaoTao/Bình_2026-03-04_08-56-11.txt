@@ -1,0 +1,9 @@
+--- KẾT QUẢ ĐÀO TẠO HỘI NHẬP RIKEN VIỆT ---
+Họ và Tên: Bình
+Thời gian hoàn thành: 04/03/2026 08:56:11
+Điểm số đạt được: 3/3
+Trạng thái: ĐẠT
+--- CHI TIẾT BÀI LÀM ---
+Câu 1 chọn: C. Thiết bị đo, cảnh báo rò rỉ khí
+Câu 2 chọn: B. Thu thập tín hiệu, hiển thị nồng độ và kích hoạt rơ-le
+Câu 3 chọn: C. Đóng van ngắt cấp khí và bật quạt hút
