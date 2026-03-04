@@ -143,7 +143,7 @@ with st.sidebar:
 if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
     col_title, col_admin = st.columns([4, 1.5]) 
     with col_title:
-        st.title("🎓 Cổng Đào Tạo Năng Lực & Hội Nhập")
+        st.title("🎓 Cổng Đào Tạo Hội Nhập")
         st.markdown("**Xin chào thành viên mới!** Vui lòng tìm hiểu về lịch sử công ty, theo dõi video và hoàn thành bài kiểm tra để hoàn tất thủ tục hội nhập.")
     with col_admin:
         st.markdown("<br>", unsafe_allow_html=True)
@@ -159,7 +159,7 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
                         st.info("Trống! Chưa có nhân viên nào nộp bài.")
 
     st.markdown("---")
-    st.subheader("📺 Video giới thiệu")
+    st.subheader("📺 Video giới thiệu hội nhập")
     st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ") 
     st.markdown("<br><br>", unsafe_allow_html=True)
     
@@ -185,7 +185,7 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 78, 80, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0); } }
     .alert-box { background: linear-gradient(45deg, #ff4e50, #f9d423); padding: 15px; border-radius: 8px; color: white; animation: pulse-red 2s infinite; margin-bottom: 15px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
     .toxic-glow { background-color: #1a1a1a; padding: 15px; border-radius: 8px; border-left: 5px solid #a8ff78; color: #a8ff78; margin-bottom: 15px; font-weight: bold; }
-    .special-glow { background: linear-gradient(90deg, #2c003e, #4c0070); padding: 15px; border-radius: 8px; border-left: 5px solid #d400ff; color: #f8e5ff; margin-bottom: 15px; font-weight: bold; }
+    .special-glow { background: linear-gradient(90deg, #2c003e, #4c0070); padding: 15px; border-radius: 8px; border-left: 5px solid #d400ff; color: #f8e5ff; margin-bottom: 15px; font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
     .ppm-container { width: 100%; background-color: #e9ecef; border-radius: 5px; margin: 10px 0 25px 0; border: 1px solid #ccc; position: relative; height: 35px; box-shadow: inset 0 1px 3px rgba(0,0,0,.1); }
     .ppm-bar { height: 100%; border-radius: 5px 0 0 5px; display: flex; align-items: center; justify-content: flex-end; padding-right: 5px; color: white; font-weight: bold; font-size: 12px; }
     .ppb-bar { height: 100%; border-radius: 5px; display: flex; align-items: center; justify-content: flex-start; padding-left: 10px; color: white; font-weight: bold; font-size: 13px; background: linear-gradient(90deg, #d400ff, #8a2be2); box-shadow: 0 0 10px #d400ff; }
@@ -296,7 +296,7 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
 
         with col2:
             st.markdown("### 🛡️ Thiết bị đo chuyên dụng RIKEN KEIKI")
-            st.write("Vì tính chất đặc thù, các loại khí này yêu cầu các thiết bị phát hiện có độ nhạy bén riêng biệt thay vì máy đo khí thông thường:")
+            st.write("Vì tính chất đặc thù, các loại khí này yêu cầu thiết bị phát hiện có độ nhạy bén riêng biệt thay vì máy đo khí thông thường. Lưu ý, với các hộp thông tin dưới đây, bạn có thể đọc rõ ràng trong cả nền tối lẫn sáng vì nền của chúng được khóa cứng màu sáng:")
             
             st.markdown("""
             <div style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 10px;">
@@ -320,15 +320,14 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
 
 # ---------------- TRANG 3: PHÂN LOẠI THIẾT BỊ ----------------
 elif app_mode == "📟 Phân Loại Thiết Bị":
+    # KHÔNG DÙNG CSS ÉP MÀU CHỮ NỮA ĐỂ TRÁNH LỖI DARK MODE
     st.markdown("""
     <style>
     .branch-title { font-size: 1.2rem; font-weight: bold; color: #0056b3; padding-bottom: 5px; border-bottom: 2px solid #0056b3; margin-top: 20px; margin-bottom: 15px; }
-    .highlight-text { font-size: 0.9rem; color: #555; line-height: 1.6; padding-top: 8px; }
-    .highlight-text b { color: #000; }
     </style>
     """, unsafe_allow_html=True)
 
-    st.title("📟 Showroom: Thiết Bị Đo Khí Riken Keiki")
+    st.title("📟 Thiết Bị Đo Khí Riken Keiki")
     st.markdown("Dựa theo chuẩn Catalog RIKEN KEIKI, các thiết bị được phân chia bài bản thành 4 nhóm chiến lược nhằm giúp khách hàng dễ dàng lựa chọn đúng giải pháp.")
     st.markdown("---")
 
@@ -344,34 +343,35 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
             with st.container(border=True):
                 if os.path.exists("images/gx-3r.png"): st.image("images/gx-3r.png")
                 st.markdown("#### GX-3R (4 khí)")
-                st.markdown('<div class="highlight-text">- Là một trong những máy đo 4 khí kiểu khuếch tán <b>nhỏ và nhẹ nhất thế giới</b>.<br>- Tích hợp R sensor (Bảo hành 3 năm).<br>- Hỗ trợ Bluetooth báo động theo thời gian thực.<br>- Chống bụi/nước IP66/68.</div>', unsafe_allow_html=True)
+                # DÙNG NATIVE MARKDOWN ĐỂ CHỮ TỰ ĐỔI MÀU TRẮNG/ĐEN THEO THEME
+                st.markdown("- Là một trong những máy đo 4 khí kiểu khuếch tán **nhỏ và nhẹ nhất thế giới**.\n- Tích hợp R sensor (Bảo hành 3 năm).\n- Hỗ trợ Bluetooth báo động theo thời gian thực.\n- Chống bụi/nước IP66/68.")
             
             with st.container(border=True):
                 if os.path.exists("images/sc-9000.png"): st.image("images/sc-9000.png")
                 st.markdown("#### SC-9000 (Khí độc)")
-                st.markdown('<div class="highlight-text">- Máy đo đa khí độc kiểu bơm hút, lắp tối đa 3 cảm biến (<b>3-in-1</b>).<br>- Pin sạc dài 60 giờ.<br>- Chống va đập, chống nước IP66/68, hỗ trợ Bluetooth.</div>', unsafe_allow_html=True)
+                st.markdown("- Máy đo đa khí độc kiểu bơm hút, lắp tối đa 3 cảm biến (**3-in-1**).\n- Pin sạc dài 60 giờ.\n- Chống va đập, chống nước IP66/68, hỗ trợ Bluetooth.")
 
         with col_m2:
             with st.container(border=True):
                 if os.path.exists("images/gx-3r-pro.png"): st.image("images/gx-3r-pro.png")
                 st.markdown("#### GX-3R Pro (5 khí)")
-                st.markdown('<div class="highlight-text">- Phiên bản cao cấp hỗ trợ Bluetooth, có thể đo tới <b>5 thành phần khí</b> (cảm biến kép).<br>- Hoạt động bằng pin sạc hoặc pin khô.<br>- Thiết kế không vướng víu.</div>', unsafe_allow_html=True)
+                st.markdown("- Phiên bản cao cấp hỗ trợ Bluetooth, có thể đo tới **5 thành phần khí** (cảm biến kép).\n- Hoạt động bằng pin sạc hoặc pin khô.\n- Thiết kế không vướng víu.")
             
             with st.container(border=True):
                 if os.path.exists("images/gx-force.png"): st.image("images/gx-force.png")
                 st.markdown("#### GX-Force (4 khí)")
-                st.markdown('<div class="highlight-text">- Máy 4 khí kiểu bơm hút rất nhẹ gọn (300g).<br>- Hoạt động liên tục <b>30 giờ</b>.<br>- Vượt qua thả rơi 3m, BH cảm biến 3 năm.<br>- Chuyển đổi kết quả cho 27 loại khí cháy.</div>', unsafe_allow_html=True)
+                st.markdown("- Máy 4 khí kiểu bơm hút rất nhẹ gọn (300g).\n- Hoạt động liên tục **30 giờ**.\n- Vượt qua thả rơi 3m, BH cảm biến 3 năm.\n- Chuyển đổi kết quả cho 27 loại khí cháy.")
 
         with col_m3:
             with st.container(border=True):
                 if os.path.exists("images/gx-9000.png"): st.image("images/gx-9000.png")
                 st.markdown("#### GX-9000 / GX-9000H")
-                st.markdown('<div class="highlight-text">- Bơm hút công suất cao (hút xa tới 45m).<br>- GX-9000: Đo tối đa <b>6 khí (kể cả VOC)</b>.<br>- GX-9000H: Dùng cho nồng độ H2S cao.<br>- Vượt qua test thả rơi 1.5m, Bluetooth.</div>', unsafe_allow_html=True)
+                st.markdown("- Bơm hút công suất cao (hút xa tới 45m).\n- GX-9000: Đo tối đa **6 khí (kể cả VOC)**.\n- GX-9000H: Dùng cho nồng độ H2S cao.\n- Vượt qua test thả rơi 1.5m, Bluetooth.")
             
             with st.container(border=True):
-                if os.path.exists("images/gx-6100.png"): st.image("images/gx-6100.png")
+                if os.path.exists("images/gx-6000.png"): st.image("images/gx-6000.png")
                 st.markdown("#### GX-6000 (6 khí)")
-                st.markdown('<div class="highlight-text">- Bơm hút đo đồng thời 6 khí (bao gồm <b>VOCs</b>).<br>- Chế độ đo chọn lọc Benzene.<br>- Báo động hoảng loạn (panic), ngã (man down), tích hợp đèn pin LED.</div>', unsafe_allow_html=True)
+                st.markdown("- Bơm hút đo đồng thời 6 khí (bao gồm **VOCs**).\n- Chế độ đo chọn lọc Benzene.\n- Báo động hoảng loạn (panic), ngã (man down), tích hợp đèn pin LED.")
 
 
         # 2. ĐƠN KHÍ VÀ 2 KHÍ NHỎ GỌN
@@ -381,12 +381,12 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
             with st.container(border=True):
                 if os.path.exists("images/04-series.png"): st.image("images/04-series.png")
                 st.markdown("#### Series 04")
-                st.markdown('<div class="highlight-text">- Dòng máy khuếch tán <b>siêu bền</b>, chịu được độ cao rơi lên tới 7m.<br>- Thời lượng pin rất dài (cả pin khô & sạc).<br>- 12 model để lựa chọn (CX-04 đo được 2 khí).</div>', unsafe_allow_html=True)
+                st.markdown("- Dòng máy khuếch tán **siêu bền**, chịu được độ cao rơi lên tới 7m.\n- Thời lượng pin rất dài (cả pin khô & sạc).\n- 12 model để lựa chọn (CX-04 đo được 2 khí).")
         with col_s2:
             with st.container(border=True):
                 if os.path.exists("images/gw-3.png"): st.image("images/gw-3.png")
                 st.markdown("#### Series GW-3")
-                st.markdown('<div class="highlight-text">- Thuộc nhóm thiết bị đo nhỏ gọn và <b>nhẹ nhất thế giới</b>.<br>- Có thể <b>đeo trên cổ tay</b> như đồng hồ bằng dây đeo đi kèm.<br>- Chuẩn chống bụi/nước IP66/68.</div>', unsafe_allow_html=True)
+                st.markdown("- Thuộc nhóm thiết bị đo nhỏ gọn và **nhẹ nhất thế giới**.\n- Có thể **đeo trên cổ tay** như đồng hồ bằng dây đeo đi kèm.\n- Chuẩn chống bụi/nước IP66/68.")
 
 
         # 3. KHÍ DỄ CHÁY
@@ -396,12 +396,12 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
             with st.container(border=True):
                 if os.path.exists("images/gp-1000.png"): st.image("images/gp-1000.png")
                 st.markdown("#### GP-1000 / NC-1000")
-                st.markdown('<div class="highlight-text">- <b>GP-1000 (Chống nổ):</b> Bơm hút dải đo 0-100% LEL, chuyển đổi tới 25 loại khí cháy. Tăng cường lực bơm hút xa.<br>- <b>NC-1000:</b> Chuyên đo nồng độ cực thấp (ppm), tự động chuyển dải Low/High.</div>', unsafe_allow_html=True)
+                st.markdown("- **GP-1000 (Chống nổ):** Bơm hút dải đo 0-100% LEL, chuyển đổi tới 25 loại khí cháy. Tăng cường lực bơm hút xa.\n- **NC-1000:** Chuyên đo nồng độ cực thấp (ppm), tự động chuyển dải Low/High.")
         with col_c2:
             with st.container(border=True):
                 if os.path.exists("images/np-1000.png"): st.image("images/np-1000.png")
                 st.markdown("#### NP-1000 / GP-03")
-                st.markdown('<div class="highlight-text">- <b>NP-1000 (Nồng độ cao):</b> Đo tới 100 vol% trong môi trường khí trơ (N2, CO2). Linh hoạt chuyển đổi 5 loại khí.<br>- <b>GP-03:</b> Khuếch tán đơn khí dễ cháy, kèm ốp chống sốc, chuẩn IP67.</div>', unsafe_allow_html=True)
+                st.markdown("- **NP-1000 (Nồng độ cao):** Đo tới 100 vol% trong môi trường khí trơ (N2, CO2). Linh hoạt chuyển đổi 5 loại khí.\n- **GP-03:** Khuếch tán đơn khí dễ cháy, kèm ốp chống sốc, chuẩn IP67.")
 
 
         # 4. RÒ RỈ VÀ ĐẶC BIỆT
@@ -411,12 +411,12 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
             with st.container(border=True):
                 if os.path.exists("images/sp-230.png"): st.image("images/sp-230.png")
                 st.markdown("#### SP-230 Series")
-                st.markdown('<div class="highlight-text">- Dò rò rỉ bơm hút. Tích hợp đèn LED soi sáng.<br>- <b>TYPE F:</b> Khí Fluorocarbon (Freon tủ lạnh).<br>- <b>TYPE H2:</b> Dò Hydro.<br>- <b>TYPE FUM:</b> 7 loại khí khử trùng/hun trùng.<br>- <b>TYPE SC:</b> 50 loại khí nhà máy bán dẫn.</div>', unsafe_allow_html=True)
+                st.markdown("- Dò rò rỉ bơm hút. Tích hợp đèn LED soi sáng.\n- **TYPE F:** Khí Fluorocarbon (Freon tủ lạnh).\n- **TYPE H2:** Dò Hydro.\n- **TYPE FUM:** 7 loại khí khử trùng/hun trùng.\n- **TYPE SC:** 50 loại khí nhà máy bán dẫn.")
         with col_l2:
             with st.container(border=True):
                 if os.path.exists("images/fi-8000.png"): st.image("images/fi-8000.png")
                 st.markdown("#### FI-8000 / FP-31")
-                st.markdown('<div class="highlight-text">- <b>FI-8000:</b> Cảm biến giao thoa quang học, đo rất chính xác (khí gây mê, hun trùng, dung môi). Đo max 8 khí, bơm tự động/bóp tay.<br>- <b>FP-31:</b> Đo Formaldehyde (HCHO) bằng dải ruy băng quang điện, chuẩn WHO (0.08 ppm/30p).</div>', unsafe_allow_html=True)
+                st.markdown("- **FI-8000:** Cảm biến giao thoa quang học, đo rất chính xác (khí gây mê, hun trùng, dung môi). Đo max 8 khí, bơm tự động/bóp tay.\n- **FP-31:** Đo Formaldehyde (HCHO) bằng dải ruy băng quang điện, chuẩn WHO (0.08 ppm/30p).")
 
     with tab_fixed:
         st.subheader("🏭 NHÁNH 2: Hệ thống Cố định (Fixed Systems)")
