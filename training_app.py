@@ -301,25 +301,10 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
 
 # ---------------- TRANG 3: PHÂN LOẠI THIẾT BỊ ----------------
 elif app_mode == "📟 Phân Loại Thiết Bị":
-    # CSS HIỆU ỨNG CHO TAB FIXED
     st.markdown("""
     <style>
     .branch-title { font-size: 1.2rem; font-weight: bold; color: #0056b3; padding-bottom: 5px; border-bottom: 2px solid #0056b3; margin-top: 20px; margin-bottom: 15px; text-transform: uppercase; }
     .branch-title-fixed { color: #dc3545; border-bottom: 2px solid #dc3545; }
-    
-    /* Flowchart CSS */
-    .flow-container { display: flex; justify-content: space-between; align-items: center; background-color: #212529; padding: 20px; border-radius: 10px; margin-bottom: 25px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
-    .flow-box { background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%); color: white; padding: 15px; border-radius: 8px; text-align: center; flex: 1; font-size: 0.9rem; border: 1px solid #666; position: relative; }
-    .flow-arrow { color: #fff; font-size: 24px; font-weight: bold; margin: 0 10px; }
-    .flow-box h4 { margin-top: 0; color: #00d2ff; font-size: 1.1rem; }
-    
-    /* RM-6000 LCD Animation */
-    @keyframes lcd-alert {
-        0%, 33% { background-color: #28a745; color: white; box-shadow: 0 0 15px #28a745; }
-        34%, 66% { background-color: #fd7e14; color: white; box-shadow: 0 0 15px #fd7e14; }
-        67%, 100% { background-color: #dc3545; color: white; box-shadow: 0 0 15px #dc3545; }
-    }
-    .rm-lcd { animation: lcd-alert 6s infinite; padding: 10px; border-radius: 5px; text-align: center; font-weight: bold; font-family: 'Courier New', Courier, monospace; font-size: 1.2rem; border: 2px solid #333; margin-top: 10px;}
     </style>
     """, unsafe_allow_html=True)
 
@@ -329,7 +314,7 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
 
     tab_portable, tab_fixed = st.tabs(["📱 NHÁNH 1: MÁY CẦM TAY (PORTABLE)", "🏭 NHÁNH 2: HỆ THỐNG CỐ ĐỊNH (FIXED)"])
 
-    # ================= KHU VỰC MÁY CẦM TAY =================
+    # ================= KHU VỰC MÁY CẦM TAY (GIỮ NGUYÊN) =================
     with tab_portable:
         
         # 1. MÁY ĐO ĐA KHÍ
@@ -369,7 +354,6 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
                 st.markdown("#### GX-6000 (6 khí)")
                 st.markdown("- Thiết bị bơm hút đo 6 khí, tích hợp đo **VOCs**.\n- Có chế độ đo chọn lọc Benzene.\n- Tính năng an toàn: Báo động hoảng loạn (panic), ngã (man down), tích hợp đèn LED.")
 
-
         # 2. ĐƠN KHÍ VÀ 2 KHÍ NHỎ GỌN
         st.markdown('<div class="branch-title">2. Máy đo Đơn khí & 2 Khí nhỏ gọn</div>', unsafe_allow_html=True)
         col_s1, col_s2 = st.columns(2, gap="medium")
@@ -383,7 +367,6 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
                 if os.path.exists("images/gw-3.png"): st.image("images/gw-3.png")
                 st.markdown("#### Series GW-3")
                 st.markdown("- Thuộc nhóm thiết bị nhỏ gọn và **nhẹ nhất thế giới**.\n- Thiết kế mang tính cách mạng: Có thể **đeo trên cổ tay** bằng dây đeo đi kèm.\n- Chuẩn chống bụi/nước IP66/68.")
-
 
         # 3. KHÍ DỄ CHÁY
         st.markdown('<div class="branch-title">3. Máy đo Khí dễ cháy chuyên dụng</div>', unsafe_allow_html=True)
@@ -399,7 +382,6 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
                 st.markdown("#### NP-1000 / GP-03")
                 st.markdown("- **NP-1000:** Đo nồng độ cao tới 100 vol% trong môi trường khí trơ (N2, CO2). Linh hoạt chuyển đổi 5 loại khí gốc.\n- **GP-03:** Máy khuếch tán đơn khí dễ cháy kèm ốp cao su chống sốc.")
 
-
         # 4. RÒ RỈ VÀ ĐẶC BIỆT
         st.markdown('<div class="branch-title">4. Máy phát hiện rò rỉ & Khí đặc biệt</div>', unsafe_allow_html=True)
         col_l1, col_l2 = st.columns(2, gap="medium")
@@ -414,84 +396,91 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
                 st.markdown("#### FI-8000 / FP-31")
                 st.markdown("- **FI-8000:** Dùng cảm biến giao thoa quang học, đo độ chính xác tuyệt đối cho khí gây mê y tế, khí hun trùng, nồng độ dung môi.\n- **FP-31:** Đo Formaldehyde (HCHO) chuyên dụng qua ruy băng quang điện.")
 
-    # ================= KHU VỰC HỆ THỐNG CỐ ĐỊNH =================
+    # ================= KHU VỰC HỆ THỐNG CỐ ĐỊNH (MỚI CẬP NHẬT) =================
     with tab_fixed:
-        st.markdown("Hệ thống giám sát khí cố định (Fixed Gas Monitoring Systems) được thiết kế để lắp đặt thường xuyên tại các vị trí có nguy cơ rò rỉ hoặc tích tụ khí, nhằm theo dõi nồng độ liên tục 24/7.")
+        st.markdown("Hệ thống giám sát khí cố định được thiết kế để lắp đặt chết tại các vị trí có nguy cơ rò rỉ hoặc tích tụ khí, nhằm theo dõi nồng độ liên tục 24/7 và kích hoạt tự động các kịch bản an toàn (bật quạt, đóng van).")
         
-        # 1. CẤU TRÚC HỆ THỐNG
-        st.markdown('<div class="branch-title branch-title-fixed">1. Các Mô Hình Cấu Trúc Hệ Thống Giám Sát</div>', unsafe_allow_html=True)
-        st.write("Hệ thống cố định có thể được cấu hình rất linh hoạt tùy theo quy mô nhà máy:")
-        
-        html_flowchart = """
-        <div class="flow-container">
-            <div class="flow-box"><h4>1️⃣ Standalone</h4>Một Đầu dò phát kết hợp trực tiếp còi/đèn tại chỗ.</div>
-            <div class="flow-arrow">➔</div>
-            <div class="flow-box"><h4>2️⃣ Single-point</h4>1 Đầu dò kết nối 1 Tủ điều khiển đơn để xem từ xa an toàn.</div>
-            <div class="flow-arrow">➔</div>
-            <div class="flow-box"><h4>3️⃣ Multi-point</h4>Nhiều Đầu dò truyền chung về Tủ điều khiển cảnh báo tập trung.</div>
-            <div class="flow-arrow">➔</div>
-            <div class="flow-box"><h4>4️⃣ Centralized</h4>Kết nối hệ thống PLC và Phần mềm giám sát PC quy mô lớn.</div>
-        </div>
-        """
-        st.markdown(html_flowchart, unsafe_allow_html=True)
-
-        # 2. ĐẦU DÒ KHÍ
-        st.markdown('<div class="branch-title branch-title-fixed">2. Đầu dò khí / Máy phát thông minh (Detectors & Transmitters)</div>', unsafe_allow_html=True)
+        # 1. TỦ CẢNH BÁO
+        st.markdown('<div class="branch-title branch-title-fixed">1. Tủ cảnh báo và Hệ thống trung tâm (Alarm Units & Systems)</div>', unsafe_allow_html=True)
         col_f1, col_f2 = st.columns(2, gap="medium")
         
         with col_f1:
             with st.container(border=True):
-                st.markdown("#### 🌐 Dòng Tiêu chuẩn Toàn cầu")
-                st.markdown("- **SD-3 Series:** Trang bị cảm biến F-sensor mới, vỏ chống khắc nghiệt, chuẩn chống nổ toàn cầu (IECEx/ATEX) và an toàn chức năng SIL2.\n- **SD-1 Series:** Tích hợp vận hành bằng **khóa từ (magnetic key)** cài đặt không cần mở nắp. Đo đa dạng khí cháy, độc, oxy.")
-                if os.path.exists("images/sd-series.png"): st.image("images/sd-series.png", caption="SD-3 / SD-1")
-
+                if os.path.exists("images/gp-148.png"): st.image("images/gp-148.png")
+                st.markdown("#### Hệ thống GP-148")
+                st.markdown("- Tủ cảnh báo khí dễ cháy cao cấp.\n- **Tích hợp sẵn UPS:** Duy trì hoạt động 3 ngày khi mất điện.\n- Cho phép kết hợp giám sát cả đầu dò khí và đầu dò ngọn lửa (Max 12 điểm).\n- Lý tưởng cho trạm chiết nạp LPG, CNG, H2.")
+                
             with st.container(border=True):
-                st.markdown("#### 🏭 Dòng Công nghiệp Nặng & Ống khói")
-                st.markdown("- **GD-A2400 / SD-2500 Series:** Đầu dò cắm trực tiếp vào đường ống/lò đốt (ống cắm dài 250mm) đo ở tâm dòng chảy.\n- **GD-D58 Series:** Bơm hút chống cháy nổ siêu bền, an toàn cả trong môi trường Hydro.")
-                if os.path.exists("images/gd-a2400.png"): st.image("images/gd-a2400.png", caption="GD-A2400 / GD-D58")
+                if os.path.exists("images/rm-5000.png"): st.image("images/rm-5000.png")
+                st.markdown("#### RM-5000 Series")
+                st.markdown("- Tủ cảnh báo đa điểm (Multi-point).\n- Hiển thị nồng độ trực quan bằng **thanh bar meter** và số điện tử.\n- Tích hợp mạng truyền thông RS-485 (tùy chọn).")
 
         with col_f2:
             with st.container(border=True):
-                st.markdown("#### 💻 Dòng chuyên dụng Bán dẫn / Cleanroom")
-                st.markdown("- **GD-70D Series:** Đầu thông minh chuyên phát hiện khí đặc biệt (SiH4, PH3, NH3). Dễ dàng thay nóng cảm biến.\n- **FP-300 / FP-301:** Đo khí độc siêu nhạy bằng phương pháp **băng cassette (tape method)**, lý tưởng cho phòng sạch.")
-                if os.path.exists("images/gd-70d.png"): st.image("images/gd-70d.png", caption="GD-70D / FP-300")
+                if os.path.exists("images/rm-6000.png"): st.image("images/rm-6000.png")
+                st.markdown("#### RM-6000 Series")
+                st.markdown("- Bộ cảnh báo điểm đơn thiết kế dạng **module độc lập** (dễ bảo trì tháo lắp).\n- Màn hình LCD **3 màu đổi theo trạng thái** (Xanh: Bình thường, Cam: Báo động 1, Đỏ: Báo động 2).")
 
             with st.container(border=True):
-                st.markdown("#### 🔬 Dòng Đo đạc Đặc thù & Dân dụng")
-                st.markdown("- **OHC-800:** Nhiệt lượng kế chống nổ, đo liên tục Nhiệt lượng (Calorific value), trọng lượng riêng, chỉ số Wobbe khí thiên nhiên.\n- **FI-900 / 915:** Cảm biến giao thoa quang học, không cần khởi động.\n- **600 Series:** Dùng trong văn phòng điều khiển thông gió (O2, CO, CO2).")
-                if os.path.exists("images/ohc-800.png"): st.image("images/ohc-800.png", caption="OHC-800 / 600 Series")
+                if os.path.exists("images/kanshiro.png"): st.image("images/kanshiro.png")
+                st.markdown("#### Phần mềm Kanshiro II")
+                st.markdown("- Hệ thống giám sát SCADA trên máy tính/điện thoại qua trình duyệt Web.\n- Quản lý siêu khủng: Lên tới **60.000 thẻ (tags)** tín hiệu.\n- Lưu trữ 100 triệu sự kiện và 3 năm dữ liệu xu hướng.")
 
-        # 3. TỦ CẢNH BÁO
-        st.markdown('<div class="branch-title branch-title-fixed">3. Tủ cảnh báo và Bộ chỉ thị (Alarm & Indicator Units)</div>', unsafe_allow_html=True)
-        col_ctrl1, col_ctrl2 = st.columns([1, 1], gap="large")
-        
-        with col_ctrl1:
-            st.markdown("#### 🎛️ RM-6000 Series (Giám sát điểm đơn)")
-            st.write("Bộ chỉ thị hiển thị đồng thời dạng thanh (bar meter) và số điện tử.")
-            st.info("💡 **Điểm nổi bật:** Màn hình LCD 3 màu thay đổi trực quan theo trạng thái báo động.")
-            st.markdown('<div class="rm-lcd">20.9 %VOL (Mô phỏng Màn hình RM-6000)</div>', unsafe_allow_html=True)
-            if os.path.exists("images/rm-6000.png"): st.image("images/rm-6000.png")
-            
-        with col_ctrl2:
-            st.markdown("#### 🗄️ RM-5000 Series (Giám sát đa điểm)")
-            st.write("Tủ giám sát tập trung nhiều đầu dò với thao tác đơn giản.")
-            st.success("⚡ **Điểm nổi bật:** Tích hợp sẵn bộ lưu điện (UPS), đảm bảo hệ thống vẫn tiếp tục theo dõi rò rỉ khí ít nhất **3 ngày** trong trường hợp mất điện nhà máy.")
-            if os.path.exists("images/rm-5000.png"): st.image("images/rm-5000.png")
 
-        # 4. PHẦN MỀM KANSHIRO
-        st.markdown('<div class="branch-title branch-title-fixed">4. Phần mềm giám sát trung tâm RIKEN KEIKI Kanshiro II</div>', unsafe_allow_html=True)
-        st.write("Đối với các hệ thống đồ sộ quy mô toàn nhà máy, tín hiệu sẽ được thu thập về PLC và hiển thị qua phần mềm SCADA chuyên dụng.")
+        # 2. ĐẦU DÒ THÔNG MINH
+        st.markdown('<div class="branch-title branch-title-fixed">2. Đầu dò khí thông minh (Smart Detectors & Transmitters)</div>', unsafe_allow_html=True)
+        col_f3, col_f4 = st.columns(2, gap="medium")
         
-        col_scada1, col_scada2 = st.columns([2, 1])
-        with col_scada1:
-            st.markdown("""
-            * **Nền tảng:** Hoạt động trên trình duyệt web (Chrome, Edge), giám sát từ PC hoặc thiết bị di động.
-            * **Sức mạnh lưu trữ khủng:**
-                * Quản lý tối đa lên tới **60.000 thẻ (tags)** tín hiệu.
-                * Lưu trữ dữ liệu xu hướng (trend) liên tục trong **3 năm**.
-                * Lưu lịch sử lên tới **100 triệu sự kiện** cảnh báo.
-            * **Giao diện:** Hiển thị trực quan bằng bản đồ nhà máy (Map), đồ thị vạch, và chức năng tìm kiếm tự do theo thời gian thực.
-            """)
-        with col_scada2:
-            st.info("Kanshiro II đóng vai trò như 'Bộ não tổng' quản lý rủi ro khí cho toàn bộ hạ tầng công nghiệp.")
-            if os.path.exists("images/kanshiro.png"): st.image("images/kanshiro.png")
+        with col_f3:
+            with st.container(border=True):
+                if os.path.exists("images/sd-1.png"): st.image("images/sd-1.png")
+                st.markdown("#### Dòng SD-1 Series")
+                st.markdown("- Tiêu chuẩn chống nổ khắt khe (dùng được trong môi trường Hydro và Axetylen).\n- Vận hành hoàn toàn bằng **'khóa từ'** bên ngoài kính, an toàn không cần mở nắp.")
+
+            with st.container(border=True):
+                if os.path.exists("images/gd-70d.png"): st.image("images/gd-70d.png")
+                st.markdown("#### Dòng GD-70D")
+                st.markdown("- Chuyên dùng cho nhà máy bán dẫn.\n- Thiết kế **Plug & Play**: Thay module cảm biến là đổi được loại khí đo, không cần thay vỏ máy. Tiết kiệm 20% điện năng.")
+
+            with st.container(border=True):
+                if os.path.exists("images/gd-84d.png"): st.image("images/gd-84d.png")
+                st.markdown("#### Dòng GD-84D-EX")
+                st.markdown("- Máy đo đa khí cho nhà máy bán dẫn.\n- **Thay thế 4 máy cũ thành 1 máy** (Tiết kiệm 1/4 chi phí).\n- Hỗ trợ cấp nguồn và mạng qua cổng PoE.")
+
+        with col_f4:
+            with st.container(border=True):
+                if os.path.exists("images/gd-d58.png"): st.image("images/gd-d58.png")
+                st.markdown("#### Dòng GD-D58 & SD-D58")
+                st.markdown("- Máy đo kiểu bơm hút chống cháy nổ.\n- Cấu trúc siêu bền bỉ, an toàn tuyệt đối ngay cả trong bầu không khí chứa Hydro.")
+
+            with st.container(border=True):
+                if os.path.exists("images/gd-a2400.png"): st.image("images/gd-a2400.png")
+                st.markdown("#### GD-A2400 / SD-2500 Series")
+                st.markdown("- Chuyên dụng cho ống khói, lò đốt.\n- Có **thanh dài thọc sâu (250mm)** trực tiếp vào ống dẫn để lấy mẫu ở tâm dòng chảy.\n- Chịu nhiệt độ khắc nghiệt tới 160°C.")
+
+
+        # 3. MÁY PHÂN TÍCH & DÂN DỤNG
+        st.markdown('<div class="branch-title branch-title-fixed">3. Máy phân tích đặc thù & Dùng trong nhà (Analyzers & Indoor)</div>', unsafe_allow_html=True)
+        col_f5, col_f6 = st.columns(2, gap="medium")
+        
+        with col_f5:
+            with st.container(border=True):
+                if os.path.exists("images/600-series.png"): st.image("images/600-series.png")
+                st.markdown("#### Dòng 600 Series (OX, EC, RI)")
+                st.markdown("- Thiết kế gọn nhẹ treo tường văn phòng/trong nhà.\n- Màn hình 3 màu, dùng pin khô lên tới 1 năm hoặc điện DC/AC.\n- **OX-600** có cảm biến sửa lỗi áp suất (không sai số khi áp suất thay đổi).")
+
+            with st.container(border=True):
+                if os.path.exists("images/fp-300.png"): st.image("images/fp-300.png")
+                st.markdown("#### Dòng FP-300 / FP-301")
+                st.markdown("- Đo khí độc siêu nhạy dùng dải ruy băng (tape) cho phòng sạch.\n- Có chức năng hiển thị lượng băng còn lại và cảnh báo sắp hết.")
+
+        with col_f6:
+            with st.container(border=True):
+                if os.path.exists("images/fi-900.png"): st.image("images/fi-900.png")
+                st.markdown("#### FI-900 / FI-915")
+                st.markdown("- Máy phân tích **Giao thoa quang học**.\n- Đo cực kỳ ổn định, không cần thời gian khởi động (warm-up).\n- Cảm biến không bao giờ bị nhiễm độc suy giảm do hóa chất silicon.")
+
+            with st.container(border=True):
+                if os.path.exists("images/ohc-800.png"): st.image("images/ohc-800.png")
+                st.markdown("#### OHC-800 (Nhiệt lượng kế)")
+                st.markdown("- Chuyên ngành khí thiên nhiên chống cháy nổ.\n- Đo trực tiếp và liên tục giá trị **Nhiệt lượng (Calorific)** và **Trọng lượng riêng (Density)**.")
