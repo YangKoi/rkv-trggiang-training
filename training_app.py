@@ -130,18 +130,17 @@ with st.sidebar:
     app_mode = st.radio("Chọn chuyên mục:", [
         "🎓 Cổng Đào Tạo Hội Nhập",
         "☣️ Kiến Thức: Phân Loại Khí",
-        "📟 Phân Loại Thiết Bị" # <-- THÊM TAB MỚI Ở ĐÂY
+        "📟 Phân Loại Thiết Bị"
     ])
     st.markdown("---")
-    st.info("💡 **Gợi ý:** Hãy hoàn thành đọc hiểu 2 phần lý thuyết trước khi làm bài kiểm tra hội nhập nhé!")
+    st.info("💡 **Gợi ý:** Hãy hoàn thành đọc hiểu các phần lý thuyết trước khi làm bài kiểm tra hội nhập nhé!")
 
 # ==========================================
 # NỘI DUNG TỪNG TRANG
 # ==========================================
 
-# ---------------- TRANG 1 & 2 (Giữ nguyên như cũ) ----------------
+# ---------------- TRANG 1: ĐÀO TẠO HỘI NHẬP ----------------
 if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
-    # (Mã nguồn trang 1 giữ nguyên như V5.7)
     col_title, col_admin = st.columns([4, 1.5]) 
     with col_title:
         st.title("🎓 Cổng Đào Tạo Năng Lực & Hội Nhập")
@@ -179,8 +178,9 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
         with col_cert2:
             st.download_button("📥 Tải Sổ tay nhân viên (PDF)", data="Nội dung PDF...", file_name="SoTay_RikenViet.pdf", type="primary", use_container_width=True)
 
+# ---------------- TRANG 2: KIẾN THỨC VỀ KHÍ ----------------
 elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
-    # (Mã nguồn trang 2 giữ nguyên như V5.7)
+    # MÃ CSS TRANG 2 GIỮ NGUYÊN (ĐÃ CHUẨN)
     st.markdown("""
     <style>
     @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 78, 80, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0); } }
@@ -255,89 +255,49 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
             st.markdown("### 🛡️ Thiết bị đo chuyên dụng RIKEN KEIKI")
             st.markdown("""<div style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 10px;"><h5 style="color: #d400ff; margin-top: 0;">📟 SP-230 (TYPE FUM)</h5><p style="font-size: 14px; color: #555; margin-bottom: 0;">Dò rò rỉ di động kiểu bơm hút. Hỗ trợ tới <b>7 loại khí khử trùng</b>.</p></div><div style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px;"><h5 style="color: #d400ff; margin-top: 0;">📼 FP-300 / FP-301</h5><p style="font-size: 14px; color: #555; margin-bottom: 0;">Hệ thống phát hiện <b>siêu nhạy</b> bằng cassette, đo mức ppb chuyên cho PH3.</p></div>""", unsafe_allow_html=True)
 
-
 # ---------------- TRANG 3: PHÂN LOẠI THIẾT BỊ (MỚI) ----------------
 elif app_mode == "📟 Phân Loại Thiết Bị":
-    # CSS cho các Thẻ phân loại (Cards)
-    st.markdown("""
-    <style>
-    .cat-box {
-        background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%; transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .cat-box:hover {
-        transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); border-color: #0056b3;
-    }
-    .cat-title { color: #0056b3; font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; display: flex; align-items: center; }
-    .cat-icon { font-size: 1.5rem; margin-right: 10px; }
-    .sub-cat { background-color: #f8f9fa; border-left: 4px solid #28a745; padding: 12px; border-radius: 4px; margin-top: 15px; }
-    .sub-cat-title { font-weight: bold; color: #333; margin-bottom: 5px; font-size: 1rem; }
-    .feature-tag { display: inline-block; background-color: #e9ecef; color: #495057; padding: 3px 8px; border-radius: 12px; font-size: 0.8rem; margin-right: 5px; margin-bottom: 5px; border: 1px solid #ced4da; }
-    .feature-tag.ex { background-color: #fff3cd; color: #856404; border-color: #ffeeba; }
-    .feature-tag.disp { background-color: #d1ecf1; color: #0c5460; border-color: #bee5eb; }
-    </style>
-    """, unsafe_allow_html=True)
-
     st.title("📟 Phân Loại Cơ Bản Thiết Bị Đo Khí")
-    st.markdown("Thế giới thiết bị dò khí rất đa dạng. Tại Riken Việt, để dễ dàng tư vấn và lựa chọn đúng giải pháp cho khách hàng, chúng ta chia thiết bị thành **2 nhánh chính** dựa trên phương thức hoạt động:")
+    st.markdown("Theo danh mục của **RIKEN KEIKI**, hệ thống thiết bị đo và giám sát khí được phân chia thành **2 nhánh chính** dựa trên phương thức hoạt động và tính ứng dụng thực tế:")
     st.markdown("---")
 
-    # Tạo 2 cột lớn: Cầm tay và Cố định
+    # Sử dụng Cột (Columns) và Expander (Trình mở rộng) bản địa của Streamlit để giao diện mượt mà tuyệt đối
     col_portable, col_fixed = st.columns(2, gap="large")
 
     with col_portable:
-        st.markdown("""
-        <div class="cat-box">
-            <div class="cat-title"><span class="cat-icon">📱</span> NHÁNH 1: THIẾT BỊ CẦM TAY (Portable)</div>
-            <p style="color: #555; font-size: 15px;">Dùng để bảo vệ cá nhân người lao động di chuyển liên tục, hoặc dùng để kiểm tra an toàn trước khi bước vào không gian hạn hẹp (bồn chứa, cống ngầm).</p>
+        st.subheader("📱 1. MÁY ĐO KHÍ CẦM TAY (Portable)")
+        st.info("Thiết bị nhỏ gọn, chạy bằng pin, dùng để bảo vệ cá nhân di động hoặc đo kiểm tra an toàn không gian hạn hẹp (Confined Space) trước khi cấp phép làm việc.")
+        
+        with st.expander("A. Phương pháp Khuếch tán tự nhiên (Diffusion)", expanded=True):
+            st.markdown("""
+            * **Nguyên lý:** Khí từ môi trường tự do thâm nhập vào bề mặt cảm biến (Sensor) mà không cần lực hút cơ học.
+            * **Đặc điểm:** Thiết kế siêu nhỏ gọn, tiết kiệm pin, thường kẹp trên cổ áo/mũ bảo hộ để giám sát vùng thở (Breathing zone) liên tục.
+            * **Ví dụ:** Các dòng máy nhỏ như *GX-3R, GX-3R Pro, Series 04.*
+            """)
             
-            <div class="sub-cat" style="border-left-color: #007bff;">
-                <div class="sub-cat-title">A. Loại Bơm Hút (Sample Draw / Pump)</div>
-                <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Máy có tích hợp một bơm nhỏ bên trong. Dùng ống lấy mẫu để hút khí từ xa (sâu dưới cống, trong bồn kín) lên máy để kiểm tra trước khi con người bước vào.</p>
-                <i>VD: Dòng GX-8000, RX-8000.</i>
-            </div>
-            
-            <div class="sub-cat" style="border-left-color: #28a745;">
-                <div class="sub-cat-title">B. Loại Khuếch Tán (Diffusion)</div>
-                <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Máy không có bơm. Khí trong môi trường tự len lỏi (khuếch tán) vào bề mặt cảm biến. Thường thiết kế rất nhỏ gọn để kẹp trên áo, mũ bảo hộ theo dõi liên tục.</p>
-                <i>VD: Dòng GX-3R, GX-3R Pro, Series 04.</i>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        with st.expander("B. Phương pháp Lấy mẫu bằng bơm (Sample Draw / Pump)", expanded=True):
+            st.markdown("""
+            * **Nguyên lý:** Tích hợp bơm vi mô (Micro-pump) hút khí liên tục từ bên ngoài vào buồng cảm biến.
+            * **Đặc điểm:** Sử dụng kết hợp với ống lấy mẫu (Sampling hose) và que đo (Probe) để "thăm dò" khí từ khoảng cách xa (sâu dưới hầm, cống ngầm, bồn chứa) trước khi con người bước vào.
+            * **Ví dụ:** Máy cỡ trung và lớn như *GX-8000, RX-8000, Series 3000.*
+            """)
 
     with col_fixed:
-        st.markdown("""
-        <div class="cat-box">
-            <div class="cat-title"><span class="cat-icon">🏭</span> NHÁNH 2: HỆ THỐNG CỐ ĐỊNH (Fixed)</div>
-            <p style="color: #555; font-size: 15px;">Lắp đặt chết tại một vị trí trong nhà máy để giám sát 24/24. Thường kết nối về tủ điều khiển trung tâm để kích hoạt quạt hút hoặc đóng van tự động.</p>
+        st.subheader("🏭 2. HỆ THỐNG GIÁM SÁT CỐ ĐỊNH (Fixed)")
+        st.warning("Lắp đặt cố định để giám sát 24/7. Thường truyền tín hiệu (4-20mA, RS-485) về Tủ điều khiển trung tâm (Controller) để xử lý báo động liên động (Interlock).")
+        
+        with st.expander("Phân loại theo phương pháp lấy mẫu", expanded=True):
+            st.markdown("""
+            * **Khuếch tán (Diffusion):** Đầu dò (Detector Head) được gắn trực tiếp ngay tại vị trí có nguy cơ rò rỉ khí (nhà máy lọc dầu, trạm chiết nạp gas).
+            * **Lấy mẫu bằng bơm (Extractive / Sample Draw):** Đầu dò tích hợp bơm tự hút khí từ các môi trường khắc nghiệt (nhiệt độ/độ ẩm quá cao, phòng sạch bán dẫn) kéo về buồng đo an toàn.
+            """)
             
-            <div style="display: flex; gap: 10px;">
-                <div class="sub-cat" style="flex: 1; border-left-color: #007bff; margin-top: 10px;">
-                    <div class="sub-cat-title">A. Bơm Hút</div>
-                    <p style="font-size: 13px; color: #666;">Hút khí từ khu vực khó tiếp cận (ví dụ: phòng sạch bán dẫn) về tủ phân tích.</p>
-                </div>
-                <div class="sub-cat" style="flex: 1; border-left-color: #28a745; margin-top: 10px;">
-                    <div class="sub-cat-title">B. Khuếch Tán</div>
-                    <p style="font-size: 13px; color: #666;">Đầu dò gắn trực tiếp tại nơi có nguy cơ rò rỉ (nhà máy lọc dầu).</p>
-                </div>
-            </div>
-            
-            <div style="margin-top: 20px; border-top: 1px dashed #ccc; padding-top: 15px;">
-                <b style="color: #333;">💡 Đối với máy cố định, cần phân loại thêm 2 tính năng đặc thù:</b>
-                
-                <div style="margin-top: 10px;">
-                    <span class="feature-tag disp">Có hiển thị (Local Display)</span>
-                    <span class="feature-tag">Không hiển thị (Blind)</span>
-                    <p style="font-size: 13px; color: #666; margin-top: 5px;">Đầu dò có màn hình số tại chỗ để công nhân xem trực tiếp, hay chỉ là đầu dò câm (truyền tín hiệu 4-20mA về tủ trung tâm).</p>
-                </div>
-                
-                <div style="margin-top: 15px;">
-                    <span class="feature-tag ex">Có phòng nổ (Ex-Proof)</span>
-                    <span class="feature-tag">Không phòng nổ</span>
-                    <p style="font-size: 13px; color: #666; margin-top: 5px;">Đầu dò được đúc vỏ hợp kim chống nổ chuyên dùng cho Zone 1/Zone 2 (Lọc dầu, trạm gas), hay vỏ nhựa thường (nhà máy thực phẩm, phòng sạch).</p>
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.info("🎯 **Tóm lại:** Khi khách hàng cần mua máy đo khí, bạn cần hỏi rõ: **Họ muốn kẹp lên người đi lại (Cầm tay) hay gắn chết lên tường (Cố định)? Họ muốn tự động hút khí từ xa (Bơm hút) hay đo tại chỗ (Khuếch tán)?** Từ đó, bạn sẽ tra cứu đúng catalog thiết bị Riken Keiki!")
+        with st.expander("Phân loại theo tính năng an toàn & hiển thị", expanded=True):
+            st.markdown("""
+            * **Tính năng Hiển thị tại chỗ (Local Display):**
+                * **Có hiển thị (Smart Transmitter):** Đầu dò có màn hình LCD/OLED, cho phép theo dõi nồng độ và cài đặt trực tiếp tại hiện trường.
+                * **Không hiển thị (Blind Detector):** Chỉ là cụm cảm biến câm, có chức năng chuyển đổi nồng độ thành tín hiệu điện đẩy về tủ trung tâm.
+            * **Cấp bảo vệ chống cháy nổ (Explosion-Proof):**
+                * **Thiết kế chống cháy nổ (Ex-proof / Intrinsically Safe):** Đúc bằng hợp kim đặc biệt, bắt buộc dùng trong khu vực nguy hiểm dễ cháy (Hazardous Area) như Zone 1, Zone 2.
+                * **Thiết kế thông thường (General Purpose):** Dùng vỏ nhựa chịu lực, chuyên lắp đặt trong khu vực an toàn (Safe Area) như phòng thí nghiệm, xưởng thực phẩm.
+            """)
