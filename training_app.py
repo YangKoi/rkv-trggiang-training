@@ -9,7 +9,7 @@ except ImportError:
     Github = None
 
 # ==========================================
-# CẤU HÌNH TRANG & BỘ NHỚ (SESSION STATE)
+# CẤU HÌNH TRANG & BỘ NHỚ
 # ==========================================
 st.set_page_config(page_title="Riken Viet - Đào tạo nội bộ", page_icon="🎓", layout="wide")
 
@@ -24,10 +24,8 @@ def save_to_github(name, score, q1_ans, q2_ans, q3_ans):
     try:
         token = st.secrets["GITHUB_TOKEN"]
         repo_name = st.secrets["GITHUB_REPO"]
-        
         g = Github(token)
         repo = g.get_repo(repo_name)
-        
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         safe_name = name.replace(" ", "_")
         file_path = f"KetQua_DaoTao/{safe_name}_{now}.txt" 
@@ -54,12 +52,10 @@ def fetch_history_from_github():
         repo_name = st.secrets["GITHUB_REPO"]
         g = Github(token)
         repo = g.get_repo(repo_name)
-        
         try:
             contents = repo.get_contents("KetQua_DaoTao")
         except:
             return [] 
-            
         records = []
         for file in contents:
             if file.name.endswith(".txt"):
@@ -67,7 +63,6 @@ def fetch_history_from_github():
                 lines = text.split('\n')
                 name, date, score, status = "", "", "", ""
                 ans1, ans2, ans3 = "N/A", "N/A", "N/A" 
-                
                 for line in lines:
                     if line.startswith("Họ và Tên:"): name = line.split(":", 1)[1].strip()
                     if line.startswith("Thời gian hoàn thành:"): date = line.replace("Thời gian hoàn thành:", "").strip()
@@ -115,7 +110,6 @@ def take_quiz_dialog():
                 if q3.startswith("C"): score += 1
                 
                 success, msg = save_to_github(user_name, score, str(q1), str(q2), str(q3))
-                
                 if success:
                     if score == 3:
                         st.session_state.quiz_passed = True
@@ -185,93 +179,131 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
 
 # ---------------- TRANG 2: KIẾN THỨC VỀ KHÍ ----------------
 elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
-    # CSS Hiệu ứng động
+    # KHO CSS HIỆU ỨNG TỔNG HỢP CHO CẢ 3 TAB
     st.markdown("""
     <style>
+    /* Hiệu ứng Tab 1: Khí cháy nổ */
     @keyframes pulse-red {
         0% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0.7); }
         70% { box-shadow: 0 0 0 10px rgba(255, 78, 80, 0); }
         100% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0); }
     }
     .alert-box {
-        background: linear-gradient(45deg, #ff4e50, #f9d423); padding: 15px; border-radius: 8px; color: white; animation: pulse-red 2s infinite; margin-bottom: 15px;
+        background: linear-gradient(45deg, #ff4e50, #f9d423); padding: 15px; border-radius: 8px; color: white; animation: pulse-red 2s infinite; margin-bottom: 15px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
+    
+    /* Hiệu ứng Tab 2: Khí độc PPM */
     .toxic-glow {
-        background-color: #2b2b2b; padding: 15px; border-radius: 8px; border-left: 5px solid #a8ff78; color: #a8ff78; text-shadow: 0 0 5px #a8ff78; margin-bottom: 15px;
+        background-color: #1a1a1a; padding: 15px; border-radius: 8px; border-left: 5px solid #a8ff78; color: #a8ff78; margin-bottom: 15px; font-weight: bold;
     }
-    .oxy-bar { height: 25px; border-radius: 5px; color: white; text-align: right; padding-right: 10px; font-weight: bold; line-height: 25px; margin-bottom: 5px; transition: width 1s ease-in-out; }
-    .oxy-bg { background-color: #333; border-radius: 5px; width: 100%; margin-bottom: 10px; }
+    .ppm-container { width: 100%; background-color: #e9ecef; border-radius: 5px; margin: 10px 0 25px 0; border: 1px solid #ccc; position: relative; height: 35px; box-shadow: inset 0 1px 3px rgba(0,0,0,.1); }
+    .ppm-bar { height: 100%; border-radius: 5px 0 0 5px; display: flex; align-items: center; justify-content: flex-end; padding-right: 5px; color: white; font-weight: bold; font-size: 12px; }
+    
+    /* Hiệu ứng Tab 3: Oxy suy giảm */
+    @keyframes blink { 50% { opacity: 0.5; } }
+    .oxy-bg { background-color: #222; border-radius: 6px; width: 100%; margin-bottom: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    .oxy-bar { height: 32px; border-radius: 6px; color: white; text-align: right; padding-right: 15px; font-weight: bold; line-height: 32px; font-size: 14px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); transition: width 1s ease-in-out; }
+    .danger-blink { animation: blink 1s linear infinite; }
     </style>
     """, unsafe_allow_html=True)
 
     st.title("☣️ Kiến Thức Cơ Bản Về Các Loại Khí Nguy Hiểm")
-    st.markdown("""
-    Trong môi trường công nghiệp, rủi ro về khí là những **"Kẻ thù vô hình"**. Việc sử dụng các thiết bị dò khí (gas detectors) để theo dõi nồng độ của các loại khí này cũng như đảm bảo lượng oxy luôn ở mức an toàn là điều bắt buộc để bảo vệ tính mạng con người.
-    """)
+    st.markdown("Trong môi trường công nghiệp, rủi ro về khí là những **'Kẻ thù vô hình'**. Việc sử dụng các thiết bị dò khí (gas detectors) để theo dõi nồng độ của các loại khí này cũng như đảm bảo lượng oxy luôn ở mức an toàn là điều bắt buộc để bảo vệ tính mạng con người.")
     st.markdown("---")
 
     tab1, tab2, tab3 = st.tabs(["🔥 1. Khí dễ cháy", "☠️ 2. Khí độc", "💨 3. Thiếu oxy & Ngạt khí"])
 
+    # ---------------- TAB 1: KHÍ DỄ CHÁY ----------------
     with tab1:
         st.header("🔥 Khí dễ cháy (Combustible gases)")
-        
-        # Hiệu ứng Cảnh báo nổ
         st.markdown('<div class="alert-box"><b>⚠️ ĐỊNH NGHĨA:</b> Là loại khí có thể gây cháy hoặc nổ nếu chúng hòa trộn với oxy (trong không khí) ở một nồng độ nhất định và tiếp xúc với nguồn gây cháy (tia lửa, nhiệt độ cao).</div>', unsafe_allow_html=True)
-        
         
         if os.path.exists("image_combustible.png"):
             st.image("image_combustible.png", use_container_width=True)
 
-        col1, col2 = st.columns([2, 1])
+        st.markdown("### 📊 Trực quan hóa Giới hạn cháy nổ (Explosive Range)")
+        
+        html_lel_uel = """
+        <div style="width: 100%; background-color: #f1f3f4; border-radius: 8px; position: relative; height: 40px; margin-bottom: 30px; display: flex; text-align: center; color: white; font-weight: bold; line-height: 40px; font-size: 14px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <div style="width: 25%; background-color: #28a745; border-radius: 8px 0 0 8px;">Quá loãng (Chưa thể cháy)</div>
+            <div style="width: 45%; background-color: #dc3545; position: relative;">
+                <span style="position: absolute; top: -30px; left: 0; color: #dc3545; font-size: 16px;">▼ LEL</span>
+                🔥 VÙNG CHÁY NỔ (NGUY HIỂM) 🔥
+                <span style="position: absolute; top: -30px; right: 0; color: #dc3545; font-size: 16px;">UEL ▼</span>
+            </div>
+            <div style="width: 30%; background-color: #ffc107; border-radius: 0 8px 8px 0; color: #333;">Quá đặc (Thiếu Oxy)</div>
+        </div>
+        """
+        st.markdown(html_lel_uel, unsafe_allow_html=True)
+
+        col1, col2 = st.columns([1.5, 1])
         with col1:
             st.markdown("""
-            * **Các khái niệm cơ bản:** Khoảng nồng độ có thể gây nổ này được gọi là "giới hạn cháy nổ" (Explosive range). 
-                * Mức nồng độ khí thấp nhất có thể gây nổ gọi là **Giới hạn nổ dưới (LEL)**.
-                * Mức cao nhất gọi là **Giới hạn nổ trên (UEL)**. 
-                * Dưới mức LEL thì khí quá loãng để cháy, còn trên mức UEL thì lại thiếu oxy để duy trì sự cháy.
-            * **Quy định an toàn:** Khí dễ cháy bao gồm các loại khí có giới hạn nổ dưới (LEL) từ **10% trở xuống**, hoặc những khí có khoảng chênh lệch giữa giới hạn nổ trên và giới hạn nổ dưới từ **20% trở lên**.
-            * **Ví dụ điển hình:** Metan (Methane), Hydro (Hydrogen), Propane, Acetylene, v.v..
+            **Giải thích thuật ngữ:**
+            * **LEL (Lower Explosive Limit):** Giới hạn nổ dưới. Dưới mức này, khí quá loãng để cháy.
+            * **UEL (Upper Explosive Limit):** Giới hạn nổ trên. Trên mức này, hỗn hợp quá đặc khí nên không cháy được.
+            * **Quy định an toàn:** Khí dễ cháy bao gồm các loại khí có giới hạn nổ dưới (LEL) từ **10% trở xuống**, hoặc những khí có khoảng chênh lệch giữa UEL và LEL từ **20% trở lên**.
             """)
         with col2:
-            st.info("💡 Thiết bị Riken Keiki sẽ luôn được cài đặt để kích hoạt báo động từ rất sớm, thường ở mức 10% LEL, để đảm bảo công nhân có đủ thời gian sơ tán trước khi đạt ngưỡng nổ.")
+            st.markdown("""
+            <div style="background-color: #e8f4f8; padding: 20px; border-radius: 10px; border-left: 5px solid #0056b3; height: 100%;">
+                <h4 style="color: #0056b3; margin-top: 0;">💡 Tiêu chuẩn An toàn (Riken Keiki)</h4>
+                <p style="color: #333; font-size: 15px;">
+                    Điểm báo động (Alarm) <b>KHÔNG ĐƯỢC PHÉP</b> cài đặt vượt quá <b>1/4 (tức 25%) của mức LEL</b>.<br>
+                    Nhờ đó công nhân có "thời gian vàng" để sơ tán trước khi đạt ngưỡng nổ.
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
 
+    # ---------------- TAB 2: KHÍ ĐỘC ----------------
     with tab2:
         st.header("☠️ Khí độc (Toxic gases)")
-        
-        # Hiệu ứng khí độc phát sáng
-        st.markdown('<div class="toxic-glow"><b>☢️ ĐỊNH NGHĨA:</b> Là các loại khí gây hại cho sức khỏe con người. Mức độ nguy hiểm thường được đánh giá qua "nồng độ cho phép" – mức tối đa trong không khí mà người lao động có thể tiếp xúc nhiều lần nhưng không bị ảnh hưởng xấu.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="toxic-glow">☢️ ĐỊNH NGHĨA: Là các loại khí gây hại cho sức khỏe con người. Mức độ nguy hiểm thường được đánh giá qua "nồng độ cho phép" – mức tối đa mà người lao động có thể tiếp xúc nhiều lần nhưng không bị ảnh hưởng xấu.</div>', unsafe_allow_html=True)
         
         
         if os.path.exists("image_toxic.png"):
             st.image("image_toxic.png", use_container_width=True)
 
-        st.markdown("### Một số loại khí độc cực kỳ phổ biến và nguy hiểm:")
+        st.markdown("### 🔬 Khái niệm PPM (Phần triệu) nguy hiểm tới mức nào?")
+        st.write("Trong 1.000.000 hạt không khí, chỉ cần lẫn vào vài chục hạt khí độc đã đủ cướp đi sinh mạng con người. Hãy xem mô phỏng tỷ lệ dưới đây:")
+        
+        html_ppm = """
+        <div class="ppm-container">
+            <div class="ppm-bar" style="width: 1.28%; background-color: #dc3545;">1.28%</div>
+            <span style="position:absolute; left: 2%; top: 7px; color: #333; font-weight: bold;">CO (Carbon monoxide): 12,800 ppm (Tử vong trong 1-3 phút)</span>
+        </div>
+        <div class="ppm-container">
+            <div class="ppm-bar" style="width: 0.5%; background-color: #8b0000;">0.5%</div>
+            <span style="position:absolute; left: 1%; top: 7px; color: #333; font-weight: bold;">H2S (Hydrogen sulfide): 5,000 ppm (Tử vong NGAY LẬP TỨC)</span>
+        </div>
+        """
+        st.markdown(html_ppm, unsafe_allow_html=True)
+
         col1, col2 = st.columns(2)
         with col1:
-            st.error("**Carbon monoxide (CO) - Sát thủ thầm lặng**\n* Khí không màu và không mùi.\n* **Cơ chế:** Xâm nhập vào máu, kết hợp với hemoglobin trong hồng cầu và ngăn chặn cơ thể vận chuyển oxy.\n* **Triệu chứng:** Đau đầu, buồn nôn, chóng mặt.\n* **Nguy hiểm tột độ:** Ở nồng độ rất cao (khoảng 1,28% hoặc 12.800 ppm), nó có thể cướp đi sinh mạng chỉ trong **1 đến 3 phút**.")
+            st.error("**Carbon monoxide (CO) - Sát thủ thầm lặng**\n* Khí không màu và không mùi.\n* **Cơ chế:** Xâm nhập vào máu, kết hợp với hemoglobin trong hồng cầu, ngăn cơ thể vận chuyển oxy.\n* **Triệu chứng:** Đau đầu, buồn nôn, chóng mặt.")
         with col2:
-            st.warning("**Hydrogen sulfide (H2S) - Khí mùi trứng thối**\n* Tình trạng ngộ độc xảy ra khi nồng độ vượt quá **10 ppm**.\n* **Triệu chứng:** Kích ứng mắt và phổi, viêm phế quản, phù phổi.\n* **Sự đánh lừa nguy hiểm:** Gây **tê liệt khứu giác** làm bạn không còn ngửi thấy mùi thối đặc trưng của nó nữa.\n* **Nguy hiểm tột độ:** Ở mức 5.000 ppm, H2S gây tử vong ngay lập tức.")
+            st.warning("**Hydrogen sulfide (H2S) - Khí mùi trứng thối**\n* Tình trạng ngộ độc xảy ra khi nồng độ vượt quá **10 ppm**.\n* **Sự đánh lừa nguy hiểm:** Gây **tê liệt khứu giác** làm nạn nhân không còn ngửi thấy mùi thối nữa.\n* **Triệu chứng:** Kích ứng mắt, phổi, phù phổi.")
 
+    # ---------------- TAB 3: THIẾU OXY ----------------
     with tab3:
         st.header("💨 Tình trạng thiếu oxy và ngạt khí (Anoxia)")
         st.markdown("Trong điều kiện bình thường, không khí chúng ta hít thở chứa khoảng **20,93% oxy**. Tình trạng 'thiếu oxy' được xác định khi nồng độ oxy trong không khí **giảm xuống dưới 18%**.")
         
-        
         if os.path.exists("image_oxygen.png"):
             st.image("image_oxygen.png", use_container_width=True)
 
-        st.markdown("### 📊 Biểu đồ trực quan hậu quả suy giảm Oxy:")
+        st.markdown("### 📊 Mức độ đe dọa sinh tồn khi Oxy suy giảm:")
         
-        # Hiệu ứng thanh đo suy giảm Oxy bằng HTML/CSS
+        # Thanh CSS Depletion Bar được làm lại đẹp hơn
         html_oxy = """
-        <div class="oxy-bg"><div class="oxy-bar" style="width: 100%; background-color: #28a745;">20.93% - BÌNH THƯỜNG</div></div>
-        <div class="oxy-bg"><div class="oxy-bar" style="width: 86%; background-color: #ffc107; color: black;">Dưới 18% - THIẾU OXY CẢNH BÁO</div></div>
-        <div class="oxy-bg"><div class="oxy-bar" style="width: 67%; background-color: #fd7e14;">16% ~ 12% - Tăng nhịp tim, thở gấp, đau đầu, buồn nôn</div></div>
-        <div class="oxy-bg"><div class="oxy-bar" style="width: 38%; background-color: #e83e8c;">10% ~ 6% - Mất khả năng di chuyển, ảo giác, co giật, bất tỉnh</div></div>
-        <div class="oxy-bg"><div class="oxy-bar" style="width: 15%; background-color: #dc3545;">≤ 6% - NGỪNG THỞ, TỬ VONG NGAY LẬP TỨC</div></div>
+        <div class="oxy-bg"><div class="oxy-bar" style="width: 100%; background: linear-gradient(90deg, #11998e, #38ef7d);">20.93% - KHÔNG KHÍ BÌNH THƯỜNG</div></div>
+        <div class="oxy-bg"><div class="oxy-bar" style="width: 86%; background: linear-gradient(90deg, #f2c94c, #f2994a); color: #000;">Dưới 18% - THIẾU OXY (Báo động an toàn)</div></div>
+        <div class="oxy-bg"><div class="oxy-bar" style="width: 67%; background: linear-gradient(90deg, #e65c00, #F9D423);">16% ~ 12% - Thở gấp, tăng nhịp tim, buồn nôn</div></div>
+        <div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 38%; background: linear-gradient(90deg, #b20a2c, #fffbd5); color: #000;">10% ~ 6% - Ảo giác, co giật, bất tỉnh</div></div>
+        <div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 15%; background: linear-gradient(90deg, #cb2d3e, #ef473a);">≤ 6% - TỬ VONG NGAY LẬP TỨC</div></div>
         """
         st.markdown(html_oxy, unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
-        st.success("Bởi vì con người không có giác quan để nhận biết nồng độ Oxy bị tuột giảm, việc sử dụng các thiết bị đo đa khí (như dòng GX-3R) mang bên người là quy tắc sinh tử khi bước vào không gian hạn hẹp (bồn chứa, cống ngầm).")
-
-    st.markdown("---")
+        
+        st.success("💡 **Bài học sinh tử:** Không một ai có thể tự 'ngửi' hay 'cảm nhận' được lượng Oxy đang giảm đi trong không gian hạn hẹp. Do đó, đeo máy đo khí đa chỉ tiêu (như dòng GX) là quy tắc bắt buộc để sống sót.")
