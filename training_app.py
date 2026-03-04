@@ -506,9 +506,7 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
 # ---------------- TRANG 4: TIÊU CHUẨN & THUẬT NGỮ ----------------
 elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
     st.title("📖 Từ Điển: Tiêu Chuẩn & Thuật Ngữ Kỹ Thuật")
-    st.markdown("Để giải thích cho một người chưa biết gì có thể dễ dàng hiểu được, chúng ta hãy hình dung các tiêu chuẩn này giống như **các loại 'Hộ chiếu' và 'Giấy khám sức khỏe'** dành riêng cho máy móc công nghiệp. Việc thấu hiểu các chứng chỉ quốc tế và các giới hạn phơi nhiễm là yêu cầu bắt buộc để tư vấn giải pháp chính xác cho khách hàng.")
-    st.markdown("---")
-
+   
     tab_std, tab_expo = st.tabs(["🛡️ Tiêu Chuẩn Chống Cháy Nổ & An Toàn", "⚠️ Giới Hạn Phơi Nhiễm Khí Độc"])
 
     with tab_std:
@@ -523,7 +521,7 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
             
             with st.container(border=True):
                 st.markdown("#### 🇺🇸 UL, FM, CSA (Của Bắc Mỹ)")
-                st.markdown("Mỹ và Canada không dùng hệ ATEX/IECEx mà có luật riêng (phân loại Class/Division thay vì Zone).\n\n- **UL (Underwriters Laboratories):** Công ty kiểm định lớn nhất Mỹ. 'UL Listed' là bảo chứng vàng tại thị trường Mỹ.\n- **FM (Factory Mutual):** Thiết bị có dấu 'FM Approved' đã trải qua các bài test cực kỳ tàn bạo.\n- **CSA:** Tiêu chuẩn tương đương nhưng dành cho Canada.")
+                st.markdown("Mỹ và Canada không dùng hệ ATEX/IECEx mà có luật riêng (phân loại Class/Division thay vì Zone).\n\n- **UL (Underwriters Laboratories):** Công ty kiểm định lớn nhất Mỹ. 'UL Listed' là bảo chứng vàng tại thị trường Mỹ.\n- **FM (Factory Mutual):** Thiết bị có dấu 'FM Approved' đã trải qua các bài test cực kỳ khắc nghiệt.\n- **CSA:** Tiêu chuẩn tương đương nhưng dành cho Canada.")
 
         with col2:
             with st.container(border=True):
