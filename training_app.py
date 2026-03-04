@@ -430,7 +430,7 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
                 if os.path.exists("images/kanshiro.png"): st.image("images/kanshiro.png")
                 st.markdown("#### Phần mềm Kanshiro II")
                 st.markdown("- Hệ thống giám sát SCADA trên máy tính/điện thoại qua trình duyệt Web.\n- Quản lý siêu khủng: Lên tới **60.000 thẻ (tags)** tín hiệu.\n- Lưu trữ 100 triệu sự kiện và 3 năm dữ liệu xu hướng.")
-                st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=kanshiro&post_type=any", use_container_width=True)
+                st.link_button("🔍 Tra cứu trên Riken Viet", "https://product.rikenkeiki.co.jp/products/244-.html", use_container_width=True)
 
         # 2. ĐẦU DÒ THÔNG MINH
         st.markdown('<div class="branch-title branch-title-fixed">2. Đầu dò khí thông minh (Smart Detectors & Transmitters)</div>', unsafe_allow_html=True)
