@@ -159,7 +159,7 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
 
     st.markdown("---")
     st.subheader("📺 Video giới thiệu")
-    st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ") 
+    st.video("https://youtu.be/DL9K-LVeqdc?si=T6vL91uEHSAbV_Dh") 
     st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center;'>Đánh giá mức độ hội nhập</h3>", unsafe_allow_html=True)
     col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
