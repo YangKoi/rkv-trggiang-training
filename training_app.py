@@ -369,8 +369,8 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
                 st.markdown("- Bơm hút công suất cao (hút xa tới 45m).\n- GX-9000: Đo tối đa **6 khí (kể cả VOC)**.\n- GX-9000H: Dùng cho nồng độ H2S cao.\n- Vượt qua test thả rơi 1.5m, Bluetooth.")
             
             with st.container(border=True):
-                if os.path.exists("images/gx-6000.png"): st.image("images/gx-6000.png")
-                st.markdown("#### GX-6000 (6 khí)")
+                if os.path.exists("images/gx-6100.png"): st.image("images/gx-6100.png")
+                st.markdown("#### GX-6100 (6 khí)")
                 st.markdown("- Bơm hút đo đồng thời 6 khí (bao gồm **VOCs**).\n- Chế độ đo chọn lọc Benzene.\n- Báo động hoảng loạn (panic), ngã (man down), tích hợp đèn pin LED.")
 
 
