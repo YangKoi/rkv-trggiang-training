@@ -510,7 +510,7 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
     tab_std, tab_expo = st.tabs(["🛡️ Tiêu Chuẩn Chống Cháy Nổ & An Toàn", "⚠️ Giới Hạn Phơi Nhiễm Khí Độc"])
 
     with tab_std:
-        st.subheader("Nhóm 1: Các 'Hộ chiếu' chống cháy nổ theo khu vực địa lý")
+        st.subheader("Nhóm 1: Các tiêu chuẩn chống cháy nổ theo khu vực địa lý")
         st.markdown("Bất kỳ thiết bị nào mang vào môi trường nguy hiểm đều tuyệt đối không được phát ra tia lửa điện. Quá trình kiểm tra khả năng này sinh ra các tiêu chuẩn sau:")
         
         col1, col2 = st.columns(2, gap="large")
@@ -532,7 +532,7 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
         
         col3, col4 = st.columns(2, gap="large")
         with col3:
-            st.subheader("Nhóm 2: 'Hộ chiếu' Đi biển")
+            st.subheader("Nhóm 2: Tiêu chuẩn hàng hải")
             with st.container(border=True):
                 st.markdown("#### ⚓ MED (Marine Equipment Directive)")
                 st.markdown("**Nó là gì?** Chỉ thị Thiết bị Hàng hải của Châu Âu.\n\n**Giải thích:** Môi trường tàu biển rất khắc nghiệt (muối mặn, rung lắc). Máy dùng tốt trên đất liền chưa chắc mang lên tàu đã thọ được. Máy đo khí muốn lắp trên tàu thủy quốc tế phải đạt chứng chỉ MED.\n\n**Nhận diện:** Biểu tượng **Bánh lái tàu (Wheelmark)**.")
