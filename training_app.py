@@ -580,16 +580,7 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
             </div>
             """, unsafe_allow_html=True)
             
-        # Cheat Sheet
-        #st.markdown("### 💡 TỔNG KẾT NHANH (Cheat-sheet cho Sales/Kỹ thuật)")
-        #st.markdown("""
-        #| Khách hàng hỏi | Có nghĩa là họ đang quan tâm đến... |
-        #| :--- | :--- |
-        #| **"Máy này có ATEX / IECEx không?"** | Máy của em có phát ra tia lửa gây nổ nhà máy dầu khí của anh không? |
-        #| **"Máy này có FM / UL không?"** | Máy có đạt tiêu chuẩn an toàn để bán vào nhà máy kiểu Mỹ không? |
-        #| **"Máy có chứng chỉ MED không?"** | Máy có chịu được muối biển và rung lắc trên tàu thủy không? |
-        #| **"Máy đạt chuẩn SIL mấy?"** | Anh giao mạng sống cho máy này, nó có đáng tin không, hay lúc có sự cố nó lại lăn ra hỏng? |
-       # """)
+       
 
     with tab_expo:
         st.subheader("Nhóm Thuật ngữ Phơi nhiễm Khí độc")
