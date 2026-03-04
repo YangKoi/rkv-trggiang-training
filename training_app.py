@@ -130,14 +130,11 @@ with st.sidebar:
     app_mode = st.radio("Chọn chuyên mục:", [
         "🎓 Cổng Đào Tạo Hội Nhập",
         "☣️ Kiến Thức: Phân Loại Khí",
-        "📟 Phân Loại Thiết Bị"
+        "📟 Phân Loại Thiết Bị",
         "📖 Tiêu Chuẩn & Thuật Ngữ" # THÊM TAB MỚI
     ])
     st.markdown("---")
-    # Đã bỏ phần Gợi ý (Mẹo)
-    # Thêm dòng Bản quyền ở dưới cùng
     st.markdown("<div style='text-align: center; color: #888888; font-size: 13px; margin-top: 30px;'>© Bản quyền thuộc về Riken Việt</div>", unsafe_allow_html=True)
-
 # ==========================================
 # 5. NỘI DUNG TỪNG TRANG
 # ==========================================
