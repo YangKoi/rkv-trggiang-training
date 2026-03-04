@@ -9,7 +9,7 @@ except ImportError:
     Github = None
 
 # ==========================================
-# 1. CẤU HÌNH TRANG & BỘ NHỚ
+# 1. CẤU HÌNH TRANG & BỘ NHỚ (SESSION STATE)
 # ==========================================
 st.set_page_config(page_title="Riken Viet - Đào tạo nội bộ", page_icon="🎓", layout="wide")
 
@@ -103,7 +103,7 @@ def take_quiz_dialog():
         if not user_name: st.error("⚠️ Vui lòng nhập Họ và Tên!")
         elif not q1 or not q2 or not q3: st.error("⚠️ Vui lòng trả lời đầy đủ 3 câu hỏi!")
         else:
-            with st.spinner("Đang gửi bài lên máy chủ GitHub..."):
+            with st.spinner("Đang gửi kết quả bài làm lên GitHub..."):
                 score = 0
                 if q1.startswith("C"): score += 1
                 if q2.startswith("B"): score += 1
@@ -144,7 +144,7 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
     col_title, col_admin = st.columns([4, 1.5]) 
     with col_title:
         st.title("🎓 Cổng Đào Tạo Năng Lực & Hội Nhập")
-        st.markdown("**Xin chào thành viên mới!** Vui lòng tìm hiểu về lịch sử công ty, theo dõi video và hoàn thành bài kiểm tra.")
+        st.markdown("**Xin chào thành viên mới!** Vui lòng tìm hiểu về lịch sử công ty, theo dõi video và hoàn thành bài kiểm tra để hoàn tất thủ tục hội nhập.")
     with col_admin:
         st.markdown("<br>", unsafe_allow_html=True)
         with st.popover("🗄️ Dành cho Quản lý (Admin)", use_container_width=True):
@@ -172,11 +172,11 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
         st.markdown("---")
         col_cert1, col_cert2 = st.columns([2, 1])
         with col_cert1:
-            st.success("🎉 Hệ thống xác nhận bạn hoàn thành khóa Onboarding!")
+            st.success("🎉 Hệ thống đã xác nhận bạn hoàn thành khóa Onboarding!")
         with col_cert2:
             st.download_button("📥 Tải Sổ tay nhân viên (PDF)", data="Nội dung PDF...", file_name="SoTay_RikenViet.pdf", type="primary", use_container_width=True)
 
-# ---------------- TRANG 2: KIẾN THỨC VỀ KHÍ (FULL RECOVERY) ----------------
+# ---------------- TRANG 2: KIẾN THỨC VỀ KHÍ (KHÔI PHỤC TOÀN DIỆN) ----------------
 elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     st.markdown("""<style> 
     @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 78, 80, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0); } } 
@@ -193,13 +193,15 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     </style>""", unsafe_allow_html=True)
 
     st.title("☣️ Kiến Thức Chuyên Sâu Các Loại Khí Nguy Hiểm")
+    st.markdown("Trong môi trường công nghiệp, rủi ro về khí là những **'Kẻ thù vô hình'**. Các thiết bị được thiết kế để theo dõi và bảo vệ sinh mạng.")
     st.markdown("---")
+
     tab1, tab2, tab3, tab4 = st.tabs(["🔥 1. Khí dễ cháy", "☠️ 2. Khí độc", "💨 3. Thiếu oxy & Ngạt khí", "🏥 4. Khí đặc biệt (Y tế/Hun trùng)"])
 
     # --- TAB 1: KHÍ DỄ CHÁY ---
     with tab1:
         st.header("🔥 Khí dễ cháy (Combustible gases)")
-        st.markdown('<div class="alert-box"><b>⚠️ ĐỊNH NGHĨA:</b> Là khí có thể cháy nổ khi hòa trộn với oxy ở một nồng độ nhất định và tiếp xúc với nguồn cháy.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="alert-box"><b>⚠️ ĐỊNH NGHĨA:</b> Là khí có thể cháy hoặc nổ nếu hòa trộn với oxy ở một nồng độ nhất định và tiếp xúc với nguồn gây cháy (tia lửa, nhiệt độ cao).</div>', unsafe_allow_html=True)
         if os.path.exists("images/image_combustible.png"): st.image("images/image_combustible.png", use_container_width=True)
         
         st.markdown("### 📊 Trực quan hóa Giới hạn cháy nổ (Explosive Range)")
@@ -220,16 +222,16 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
             | **Carbon Monoxide (CO)** | 12.5 | 74.0 |
             """)
         with col2:
-            st.info("**💡 Tiêu chuẩn An toàn (Riken Keiki)**\n\nĐiểm Alarm **KHÔNG ĐƯỢC PHÉP** cài đặt vượt quá **1/4 (tức 25%) mức LEL**. Ví dụ: Methane có LEL=5.0% thì máy sẽ báo động ngay khi đạt **1.25%vol**.")
+            st.info("**💡 Tiêu chuẩn An toàn (Riken Keiki)**\n\nĐiểm Alarm **KHÔNG ĐƯỢC PHÉP** cài đặt vượt quá **1/4 (tức 25%) mức LEL**. Nhờ đó công nhân có 'thời gian vàng' để sơ tán.")
 
     # --- TAB 2: KHÍ ĐỘC ---
     with tab2:
         st.header("☠️ Khí độc (Toxic gases)")
-        st.markdown('<div class="toxic-glow">☢️ ĐỊNH NGHĨA: Gây hại trực tiếp cho sức khỏe con người qua đường hô hấp. Mức độ nguy hiểm cực cao ở nồng độ cực thấp.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="toxic-glow">☢️ ĐỊNH NGHĨA: Là các loại khí gây hại cho sức khỏe con người. Mức độ nguy hiểm thường được đánh giá qua "nồng độ cho phép" (TLV).</div>', unsafe_allow_html=True)
         if os.path.exists("images/image_toxic.png"): st.image("images/image_toxic.png", use_container_width=True)
         
         st.markdown("### 🔄 Quy đổi nồng độ: % Thể tích (%vol) sang Phần triệu (PPM)")
-        st.info("💡 **Công thức:** 1% vol = 10,000 ppm. Khí độc được đo bằng ppm vì chúng giết người ngay cả khi chỉ chiếm 0.001% không khí.")
+        st.info("💡 **Công thức:** 1% vol = 10,000 ppm. Vì khí độc nguy hiểm ở nồng độ cực thấp, người ta dùng 'ppm' thay vì '%' để tránh nhầm lẫn.")
         
         col_c1, col_c2 = st.columns([1.2, 1], gap="medium")
         with col_c1:
@@ -238,40 +240,57 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
             | :--- | :--- | :--- |
             | 100 % | 1,000,000 ppm | Khí nguyên chất |
             | 1 % | **10,000 ppm** | 🔴 Chết người ngay lập tức |
-            | 0.1 % | 1,000 ppm | Báo động cực kỳ nghiêm trọng |
+            | 0.1 % | 1,000 ppm | Báo động nghiêm trọng |
             | 0.01 % | 100 ppm | Ngưỡng phơi nhiễm (VD: CO) |
-            | 0.001 % | 10 ppm | Mức báo động an toàn (VD: H2S) |
+            | 0.001 % | 10 ppm | Mức báo động (VD: H2S) |
             """)
         with col_c2:
-            st.markdown("### 🔬 Sát thủ tàng hình nguy hiểm cỡ nào?")
+            st.markdown("### 🔬 Sát thủ tàng hình")
             html_ppm = """<div class="ppm-container"><div class="ppm-bar" style="width: 1.28%; background-color: #dc3545;">1.28%</div><span style="position:absolute; left: 2%; top: 7px; color: #333; font-weight: bold;">CO: 12,800 ppm (Tử vong 1-3 phút)</span></div><div class="ppm-container"><div class="ppm-bar" style="width: 0.5%; background-color: #8b0000;">0.5%</div><span style="position:absolute; left: 1%; top: 7px; color: #333; font-weight: bold;">H2S: 5,000 ppm (Tử vong NGAY LẬP TỨC)</span></div>"""
             st.markdown(html_ppm, unsafe_allow_html=True)
-            st.warning("**Carbon monoxide (CO):** Không màu/mùi. Ngăn hồng cầu chở oxy.\n\n**Hydrogen sulfide (H2S):** Mùi trứng thối. Gây **tê liệt khứu giác** khiến nạn nhân tưởng đã an toàn.")
+            st.warning("**Carbon monoxide (CO):** Không màu/mùi. Xâm nhập máu ngăn vận chuyển oxy.\n\n**Hydrogen sulfide (H2S):** Mùi trứng thối. Gây **tê liệt khứu giác** khiến bạn tưởng đã hết nguy hiểm.")
 
     # --- TAB 3: THIẾU OXY ---
     with tab3:
-        st.header("💨 Thiếu oxy và ngạt khí (Anoxia)")
-        st.markdown("Trong điều kiện chuẩn, không khí chứa **20.93% oxy**. Trạng thái nguy hiểm bắt đầu khi oxy giảm xuống dưới **18%**.")
+        st.header("💨 Tình trạng thiếu oxy và ngạt khí (Anoxia)")
+        st.markdown("Trong điều kiện bình thường, không khí chứa khoảng **20.93% oxy**. Tình trạng 'thiếu oxy' được xác định khi nồng độ giảm xuống dưới **18%**.")
         if os.path.exists("images/image_oxygen.png"): st.image("images/image_oxygen.png", use_container_width=True)
         st.markdown("### 📊 Mức độ đe dọa sinh tồn khi Oxy suy giảm:")
-        html_oxy = """<div class="oxy-bg"><div class="oxy-bar" style="width: 100%; background: linear-gradient(90deg, #11998e, #38ef7d);">20.93% - KHÔNG KHÍ BÌNH THƯỜNG</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 86%; background: linear-gradient(90deg, #f2c94c, #f2994a); color: #000;">Dưới 18% - THIẾU OXY (Báo động an toàn)</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 67%; background: linear-gradient(90deg, #e65c00, #F9D423);">16% ~ 12% - Thở gấp, tăng nhịp tim, buồn nôn</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 38%; background: linear-gradient(90deg, #b20a2c, #fffbd5); color: #000;">10% ~ 6% - Ảo giác, bất tỉnh, co giật</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 15%; background: linear-gradient(90deg, #cb2d3e, #ef473a);">≤ 6% - TỬ VONG TRONG VÀI GIÂY</div></div>"""
+        html_oxy = """<div class="oxy-bg"><div class="oxy-bar" style="width: 100%; background: linear-gradient(90deg, #11998e, #38ef7d);">20.93% - KHÔNG KHÍ BÌNH THƯỜNG</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 86%; background: linear-gradient(90deg, #f2c94c, #f2994a); color: #000;">Dưới 18% - THIẾU OXY (Báo động an toàn)</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 67%; background: linear-gradient(90deg, #e65c00, #F9D423);">16% ~ 12% - Thở gấp, tăng nhịp tim, buồn nôn</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 38%; background: linear-gradient(90deg, #b20a2c, #fffbd5); color: #000;">10% ~ 6% - Ảo giác, co giật, bất tỉnh</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 15%; background: linear-gradient(90deg, #cb2d3e, #ef473a);">≤ 6% - TỬ VONG NGAY LẬP TỨC</div></div>"""
         st.markdown(html_oxy, unsafe_allow_html=True)
+        st.success("💡 **Quy tắc sống còn:** Tuyệt đối không tự ý bước vào không gian hạn hẹp (hầm, cống) mà không có máy đo khí đo kiểm trước!")
 
-    # --- TAB 4: KHÍ ĐẶC BIỆT ---
+    # --- TAB 4: KHÍ ĐẶC BIỆT (KHÔI PHỤC CHI TIẾT) ---
     with tab4:
         st.header("🏥 Khí đặc thù: Y tế, Khử trùng & Hun trùng")
-        st.markdown('<div class="special-glow">☣️ CẢNH BÁO: Các loại khí y tế/khử trùng có độc tính cực mạnh, giới hạn an toàn tính bằng phần tỷ (ppb).</div>', unsafe_allow_html=True)
-        col_s1, col_s2 = st.columns([1.2, 1], gap="large")
-        with col_s1:
-            st.markdown("### 1. Khử trùng / Hun trùng (Fumigation)")
-            st.markdown("- **Các khí:** Phosphine (PH3), Methyl bromide, Ethylene oxide (EO).\n- **Độ độc:** PH3 an toàn chỉ ở mức **0.05 ppm** (50 ppb).")
-            st.info("💡 **Khái niệm PPB (Phần tỷ):** 0.05 ppm = 50 ppb. Rất khó phát hiện nếu không có cảm biến siêu nhạy.")
-            html_ppb = """<div class="ppm-container" style="height: 40px;"><div class="ppb-bar" style="width: 5%;">50 ppb (Mức báo động PH3)</div><span style="position:absolute; right: 10px; top: 10px; color: #777; font-size: 12px;">1 Tỷ hạt không khí</span></div>"""
-            st.markdown(html_ppb, unsafe_allow_html=True)
-            st.markdown("### 2. Khí Gây mê (Anesthetic)\n- N2O, Halothane, Sevoflurane...\n- Rò rỉ phòng mổ gây ảnh hưởng sức khỏe lâu dài cho đội ngũ y bác sĩ.")
-        with col_s2:
-            st.markdown("### 🛡️ Thiết bị chuyên dụng Riken Keiki")
-            st.markdown("""<div style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 10px;"><h5 style="color: #d400ff; margin-top: 0;">📟 SP-230 / 📼 FP-300 / 🔭 FI-8000</h5><p style="font-size: 14px; color: #555;">Đây là các dòng máy chuyên dụng sử dụng công nghệ băng cassette hoặc giao thoa quang học để đo nồng độ ppb chính xác tuyệt đối.</p></div>""", unsafe_allow_html=True)
+        st.markdown('<div class="special-glow">☣️ CẢNH BÁO NGHIÊM NGẶT: Các loại khí dùng trong y tế, khử trùng và hun trùng (fumigation) được pháp luật và tiêu chuẩn an toàn phân loại nghiêm ngặt vào nhóm khí độc nguy hiểm tột độ. Bắt buộc phải có thiết bị phát hiện và báo động rò rỉ tại cơ sở lưu trữ.</div>', unsafe_allow_html=True)
+
+        st.subheader("1. Khí khử trùng / Hun trùng (Fumigation gases)")
+        st.markdown("""
+        * **Các loại phổ biến:** Bao gồm Phosphine (PH3), Methyl bromide (CH3Br), Ethylene oxide (EO - thường dùng khử trùng dụng cụ y tế), Hydrogen cyanide, Sulfuryl fluoride, Methyl iodide, và Propylene oxide.
+        * **Mức độ nguy hiểm cực cao:** Lấy ví dụ như **Phosphine (PH3)**, nồng độ giới hạn cho phép (TLV) theo tiêu chuẩn an toàn chỉ ở mức rất nhỏ là **0.05 ppm**. Ethylene oxide và Methyl bromide cũng là các hóa chất có độc tính mạnh, có khả năng gây ngộ độc nếu hít phải dù chỉ ở nồng độ thấp.
+        """)
+        
+        st.info("💡 **Khái niệm PPB (Phần tỷ):** 0.05 ppm tương đương với **50 ppb**. Để phát hiện một lượng khí siêu nhỏ này đòi hỏi cảm biến công nghệ tối tân.")
+        html_ppb = """<div class="ppm-container" style="height: 40px;"><div class="ppb-bar" style="width: 5%;">50 ppb (Mức báo động PH3)</div><span style="position:absolute; right: 10px; top: 10px; color: #777; font-size: 12px;">1 Tỷ hạt không khí</span></div>"""
+        st.markdown(html_ppb, unsafe_allow_html=True)
+        
+        st.markdown("""
+        **Thiết bị đo chuyên dụng:** Vì tính chất đặc thù, chúng yêu cầu các thiết bị phát hiện riêng biệt:
+        - **Máy dò rò rỉ di động SP-230 (TYPE FUM):** Là dòng máy kiểu bơm hút được thiết kế riêng để phát hiện rò rỉ khí khử trùng. Một máy có thể hỗ trợ đo tới 7 loại khí khử trùng khác nhau.
+        - **Hệ thống phát hiện siêu nhạy:** Để phát hiện PH3 rò rỉ ở nồng độ cực thấp, người ta sử dụng các máy đo dùng băng cassette (ví dụ: FP-300, FP-301) có khả năng phát hiện ở mức **ppb (phần tỷ)**.
+        - **Máy đo nồng độ quang học FI-8000:** Có phiên bản sử dụng buồng đo 48 mm chuyên dùng để đo nồng độ chính xác của các loại khí hun trùng này trong không gian kín.
+        """)
+
+        st.markdown("---")
+        st.subheader("2. Khí gây mê trong y tế (Anesthetic gases)")
+        st.markdown("""
+        Bên cạnh khí khử trùng, môi trường y tế còn đặc biệt lưu tâm đến các loại khí gây mê.
+        * **Các loại phổ biến:** Nitrous oxide (khí cười - N2O), Halothane, Isoflurane, Sevoflurane, Desflurane, và Enflurane.
+        * **Thiết bị đo:** Các loại khí gây mê này thường được đo lường nồng độ bằng **máy đo giao thoa quang học FI-8000** (phiên bản dùng buồng đo 24 mm). Máy dùng phương pháp đo chiết suất ánh sáng của khí, giúp đo lường chính xác mà không làm suy giảm độ nhạy của cảm biến theo thời gian.
+        """)
+        
+        st.success("🎯 **Nhìn chung:** Dù ứng dụng trong công nghiệp hay y tế, đây đều là những khí có nguy cơ tiềm ẩn rất lớn. Quá trình làm việc đòi hỏi máy đo khí phải có độ chuẩn xác cực cao và khả năng phản hồi nhanh chóng.")
 
 # ---------------- TRANG 3: PHÂN LOẠI THIẾT BỊ ----------------
 elif app_mode == "📟 Phân Loại Thiết Bị":
@@ -280,6 +299,7 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
     tab_portable, tab_fixed = st.tabs(["📱 MÁY CẦM TAY (PORTABLE)", "🏭 HỆ THỐNG CỐ ĐỊNH (FIXED)"])
 
     with tab_portable:
+        # Nhóm 1: Đa khí
         st.markdown('<div class="branch-title">1. Máy đo Đa Khí (Multi Gas Detectors)</div>', unsafe_allow_html=True)
         col_m1, col_m2, col_m3 = st.columns(3, gap="medium")
         with col_m1:
@@ -301,84 +321,93 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
                 if os.path.exists("images/gx-9000.png"): st.image("images/gx-9000.png")
                 st.markdown("#### GX-9000 / 9000H\n- Bơm hút xa 45m.\n- Đo 6 khí (kể cả VOC).\n- Thả rơi 1.5m, Bluetooth.")
             with st.container(border=True):
-                if os.path.exists("images/gx-6000.png"): st.image("images/gx-6000.png")
-                st.markdown("#### GX-6000 (6 khí)\n- Tích hợp đo VOCs.\n- Chọn lọc Benzene.\n- Panic/Man-down alarm.")
+                if os.path.exists("images/gx-6100.png"): st.image("images/gx-6100.png")
+                st.markdown("#### GX-6100 (6 khí)\n- Tích hợp đo VOCs.\n- Chọn lọc Benzene.\n- Panic/Man-down alarm.")
 
+        # Nhóm 2: Đơn khí
         st.markdown('<div class="branch-title">2. Máy đo Đơn khí & 2 Khí nhỏ gọn</div>', unsafe_allow_html=True)
         col_s1, col_s2 = st.columns(2, gap="medium")
         with col_s1:
             with st.container(border=True):
                 if os.path.exists("images/04-series.png"): st.image("images/04-series.png")
-                st.markdown("#### Series 04\n- Siêu bền, chịu rơi 7m.\n- Pin cực dài (khô/sạc).\n- 12 model chuyên biệt.")
+                st.markdown("#### Series 04\n- Siêu bền, chịu rơi **7 mét**.\n- Pin cực dài (khô/sạc).\n- 12 model (CX-04 đo được 2 khí).")
         with col_s2:
             with st.container(border=True):
                 if os.path.exists("images/gw-3.png"): st.image("images/gw-3.png")
-                st.markdown("#### Series GW-3\n- Nhẹ nhất thế giới.\n- Đeo cổ tay như đồng hồ.\n- Chuẩn IP66/68.")
+                st.markdown("#### Series GW-3\n- Nhẹ nhất thế giới.\n- Đeo trên **cổ tay** như đồng hồ.\n- Chuẩn IP66/68.")
 
+        # Nhóm 3: Khí cháy chuyên dụng
         st.markdown('<div class="branch-title">3. Máy đo Khí dễ cháy chuyên dụng</div>', unsafe_allow_html=True)
         col_c1, col_c2 = st.columns(2, gap="medium")
         with col_c1:
             with st.container(border=True):
                 if os.path.exists("images/gp-1000.png"): st.image("images/gp-1000.png")
-                st.markdown("#### GP-1000 / NC-1000\n- **GP-1000**: Đo 0-100% LEL.\n- **NC-1000**: Đo LEL mức ppm.")
+                st.markdown("#### GP-1000 / NC-1000\n- **GP-1000**: 0-100% LEL, 25 loại khí.\n- **NC-1000**: Đo mức thấp (ppm).")
         with col_c2:
             with st.container(border=True):
                 if os.path.exists("images/np-1000.png"): st.image("images/np-1000.png")
                 st.markdown("#### NP-1000 / GP-03\n- **NP-1000**: Đo nồng độ cao 100vol%.\n- **GP-03**: Khuếch tán đơn khí cháy.")
 
+        # Nhóm 4: Rò rỉ & Đặc biệt
         st.markdown('<div class="branch-title">4. Máy phát hiện rò rỉ & Khí đặc biệt</div>', unsafe_allow_html=True)
         col_l1, col_l2 = st.columns(2, gap="medium")
         with col_l1:
             with st.container(border=True):
                 if os.path.exists("images/sp-230.png"): st.image("images/sp-230.png")
-                st.markdown("#### SP-230 Series\n- Dò rò rỉ. Đèn LED soi sáng.\n- Type F (Freon), H2 (Hydro), FUM (Khử trùng).")
+                st.markdown("#### SP-230 Series\n- Dò rò rỉ bơm hút. Đèn LED soi sáng.\n- Type F (Freon), Type H2 (Hydro), Type FUM (Khử trùng).")
         with col_l2:
             with st.container(border=True):
                 if os.path.exists("images/fi-8000.png"): st.image("images/fi-8000.png")
-                st.markdown("#### FI-8000 / FP-31\n- **FI-8000**: Giao thoa quang học.\n- **FP-31**: Đo Formaldehyde chuẩn WHO.")
+                st.markdown("#### FI-8000 / FP-31\n- **FI-8000**: Giao thoa quang học chuẩn xác.\n- **FP-31**: Đo HCHO chuẩn WHO.")
 
     with tab_fixed:
+        # 1. Tủ điều khiển
         st.markdown('<div class="branch-title branch-title-fixed">1. Tủ cảnh báo và Hệ thống trung tâm</div>', unsafe_allow_html=True)
         col_f1, col_f2 = st.columns(2, gap="medium")
         with col_f1:
             with st.container(border=True):
                 if os.path.exists("images/gp-148.png"): st.image("images/gp-148.png")
-                st.markdown("#### Hệ thống GP-148\n- UPS sẵn (3 ngày). Giám sát khí & lửa.\n- Trạm LPG, CNG, H2.")
+                st.markdown("#### Hệ thống GP-148\n- Tích hợp UPS sẵn (3 ngày).\n- Giám sát cả khí & lửa (Max 12 điểm).")
             with st.container(border=True):
                 if os.path.exists("images/rm-5000.png"): st.image("images/rm-5000.png")
-                st.markdown("#### RM-5000 Series\n- Tủ đa điểm, thanh bar & số.\n- Tùy chọn Modbus RS-485.")
+                st.markdown("#### RM-5000 Series\n- Tủ đa điểm, hiển thị thanh bar & số.\n- Tích hợp mạng RS-485.")
         with col_f2:
             with st.container(border=True):
                 if os.path.exists("images/rm-6000.png"): st.image("images/rm-6000.png")
-                st.markdown("#### RM-6000 Series\n- Bộ cảnh báo Module độc lập.\n- Màn hình LCD 3 màu đổi trạng thái.")
+                st.markdown("#### RM-6000 Series\n- Module độc lập, tháo lắp dễ dàng.\n- LCD **3 màu đổi trạng thái**.")
             with st.container(border=True):
                 if os.path.exists("images/kanshiro.png"): st.image("images/kanshiro.png")
-                st.markdown("#### Kanshiro II\n- Web SCADA. Quản lý 60.000 thẻ.\n- 100 triệu sự kiện, 3 năm xu hướng.")
+                st.markdown("#### Phần mềm Kanshiro II\n- Quản lý **60.000 thẻ**, 100 triệu sự kiện.\n- Hoạt động qua trình duyệt web.")
 
+        # 2. Đầu dò thông minh
         st.markdown('<div class="branch-title branch-title-fixed">2. Đầu dò khí thông minh (Smart Transmitters)</div>', unsafe_allow_html=True)
         col_f3, col_f4 = st.columns(2, gap="medium")
         with col_f3:
             with st.container(border=True):
                 if os.path.exists("images/sd-3.png"): st.image("images/sd-3.png")
-                st.markdown("#### SD-3 Series (Thế hệ mới)\n- F-Sensor: BH 3 năm, tự chẩn đoán.\n- SIL2/3, Thép SUS316, IP66/67.\n- Đo dải kép (ppm & LEL).")
+                st.markdown("#### SD-3 Series (Thế hệ mới)\n- **F-Sensor**: BH 3 năm, tự chẩn đoán.\n- **SIL2 / SIL3**, Thép SUS316, IP66/67.")
             with st.container(border=True):
                 if os.path.exists("images/sd-1.png"): st.image("images/sd-1.png")
-                st.markdown("#### SD-1 Series\n- Vận hành 'khóa từ' an toàn.\n- Chống nổ Hydro/Axetylen.")
+                st.markdown("#### SD-1 Series\n- Vận hành 'khóa từ' an toàn.\n- Chống nổ môi trường Hydro/Axetylen.")
         with col_f4:
             with st.container(border=True):
                 if os.path.exists("images/gd-70d.png"): st.image("images/gd-70d.png")
                 st.markdown("#### Dòng GD-70D / GD-84D\n- Chuyên cho nhà máy Bán dẫn.\n- Plug & Play thay module nóng.")
             with st.container(border=True):
                 if os.path.exists("images/gd-a2400.png"): st.image("images/gd-a2400.png")
-                st.markdown("#### GD-A2400 / SD-2500\n- Cho lò đốt (thanh dài 250mm).\n- Chịu nhiệt độ cực cao 160°C.")
+                st.markdown("#### GD-A2400 / SD-2500\n- Cho lò đốt (thanh dài 250mm). Chịu **160°C**.")
 
+        # 3. Phân tích & Đặc thù
         st.markdown('<div class="branch-title branch-title-fixed">3. Máy phân tích đặc thù & Dùng trong nhà</div>', unsafe_allow_html=True)
         col_f5, col_f6 = st.columns(2, gap="medium")
         with col_f5:
             with st.container(border=True):
                 if os.path.exists("images/600-series.png"): st.image("images/600-series.png")
-                st.markdown("#### Dòng 600 Series\n- Gọn nhẹ cho văn phòng. Pin 1 năm.\n- OX-600 có sửa lỗi áp suất.")
+                st.markdown("#### Dòng 600 Series (OX, EC, RI)\n- Gọn nhẹ cho văn phòng. Pin 1 năm.")
+            with st.container(border=True):
+                if os.path.exists("images/fp-300.png"): st.image("images/fp-300.png")
+                st.markdown("#### Dòng FP-300 / 301\n- Đo khí độc nồng độ ppb dùng cuộn băng.")
         with col_f6:
             with st.container(border=True):
                 if os.path.exists("images/fi-900.png"): st.image("images/fi-900.png")
-                st.markdown("#### FI-900 / OHC-800\n- Giao thoa quang học & Nhiệt lượng kế.\n- Độ chính xác tuyệt đối ngành khí.")
+                st.markdown("#### FI-900 / OHC-800\n- Giao thoa quang học & Nhiệt lượng kế.")
