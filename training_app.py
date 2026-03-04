@@ -121,7 +121,7 @@ def take_quiz_dialog():
                     st.warning("⚠️ Lỗi kết nối máy chủ GitHub!")
 
 # ==========================================
-# 4. SIDEBAR
+# 4. SIDEBAR (CẬP NHẬT BẢN QUYỀN)
 # ==========================================
 with st.sidebar:
     if os.path.exists("images/rkv_logo.png"):
@@ -133,11 +133,15 @@ with st.sidebar:
         "📟 Phân Loại Thiết Bị"
     ])
     st.markdown("---")
-    st.info("💡 **Gợi ý:** Hãy tìm hiểu kỹ phần 'Kiến thức Phân loại khí' trước khi thi hội nhập.")
+    # Đã bỏ phần Gợi ý (Mẹo)
+    # Thêm dòng Bản quyền ở dưới cùng
+    st.markdown("<div style='text-align: center; color: #888888; font-size: 13px; margin-top: 30px;'>© Bản quyền thuộc về Riken Việt</div>", unsafe_allow_html=True)
 
 # ==========================================
-# 5. TRANG 1: ĐÀO TẠO HỘI NHẬP
+# 5. NỘI DUNG TỪNG TRANG
 # ==========================================
+
+# ---------------- TRANG 1: ĐÀO TẠO HỘI NHẬP ----------------
 if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
     col_title, col_admin = st.columns([4, 1.5]) 
     with col_title:
@@ -145,7 +149,7 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
         st.markdown("**Xin chào thành viên mới!** Vui lòng tìm hiểu về lịch sử công ty, theo dõi video và hoàn thành bài kiểm tra.")
     with col_admin:
         st.markdown("<br>", unsafe_allow_html=True)
-        with st.popover("🗄️ Quản lý (Admin)", use_container_width=True):
+        with st.popover("🗄️ Dành cho Quản lý (Admin)", use_container_width=True):
             st.markdown("**📂 Kho lưu trữ Lịch sử Đào tạo**")
             if st.button("🔄 Tải dữ liệu mới nhất", use_container_width=True):
                 with st.spinner("Đang trích xuất dữ liệu..."):
@@ -156,7 +160,7 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
                         st.info("Trống! Chưa có nhân viên nào nộp bài.")
 
     st.markdown("---")
-    st.subheader("📺 Video tổng quan")
+    st.subheader("📺 Video giới thiệu")
     st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ") 
     st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center;'>Đánh giá mức độ hội nhập</h3>", unsafe_allow_html=True)
@@ -164,18 +168,17 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
     with col_btn2:
         if st.button("🚀 BẮT ĐẦU LÀM BÀI KIỂM TRA", type="primary", use_container_width=True):
             take_quiz_dialog() 
+
     if st.session_state.quiz_passed:
         st.balloons() 
         st.markdown("---")
         col_cert1, col_cert2 = st.columns([2, 1])
         with col_cert1:
-            st.success("🎉 Hệ thống xác nhận bạn hoàn thành khóa Onboarding!")
+            st.success("🎉 Hệ thống đã xác nhận bạn hoàn thành khóa Onboarding!")
         with col_cert2:
             st.download_button("📥 Tải Sổ tay nhân viên (PDF)", data="Nội dung PDF...", file_name="SoTay_RikenViet.pdf", type="primary", use_container_width=True)
 
-# ==========================================
-# 6. TRANG 2: KIẾN THỨC VỀ KHÍ
-# ==========================================
+# ---------------- TRANG 2: KIẾN THỨC VỀ KHÍ ----------------
 elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     st.markdown("""<style> 
     @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 78, 80, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0); } } 
@@ -191,7 +194,7 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     .danger-blink { animation: blink 1s linear infinite; } 
     </style>""", unsafe_allow_html=True)
 
-    st.title("☣️ Kiến Thức Chuyên Sâu Các Loại Khí Nguy Hiểm")
+    st.title("☣️ Các Loại Khí Nguy Hiểm")
     st.markdown("Trong môi trường công nghiệp, rủi ro về khí là những **'Kẻ thù vô hình'**. Các thiết bị được thiết kế để theo dõi và bảo vệ sinh mạng.")
     st.markdown("---")
 
@@ -247,12 +250,12 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
             st.markdown("### 🔬 Sát thủ tàng hình nguy hiểm cỡ nào?")
             html_ppm = """<div class="ppm-container"><div class="ppm-bar" style="width: 1.28%; background-color: #dc3545;">1.28%</div><span style="position:absolute; left: 2%; top: 7px; color: #333; font-weight: bold;">CO: 12,800 ppm (Tử vong 1-3 phút)</span></div><div class="ppm-container"><div class="ppm-bar" style="width: 0.5%; background-color: #8b0000;">0.5%</div><span style="position:absolute; left: 1%; top: 7px; color: #333; font-weight: bold;">H2S: 5,000 ppm (Tử vong NGAY LẬP TỨC)</span></div>"""
             st.markdown(html_ppm, unsafe_allow_html=True)
-            st.warning("**Carbon monoxide (CO):** Không màu/mùi. Ngăn hồng cầu chở oxy.\n\n**Hydrogen sulfide (H2S):** Mùi trứng thối. Gây **tê liệt khứu giác** khiến nạn nhân tưởng đã an toàn.")
+            st.warning("**Carbon monoxide (CO):** Không màu/mùi. Xâm nhập máu ngăn vận chuyển oxy.\n\n**Hydrogen sulfide (H2S):** Mùi trứng thối. Gây **tê liệt khứu giác** khiến bạn tưởng đã hết nguy hiểm.")
 
     # --- TAB 3: THIẾU OXY ---
     with tab3:
         st.header("💨 Tình trạng thiếu oxy và ngạt khí (Anoxia)")
-        st.markdown("Trong điều kiện chuẩn, không khí chứa **20.93% oxy**. Trạng thái nguy hiểm bắt đầu khi oxy giảm xuống dưới **18%**.")
+        st.markdown("Trong điều kiện bình thường, không khí chứa khoảng **20.93% oxy**. Tình trạng 'thiếu oxy' được xác định khi nồng độ giảm xuống dưới **18%**.")
         if os.path.exists("images/image_oxygen.png"): st.image("images/image_oxygen.png", use_container_width=True)
         st.markdown("### 📊 Mức độ đe dọa sinh tồn khi Oxy suy giảm:")
         html_oxy = """<div class="oxy-bg"><div class="oxy-bar" style="width: 100%; background: linear-gradient(90deg, #11998e, #38ef7d);">20.93% - KHÔNG KHÍ BÌNH THƯỜNG</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 86%; background: linear-gradient(90deg, #f2c94c, #f2994a); color: #000;">Dưới 18% - THIẾU OXY (Báo động an toàn)</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 67%; background: linear-gradient(90deg, #e65c00, #F9D423);">16% ~ 12% - Thở gấp, tăng nhịp tim, buồn nôn</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 38%; background: linear-gradient(90deg, #b20a2c, #fffbd5); color: #000;">10% ~ 6% - Ảo giác, bất tỉnh, co giật</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 15%; background: linear-gradient(90deg, #cb2d3e, #ef473a);">≤ 6% - TỬ VONG LẬP TỨC</div></div>"""
@@ -348,7 +351,7 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
                 if os.path.exists("images/gx-6100.png"): st.image("images/gx-6100.png")
                 st.markdown("#### GX-6100 (6 khí)")
                 st.markdown("- Thiết bị bơm hút đo 6 khí, tích hợp đo **VOCs**.\n- Có chế độ đo chọn lọc Benzene.\n- Tính năng an toàn: Báo động hoảng loạn (panic), ngã (man down), tích hợp đèn LED.")
-                st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gx-6100&post_type=any", use_container_width=True)
+                st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gx-6000&post_type=any", use_container_width=True)
 
         # 2. ĐƠN KHÍ VÀ 2 KHÍ NHỎ GỌN
         st.markdown('<div class="branch-title">2. Máy đo Đơn khí & 2 Khí nhỏ gọn</div>', unsafe_allow_html=True)
