@@ -9,7 +9,7 @@ except ImportError:
     Github = None
 
 # ==========================================
-# 1. CẤU HÌNH TRANG & BỘ NHỚ
+# 1. CẤU HÌNH TRANG & BỘ NHỚ (SESSION STATE)
 # ==========================================
 st.set_page_config(page_title="Riken Viet - Đào tạo nội bộ", page_icon="🎓", layout="wide")
 
@@ -187,8 +187,7 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
 elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     st.title("☣️ Kiến Thức Cơ Bản Về Các Loại Khí Nguy Hiểm")
     st.markdown("""
-    Trong môi trường công nghiệp, rủi ro về khí là những **"Kẻ thù vô hình"** - không thể nhìn thấy, đôi khi không thể ngửi thấy, nhưng có thể gây hậu quả thảm khốc chỉ trong vài giây. 
-    Đó là lý do thiết bị đo khí của RIKEN KEIKI ra đời. Dưới đây là 3 nhóm khí nguy hiểm cơ bản nhất mà mọi nhân sự Riken Việt cần phải nắm rõ:
+    Trong môi trường công nghiệp, rủi ro về khí là những **"Kẻ thù vô hình"**. Thiết bị của RIKEN KEIKI ra đời với sứ mệnh chính là bảo vệ sinh mạng người lao động trước 3 nhóm khí nguy hiểm cơ bản nhất:
     """)
     st.markdown("---")
 
@@ -196,49 +195,59 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
 
     with tab1:
         st.header("🔥 Khí Cháy Nổ (Combustible Gases)")
+        if os.path.exists("image_combustible.png"):
+            st.image("image_combustible.png", use_container_width=True, caption="Khí cháy nổ có thể phát nổ nếu hỗn hợp khí và oxy (không khí) nằm trong khoảng cháy nổ và gặp nguồn bắt cháy.")
+        else: st.warning("⚠️ Thiếu file 'image_combustible.png'.")
+
         st.error("**Nguy cơ:** Gây ra hỏa hoạn và các vụ nổ thảm khốc phá hủy toàn bộ nhà máy.")
         col1, col2 = st.columns([2, 1])
         with col1:
             st.markdown("""
-            * **Đặc điểm:** Là những khí khi kết hợp với Oxy trong không khí và gặp nguồn nhiệt (tia lửa, bề mặt nóng) sẽ bốc cháy hoặc phát nổ.
-            * **Đơn vị đo:** **% LEL** (Lower Explosive Limit - Giới hạn cháy nổ dưới). 
-                * *Ví dụ:* 100% LEL là mức nồng độ mà khí bắt đầu có thể phát nổ. Thiết bị của chúng ta thường cảnh báo ngay từ mức 10% LEL để người lao động kịp sơ tán.
-            * **Các loại khí phổ biến:** * **Methane (CH4):** Khí tự nhiên, khí bioga, thường gặp ở hầm mỏ, bãi rác.
-                * **LPG/Iso-butane (HC):** Khí gas đun nấu công nghiệp.
-                * **Hydrogen (H2):** Dùng nhiều trong nhà máy nhiệt điện, lọc hóa dầu, rất dễ nổ.
+            * **Khoảng cháy nổ:** Được giới hạn bởi Giới hạn nổ dưới (LEL) và Giới hạn nổ trên (UEL).
+            * **Quy định báo động an toàn:** Điểm báo động không được phép vượt quá **1/4 (25%) của mức LEL** để có đủ thời gian phản ứng trước khi nổ.
+            * **Các loại khí phổ biến:**
+                * **Methane (CH4):** Khí tự nhiên, mức LEL là 5.0 vol%.
+                * **Hydrogen (H2):** Rất dễ nổ, mức LEL là 4.0 vol%.
+                * **Isobutane (i-C4H10):** Khí gas công nghiệp, mức LEL chỉ 1.8 vol%.
             """)
         with col2:
-            st.info("💡 **Giải pháp Riken Keiki:**\nCác dòng máy đo khí cháy nổ của chúng ta sử dụng công nghệ cảm biến xúc tác (Catalytic) siêu nhạy, không bị nhiễu bởi các khí khác.")
+            st.info("💡 **Giải pháp Riken Keiki:**\nCác dòng máy đo khí cháy nổ của chúng ta sử dụng công nghệ cảm biến xúc tác (Catalytic) hoặc quang học siêu nhạy, không bị nhiễu bởi các khí khác.")
 
     with tab2:
         st.header("☠️ Khí Độc (Toxic Gases)")
+        if os.path.exists("image_toxic.png"):
+            st.image("image_toxic.png", use_container_width=True, caption="Khí độc gây hại trực tiếp qua đường hô hấp. Nhiều loại khí không màu, không mùi.")
+        else: st.warning("⚠️ Thiếu file 'image_toxic.png'.")
+
         st.warning("**Nguy cơ:** Phá hủy hệ hô hấp, hệ thần kinh, gây ngộ độc cấp tính hoặc tử vong nhanh chóng.")
         col1, col2 = st.columns([2, 1])
         with col1:
             st.markdown("""
-            * **Đặc điểm:** Tác động trực tiếp vào cơ thể người qua đường hít thở. Rất nhiều khí độc không có mùi, hoặc làm tê liệt khứu giác khiến chúng ta tưởng rằng không có nguy hiểm.
-            * **Đơn vị đo:** **PPM** (Parts Per Million - Phần triệu). Chỉ một lượng vô cùng nhỏ (vài chục phần triệu) đã đủ gây chết người.
+            * **Giới hạn tiếp xúc:** Được tính bằng PPM (phần triệu) theo chuẩn ACGIH, bao gồm TWA (Giới hạn trung bình 8 giờ) và STEL (Phơi nhiễm ngắn hạn 15 phút).
             * **Các loại khí sát thủ phổ biến:**
-                * **Hydrogen Sulfide (H2S):** Khí mùi trứng thối. Gặp nhiều ở nhà máy xử lý nước thải, hầm ngầm. Mức độ cao sẽ làm tê liệt khứu giác và gây tử vong chỉ sau 1-2 nhịp thở.
-                * **Carbon Monoxide (CO):** Kẻ sát nhân thầm lặng (Không màu, không mùi, không vị). Sinh ra từ quá trình cháy không hoàn toàn (động cơ xe, lò đốt).
-                * **Ammonia (NH3):** Mùi khai nồng nặc, dùng nhiều trong hệ thống làm lạnh công nghiệp (kho lạnh thủy hải sản).
+                * **Carbon Monoxide (CO):** Kết hợp với hemoglobin trong máu chặn sự vận chuyển oxy. Mức TWA là 25 ppm. Mức 1.28% (12,800 ppm) gây tử vong chỉ trong 1-3 phút.
+                * **Hydrogen Sulfide (H2S):** Khí có mùi trứng thối ở nồng độ thấp. Tuy nhiên, mức 100-300 ppm làm **tê liệt khứu giác hoàn toàn trong 2-15 phút**, khiến người lao động nhầm tưởng an toàn. Ở 700-1,000 ppm sẽ gây liệt hô hấp và tử vong.
             """)
         with col2:
-            st.info("💡 **Giải pháp Riken Keiki:**\nSử dụng cảm biến điện hóa (Electrochemical) với tuổi thọ cực cao, giúp đo chính xác nồng độ cực nhỏ của từng loại khí chuyên biệt.")
+            st.info("💡 **Giải pháp Riken Keiki:**\nSử dụng cảm biến điện hóa (Electrochemical) chuyên biệt, giúp đo chính xác nồng độ phần triệu với độ bền cao.")
 
     with tab3:
         st.header("💨 Khí Oxy (Oxygen - O2)")
-        st.info("**Nguy cơ:** Cả việc Thiếu hụt (Asphyxiation) hay Dư thừa (Enrichment) Oxy đều vô cùng nguy hiểm.")
+        if os.path.exists("image_oxygen.png"):
+            st.image("image_oxygen.png", use_container_width=True, caption="Sự nguy hiểm của không gian hạn hẹp (thiếu Oxy) và môi trường dễ bắt lửa (thừa Oxy).")
+        else: st.warning("⚠️ Thiếu file 'image_oxygen.png'.")
+
+        st.info("**Nguy cơ:** Cả việc Thiếu hụt (Anoxia) hay Dư thừa (Enrichment) Oxy đều vô cùng nguy hiểm.")
         st.markdown("""
-        * **Mức độ tiêu chuẩn:** Không khí bình thường chúng ta hít thở chứa khoảng **20.9% Oxy**.
+        * **Mức tiêu chuẩn:** Không khí bình thường hít thở luôn chứa **20.93% Oxy**.
         """)
         col_o1, col_o2 = st.columns(2)
         with col_o1:
-            st.error("**📉 Thiếu Oxy (< 19.5%)**\nThường xảy ra trong không gian hạn hẹp (bồn chứa, cống ngầm, đường ống) do có các khí khác sinh ra chiếm chỗ của Oxy, hoặc do vi khuẩn/rỉ sét tiêu thụ mất Oxy. Gây choáng váng, ngất xỉu và tử vong do ngạt thở.")
+            st.error("**📉 Thiếu Oxy / Ngạt thở (< 18%)**\nGiới hạn an toàn là 18%, dưới mức này phải có thiết bị bảo hộ hô hấp.\n* **16-12%:** Tăng nhịp tim/nhịp thở, nhức đầu.\n* **10-6%:** Buồn nôn, mất kiểm soát di chuyển, tím tái, bất tỉnh.\n* **Dưới 6%:** Ngừng thở, tim ngừng đập và tử vong.")
         with col_o2:
-            st.warning("**📈 Thừa Oxy (> 23.5%)**\nXảy ra khi có rò rỉ từ các bình chứa khí Oxy công nghiệp/y tế. Môi trường thừa Oxy khiến mọi vật liệu (kể cả quần áo bảo hộ) trở nên cực kỳ dễ bắt lửa và bùng cháy dữ dội.")
+            st.warning("**📈 Thừa Oxy (> 23.5%)**\nXảy ra khi có rò rỉ từ các bình chứa khí Oxy công nghiệp. Môi trường thừa Oxy khiến mọi vật liệu trở nên cực kỳ dễ bắt lửa và bùng cháy.")
         st.markdown("<br>", unsafe_allow_html=True)
-        st.success("Tất cả các dòng máy đo khí đa chỉ tiêu cầm tay của Riken Keiki (như GX-3R, GX-8000...) đều BẮT BUỘC phải tích hợp cảm biến đo Oxy để bảo vệ mạng sống người kỹ sư khi bước vào không gian hạn hẹp (Confined Space).")
+        st.success("Hầu hết các máy đo khí cầm tay của Riken Keiki đều tích hợp cảm biến đo Oxy (Galvanic cell) để bảo vệ mạng sống người lao động trong không gian hạn hẹp.")
 
     st.markdown("---")
     st.markdown("*Nắm vững những kiến thức này, bạn sẽ hiểu vì sao công việc tại Riken Việt không chỉ là kinh doanh thiết bị, mà là **Bảo vệ Sự sống**!*")
