@@ -13,14 +13,16 @@ except ImportError:
 # ==========================================
 st.set_page_config(page_title="Riken Viet - Đào tạo nội bộ", page_icon="🎓", layout="wide")
 
+# Bộ nhớ lưu trạng thái làm bài và dữ liệu Admin
 if 'quiz_passed' not in st.session_state:
     st.session_state.quiz_passed = False
+if 'admin_data' not in st.session_state:
+    st.session_state.admin_data = None
 
 # ==========================================
-# HÀM BẢO VỆ ẢNH (CHỐNG SẬP WEB)
+# HÀM BẢO VỆ ẢNH (CHỐNG SẬP WEB) - Giữ nguyên
 # ==========================================
 def safe_image(image_path, use_container_width=False):
-    """Hàm tải ảnh an toàn, chặn đứng lỗi UnidentifiedImageError nếu file ảnh bị hỏng"""
     if os.path.exists(image_path):
         try:
             st.image(image_path, use_container_width=use_container_width)
@@ -191,7 +193,7 @@ def take_quiz_dialog():
                     st.warning("⚠️ Lỗi kết nối máy chủ GitHub! Vui lòng báo cho Admin.")
 
 # ==========================================
-# 4. SIDEBAR
+# 4. SIDEBAR (THANH ĐIỀU HƯỚNG BÊN TRÁI)
 # ==========================================
 with st.sidebar:
     safe_image("images/rkv_logo.png", use_container_width=True)
@@ -203,37 +205,44 @@ with st.sidebar:
         "📖 Tiêu Chuẩn & Thuật Ngữ"
     ])
     st.markdown("---")
-    st.markdown("<div style='text-align: center; color: #888888; font-size: 13px; margin-top: 30px;'>© Bản quyền thuộc về Riken Việt</div>", unsafe_allow_html=True)
+    
+    # KHU VỰC ADMIN ĐƯỢC CHUYỂN SANG ĐÂY
+    st.markdown("## 🗄️ Dành cho Quản lý")
+    with st.expander("📂 Kho dữ liệu Đào tạo", expanded=False):
+        col_btn1, col_btn2 = st.columns(2)
+        with col_btn1:
+            if st.button("🔄 Tải DL", help="Trích xuất dữ liệu mới nhất từ máy chủ", use_container_width=True):
+                with st.spinner("Đang tải..."):
+                    st.session_state.admin_data = fetch_history_from_github()
+        with col_btn2:
+            if st.button("🧹 Xóa web", help="Chỉ xóa hiển thị cho gọn, GIỮ NGUYÊN file gốc trên GitHub", use_container_width=True):
+                st.session_state.admin_data = [] # Xóa dữ liệu tạm thời
+        
+        # Hiển thị bảng dữ liệu
+        if st.session_state.admin_data:
+            st.dataframe(pd.DataFrame(st.session_state.admin_data), use_container_width=True, hide_index=True)
+        elif st.session_state.admin_data == []:
+            st.info("Bảng hiển thị đã được làm sạch.")
 
+    st.markdown("<div style='text-align: center; color: #888888; font-size: 13px; margin-top: 30px;'>© Bản quyền thuộc về Riken Việt</div>", unsafe_allow_html=True)
 # ==========================================
-# 5. TRANG 1: ĐÀO TẠO HỘI NHẬP
+# 5. TRANG 1: ĐÀO TẠO HỘI NHẬP (GIAO DIỆN MỚI GỌN GÀNG HƠN)
 # ==========================================
 if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
-    col_title, col_admin = st.columns([4, 1.5]) 
-    with col_title:
-        st.title("🎓 Cổng Đào Tạo Hội Nhập")
-        st.markdown("**Xin chào thành viên mới!** Vui lòng tìm hiểu về lịch sử công ty, theo dõi video và hoàn thành bài kiểm tra.")
-    with col_admin:
-        st.markdown("<br>", unsafe_allow_html=True)
-        with st.popover("🗄️ Dành cho Quản lý (Admin)", use_container_width=True):
-            st.markdown("**📂 Kho lưu trữ Lịch sử Đào tạo**")
-            if st.button("🔄 Tải dữ liệu mới nhất", use_container_width=True):
-                with st.spinner("Đang trích xuất dữ liệu..."):
-                    records = fetch_history_from_github()
-                    if records:
-                        st.dataframe(pd.DataFrame(records), use_container_width=True, hide_index=True)
-                    elif records == []:
-                        st.info("Trống! Chưa có nhân viên nào nộp bài.")
-
+    st.title("🎓 Cổng Đào Tạo Năng Lực & Hội Nhập")
+    st.markdown("**Xin chào thành viên mới!** Vui lòng tìm hiểu về lịch sử công ty, theo dõi video và hoàn thành bài kiểm tra.")
+    
     st.markdown("---")
-    st.subheader("📺 Video tổng quan")
-    st.video("https://youtu.be/DL9K-LVeqdc?si=1bc0AvMt4X3JbkxO") 
+    st.subheader("📺 Phim Giới thiệu & Đào tạo Năng lực")
+    st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ") 
     st.markdown("<br><br>", unsafe_allow_html=True)
+    
     st.markdown("<h3 style='text-align: center;'>Đánh giá mức độ hội nhập</h3>", unsafe_allow_html=True)
     col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
     with col_btn2:
         if st.button("🚀 BẮT ĐẦU LÀM BÀI KIỂM TRA", type="primary", use_container_width=True):
             take_quiz_dialog() 
+            
     if st.session_state.quiz_passed:
         st.balloons() 
         st.markdown("---")
@@ -242,7 +251,6 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
             st.success("🎉 Hệ thống xác nhận bạn đã hoàn thành khóa Onboarding nội bộ!")
         with col_cert2:
             st.download_button("📥 Tải Sổ tay nhân viên (PDF)", data="Nội dung PDF...", file_name="SoTay_RikenViet.pdf", type="primary", use_container_width=True)
-
 # ==========================================
 # 6. TRANG 2: KIẾN THỨC VỀ KHÍ
 # ==========================================
