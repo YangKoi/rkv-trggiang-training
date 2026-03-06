@@ -15,12 +15,18 @@ st.set_page_config(page_title="Riken Viet - Đào tạo nội bộ", page_icon="
 
 if 'quiz_passed' not in st.session_state:
     st.session_state.quiz_passed = False
-def hien_thi_anh_an_toan(duong_dan):
-    if os.path.exists(duong_dan):
+
+# ==========================================
+# HÀM BẢO VỆ ẢNH (CHỐNG SẬP WEB)
+# ==========================================
+def safe_image(image_path, use_container_width=False):
+    """Hàm tải ảnh an toàn, chặn đứng lỗi UnidentifiedImageError nếu file ảnh bị hỏng"""
+    if os.path.exists(image_path):
         try:
-            st.image(duong_dan)
+            st.image(image_path, use_container_width=use_container_width)
         except Exception:
-            st.warning(f"⚠️ Đang cập nhật ảnh: {duong_dan}")
+            st.warning(f"⚠️ Ảnh '{image_path}' bị lỗi định dạng. Vui lòng thay file PNG khác.")
+
 # ==========================================
 # 2. CÁC HÀM GIAO TIẾP VỚI GITHUB
 # ==========================================
@@ -91,7 +97,7 @@ def fetch_history_from_github():
 # ==========================================
 # 3. POPUP BÀI KIỂM TRA
 # ==========================================
-@st.dialog("📝 BÀI KIỂM TRA HỘI NHẬP", width="large")
+@st.dialog("📝 BÀI KIỂM TRA NĂNG LỰC & HỘI NHẬP", width="large")
 def take_quiz_dialog():
     st.markdown("Vui lòng điền họ tên và hoàn thành các câu hỏi dưới đây.")
     user_name = st.text_input("👤 Nhập Họ và Tên của bạn (*Bắt buộc):", placeholder="VD: Nguyễn Văn A")
@@ -126,29 +132,27 @@ def take_quiz_dialog():
                     st.warning("⚠️ Lỗi kết nối máy chủ GitHub!")
 
 # ==========================================
-# 4. SIDEBAR (CẬP NHẬT BẢN QUYỀN)
+# 4. SIDEBAR
 # ==========================================
 with st.sidebar:
-    if os.path.exists("images/rkv_logo.png"):
-        st.image("images/rkv_logo.png", use_container_width=True)
+    safe_image("images/rkv_logo.png", use_container_width=True)
     st.markdown("## 📑 Menu Đào Tạo")
     app_mode = st.radio("Chọn chuyên mục:", [
         "🎓 Cổng Đào Tạo Hội Nhập",
         "☣️ Kiến Thức: Phân Loại Khí",
         "📟 Phân Loại Thiết Bị",
-        "📖 Tiêu Chuẩn & Thuật Ngữ" # THÊM TAB MỚI
+        "📖 Tiêu Chuẩn & Thuật Ngữ"
     ])
     st.markdown("---")
     st.markdown("<div style='text-align: center; color: #888888; font-size: 13px; margin-top: 30px;'>© Bản quyền thuộc về Riken Việt</div>", unsafe_allow_html=True)
-# ==========================================
-# 5. NỘI DUNG TỪNG TRANG
-# ==========================================
 
-# ---------------- TRANG 1: ĐÀO TẠO HỘI NHẬP ----------------
+# ==========================================
+# 5. TRANG 1: ĐÀO TẠO HỘI NHẬP
+# ==========================================
 if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
     col_title, col_admin = st.columns([4, 1.5]) 
     with col_title:
-        st.title("🎓 Cổng Đào Tạo Hội Nhập")
+        st.title("🎓 Cổng Đào Tạo Năng Lực & Hội Nhập")
         st.markdown("**Xin chào thành viên mới!** Vui lòng tìm hiểu về lịch sử công ty, theo dõi video và hoàn thành bài kiểm tra.")
     with col_admin:
         st.markdown("<br>", unsafe_allow_html=True)
@@ -163,25 +167,26 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
                         st.info("Trống! Chưa có nhân viên nào nộp bài.")
 
     st.markdown("---")
-    st.subheader("📺 Video giới thiệu")
-    st.video("https://youtu.be/DL9K-LVeqdc?si=T6vL91uEHSAbV_Dh") 
+    st.subheader("📺 Phim Giới thiệu & Đào tạo Năng lực")
+    st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ") 
     st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center;'>Đánh giá mức độ hội nhập</h3>", unsafe_allow_html=True)
     col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
     with col_btn2:
         if st.button("🚀 BẮT ĐẦU LÀM BÀI KIỂM TRA", type="primary", use_container_width=True):
             take_quiz_dialog() 
-
     if st.session_state.quiz_passed:
         st.balloons() 
         st.markdown("---")
         col_cert1, col_cert2 = st.columns([2, 1])
         with col_cert1:
-            st.success("🎉 Hệ thống đã xác nhận bạn hoàn thành khóa Onboarding!")
+            st.success("🎉 Hệ thống xác nhận bạn đã hoàn thành khóa Onboarding nội bộ!")
         with col_cert2:
             st.download_button("📥 Tải Sổ tay nhân viên (PDF)", data="Nội dung PDF...", file_name="SoTay_RikenViet.pdf", type="primary", use_container_width=True)
 
-# ---------------- TRANG 2: KIẾN THỨC VỀ KHÍ ----------------
+# ==========================================
+# 6. TRANG 2: KIẾN THỨC VỀ KHÍ
+# ==========================================
 elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     st.markdown("""<style> 
     @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 78, 80, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 78, 80, 0); } } 
@@ -197,7 +202,7 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     .danger-blink { animation: blink 1s linear infinite; } 
     </style>""", unsafe_allow_html=True)
 
-    st.title("☣️ Các Loại Khí Nguy Hiểm")
+    st.title("☣️ Kiến Thức Chuyên Sâu Các Loại Khí Nguy Hiểm")
     st.markdown("Trong môi trường công nghiệp, rủi ro về khí là những **'Kẻ thù vô hình'**. Các thiết bị được thiết kế để theo dõi và bảo vệ sinh mạng.")
     st.markdown("---")
 
@@ -206,8 +211,8 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     # --- TAB 1: KHÍ DỄ CHÁY ---
     with tab1:
         st.header("🔥 Khí dễ cháy (Combustible gases)")
-        st.markdown('<div class="alert-box"><b>⚠️ ĐỊNH NGHĨA:</b> Là khí có thể cháy hoặc nổ nếu hòa trộn với oxy ở một nồng độ nhất định và tiếp xúc với nguồn gây cháy (tia lửa, nhiệt độ cao).</div>', unsafe_allow_html=True)
-        if os.path.exists("images/image_combustible.png"): st.image("images/image_combustible.png", use_container_width=True)
+        st.markdown('<div class="alert-box"><b>⚠️ ĐỊNH NGHĨA:</b> Là khí có thể cháy hoặc nổ nếu hòa trộn với oxy ở một nồng độ nhất định và tiếp xúc với nguồn gây cháy.</div>', unsafe_allow_html=True)
+        safe_image("images/image_combustible.png", use_container_width=True)
         
         st.markdown("### 📊 Trực quan hóa Giới hạn cháy nổ (Explosive Range)")
         html_lel_uel = """<div style="width: 100%; background-color: #f1f3f4; border-radius: 8px; position: relative; height: 40px; margin-bottom: 30px; display: flex; text-align: center; color: white; font-weight: bold; line-height: 40px; font-size: 14px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"><div style="width: 25%; background-color: #28a745; border-radius: 8px 0 0 8px;">Quá loãng</div><div style="width: 45%; background-color: #dc3545; position: relative;"><span style="position: absolute; top: -30px; left: 0; color: #dc3545; font-size: 16px;">▼ LEL</span>🔥 VÙNG CHÁY NỔ (NGUY HIỂM) 🔥<span style="position: absolute; top: -30px; right: 0; color: #dc3545; font-size: 16px;">UEL ▼</span></div><div style="width: 30%; background-color: #ffc107; border-radius: 0 8px 8px 0; color: #333;">Quá đặc (Thiếu Oxy)</div></div>"""
@@ -233,7 +238,7 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     with tab2:
         st.header("☠️ Khí độc (Toxic gases)")
         st.markdown('<div class="toxic-glow">☢️ ĐỊNH NGHĨA: Gây hại trực tiếp cho sức khỏe con người qua đường hô hấp. Mức độ nguy hiểm cực cao ở nồng độ cực thấp.</div>', unsafe_allow_html=True)
-        if os.path.exists("images/image_toxic.png"): st.image("images/image_toxic.png", use_container_width=True)
+        safe_image("images/image_toxic.png", use_container_width=True)
         
         st.markdown("### 🔄 Quy đổi nồng độ: % Thể tích (%vol) sang Phần triệu (PPM)")
         st.info("💡 **Công thức:** 1% vol = 10,000 ppm. Vì khí độc nguy hiểm ở nồng độ cực thấp, người ta dùng 'ppm' thay vì '%' để tránh nhầm lẫn.")
@@ -253,15 +258,15 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
             st.markdown("### 🔬 Sát thủ tàng hình nguy hiểm cỡ nào?")
             html_ppm = """<div class="ppm-container"><div class="ppm-bar" style="width: 1.28%; background-color: #dc3545;">1.28%</div><span style="position:absolute; left: 2%; top: 7px; color: #333; font-weight: bold;">CO: 12,800 ppm (Tử vong 1-3 phút)</span></div><div class="ppm-container"><div class="ppm-bar" style="width: 0.5%; background-color: #8b0000;">0.5%</div><span style="position:absolute; left: 1%; top: 7px; color: #333; font-weight: bold;">H2S: 5,000 ppm (Tử vong NGAY LẬP TỨC)</span></div>"""
             st.markdown(html_ppm, unsafe_allow_html=True)
-            st.warning("**Carbon monoxide (CO):** Không màu/mùi. Xâm nhập máu ngăn vận chuyển oxy.\n\n**Hydrogen sulfide (H2S):** Mùi trứng thối. Gây **tê liệt khứu giác** khiến bạn tưởng đã hết nguy hiểm.")
+            st.warning("**Carbon monoxide (CO):** Không màu/mùi. Xâm nhập máu ngăn hồng cầu chở oxy.\n\n**Hydrogen sulfide (H2S):** Mùi trứng thối. Gây **tê liệt khứu giác** khiến nạn nhân tưởng đã an toàn.")
 
     # --- TAB 3: THIẾU OXY ---
     with tab3:
         st.header("💨 Tình trạng thiếu oxy và ngạt khí (Anoxia)")
         st.markdown("Trong điều kiện bình thường, không khí chứa khoảng **20.93% oxy**. Tình trạng 'thiếu oxy' được xác định khi nồng độ giảm xuống dưới **18%**.")
-        if os.path.exists("images/image_oxygen.png"): st.image("images/image_oxygen.png", use_container_width=True)
+        safe_image("images/image_oxygen.png", use_container_width=True)
         st.markdown("### 📊 Mức độ đe dọa sinh tồn khi Oxy suy giảm:")
-        html_oxy = """<div class="oxy-bg"><div class="oxy-bar" style="width: 100%; background: linear-gradient(90deg, #11998e, #38ef7d);">20.93% - KHÔNG KHÍ BÌNH THƯỜNG</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 86%; background: linear-gradient(90deg, #f2c94c, #f2994a); color: #000;">Dưới 18% - THIẾU OXY (Báo động an toàn)</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 67%; background: linear-gradient(90deg, #e65c00, #F9D423);">16% ~ 12% - Thở gấp, tăng nhịp tim, buồn nôn</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 38%; background: linear-gradient(90deg, #b20a2c, #fffbd5); color: #000;">10% ~ 6% - Ảo giác, bất tỉnh, co giật</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 15%; background: linear-gradient(90deg, #cb2d3e, #ef473a);">≤ 6% - TỬ VONG LẬP TỨC</div></div>"""
+        html_oxy = """<div class="oxy-bg"><div class="oxy-bar" style="width: 100%; background: linear-gradient(90deg, #11998e, #38ef7d);">20.93% - KHÔNG KHÍ BÌNH THƯỜNG</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 86%; background: linear-gradient(90deg, #f2c94c, #f2994a); color: #000;">Dưới 18% - THIẾU OXY (Báo động an toàn)</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 67%; background: linear-gradient(90deg, #e65c00, #F9D423);">16% ~ 12% - Thở gấp, tăng nhịp tim, buồn nôn</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 38%; background: linear-gradient(90deg, #b20a2c, #fffbd5); color: #000;">10% ~ 6% - Ảo giác, bất tỉnh, co giật</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 15%; background: linear-gradient(90deg, #cb2d3e, #ef473a);">≤ 6% - TỬ VONG TRONG VÀI GIÂY</div></div>"""
         st.markdown(html_oxy, unsafe_allow_html=True)
         st.success("💡 **Quy tắc sống còn:** Tuyệt đối không tự ý bước vào không gian hạn hẹp (hầm, cống) mà không có máy đo khí đo kiểm trước!")
 
@@ -270,32 +275,43 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
         st.header("🏥 Khí đặc thù: Y tế, Khử trùng & Hun trùng")
         st.markdown('<div class="special-glow">☣️ CẢNH BÁO NGHIÊM NGẶT: Các loại khí dùng trong y tế, khử trùng và hun trùng (fumigation) được pháp luật và tiêu chuẩn an toàn phân loại nghiêm ngặt vào nhóm khí độc nguy hiểm tột độ. Bắt buộc phải có thiết bị phát hiện và báo động rò rỉ tại cơ sở lưu trữ.</div>', unsafe_allow_html=True)
 
-        st.subheader("1. Khí khử trùng / Hun trùng (Fumigation gases)")
-        st.markdown("""
-        * **Các loại phổ biến:** Bao gồm Phosphine (PH3), Methyl bromide (CH3Br), Ethylene oxide (EO - thường dùng khử trùng dụng cụ y tế), Hydrogen cyanide, Sulfuryl fluoride, Methyl iodide, và Propylene oxide.
-        * **Mức độ nguy hiểm cực cao:** Lấy ví dụ như **Phosphine (PH3)**, nồng độ giới hạn cho phép (TLV) theo tiêu chuẩn an toàn chỉ ở mức rất nhỏ là **0.05 ppm**. Ethylene oxide và Methyl bromide cũng là các hóa chất có độc tính mạnh, có khả năng gây ngộ độc nếu hít phải dù chỉ ở nồng độ thấp.
-        """)
-        
-        st.info("💡 **Khái niệm PPB (Phần tỷ):** 0.05 ppm tương đương với **50 ppb**. Để phát hiện một lượng khí siêu nhỏ này đòi hỏi cảm biến công nghệ tối tân.")
-        html_ppb = """<div class="ppm-container" style="height: 40px;"><div class="ppb-bar" style="width: 5%;">50 ppb (Mức báo động PH3)</div><span style="position:absolute; right: 10px; top: 10px; color: #777; font-size: 12px;">1 Tỷ hạt không khí</span></div>"""
-        st.markdown(html_ppb, unsafe_allow_html=True)
-        
-        st.markdown("""
-        **Thiết bị đo chuyên dụng:** Vì tính chất đặc thù, chúng yêu cầu các thiết bị phát hiện riêng biệt:
-        - **Máy dò rò rỉ di động SP-230 (TYPE FUM):** Là dòng máy kiểu bơm hút được thiết kế riêng để phát hiện rò rỉ khí khử trùng. Một máy có thể hỗ trợ đo tới 7 loại khí khử trùng khác nhau.
-        - **Hệ thống phát hiện siêu nhạy:** Để phát hiện PH3 rò rỉ ở nồng độ cực thấp, người ta sử dụng các máy đo dùng băng cassette (ví dụ: FP-300, FP-301) có khả năng phát hiện ở mức **ppb (phần tỷ)**.
-        - **Máy đo nồng độ quang học FI-8000:** Có phiên bản sử dụng buồng đo 48 mm chuyên dùng để đo nồng độ chính xác của các loại khí hun trùng này trong không gian kín.
-        """)
+        col_s1, col_s2 = st.columns([1.2, 1], gap="large")
+        with col_s1:
+            st.markdown("### 1. Khí Khử trùng / Hun trùng (Fumigation)")
+            st.markdown("""
+            * **Các loại phổ biến:** Bao gồm Phosphine (PH3), Methyl bromide (CH3Br), Ethylene oxide (EO - thường dùng khử trùng dụng cụ y tế), Hydrogen cyanide, Sulfuryl fluoride, Methyl iodide.
+            * **Mức độ nguy hiểm cực cao:** Lấy ví dụ như **Phosphine (PH3)**, nồng độ giới hạn cho phép (TLV) theo tiêu chuẩn an toàn chỉ ở mức rất nhỏ là **0.05 ppm**. Ethylene oxide và Methyl bromide cũng là các hóa chất có độc tính mạnh, có khả năng gây ngộ độc nếu hít phải dù chỉ ở nồng độ thấp.
+            """)
+            
+            st.info("💡 **Khái niệm PPB (Phần tỷ):** 0.05 ppm tương đương với **50 ppb**. Để phát hiện một lượng khí siêu nhỏ này đòi hỏi cảm biến công nghệ tối tân.")
+            html_ppb = """<div class="ppm-container" style="height: 40px;"><div class="ppb-bar" style="width: 5%;">50 ppb (Mức báo động PH3)</div><span style="position:absolute; right: 10px; top: 10px; color: #777; font-size: 12px;">1 Tỷ hạt không khí</span></div>"""
+            st.markdown(html_ppb, unsafe_allow_html=True)
+            
+            st.markdown("### 2. Khí Gây mê trong Y tế (Anesthetic)")
+            st.markdown("""
+            * **Các loại phổ biến:** Nitrous oxide (khí cười - N2O), Halothane, Isoflurane, Sevoflurane, Desflurane.
+            * **Nguy cơ:** Rò rỉ trong phòng mổ sẽ gây ảnh hưởng nghiêm trọng đến sức khỏe và sự tỉnh táo của y bác sĩ.
+            """)
 
-        st.markdown("---")
-        st.subheader("2. Khí gây mê trong y tế (Anesthetic gases)")
-        st.markdown("""
-        Bên cạnh khí khử trùng, môi trường y tế còn đặc biệt lưu tâm đến các loại khí gây mê.
-        * **Các loại phổ biến:** Nitrous oxide (khí cười - N2O), Halothane, Isoflurane, Sevoflurane, Desflurane, và Enflurane.
-        * **Thiết bị đo:** Các loại khí gây mê này thường được đo lường nồng độ bằng **máy đo giao thoa quang học FI-8000** (phiên bản dùng buồng đo 24 mm). Máy dùng phương pháp đo chiết suất ánh sáng của khí, giúp đo lường chính xác mà không làm suy giảm độ nhạy của cảm biến theo thời gian.
-        """)
-        
-        st.success("🎯 **Nhìn chung:** Dù ứng dụng trong công nghiệp hay y tế, đây đều là những khí có nguy cơ tiềm ẩn rất lớn. Quá trình làm việc đòi hỏi máy đo khí phải có độ chuẩn xác cực cao và khả năng phản hồi nhanh chóng.")
+        with col_s2:
+            st.markdown("### 🛡️ Thiết bị đo chuyên dụng RIKEN KEIKI")
+            st.write("Vì tính chất đặc thù, các loại khí này yêu cầu các thiết bị phát hiện có độ nhạy bén riêng biệt thay vì máy đo khí thông thường:")
+            st.markdown("""
+            <div style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 10px;">
+                <h5 style="color: #d400ff; margin-top: 0;">📟 SP-230 (TYPE FUM)</h5>
+                <p style="font-size: 14px; color: #555; margin-bottom: 0;">Máy dò rò rỉ di động kiểu bơm hút. Một máy duy nhất có thể hỗ trợ đo tới <b>7 loại khí khử trùng</b> khác nhau.</p>
+            </div>
+            <div style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 10px;">
+                <h5 style="color: #d400ff; margin-top: 0;">📼 FP-300 / FP-301</h5>
+                <p style="font-size: 14px; color: #555; margin-bottom: 0;">Hệ thống phát hiện <b>siêu nhạy</b> sử dụng công nghệ băng cassette. Khả năng phát hiện sự rò rỉ ở mức ppb (phần tỷ), chuyên dụng cho PH3.</p>
+            </div>
+            <div style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px;">
+                <h5 style="color: #d400ff; margin-top: 0;">🔭 FI-8000 (Giao thoa quang học)</h5>
+                <p style="font-size: 14px; color: #555; margin-bottom: 0;">Sử dụng phương pháp đo chiết suất ánh sáng. Không làm suy giảm độ nhạy của cảm biến theo thời gian.<br>
+                • <b>Buồng đo 48mm:</b> Đo khí hun trùng trong không gian kín.<br>
+                • <b>Buồng đo 24mm:</b> Chuyên đo nồng độ khí gây mê y tế.</p>
+            </div>
+            """, unsafe_allow_html=True)
 
 # ---------------- TRANG 3: PHÂN LOẠI THIẾT BỊ ----------------
 elif app_mode == "📟 Phân Loại Thiết Bị":
@@ -304,7 +320,7 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
     .branch-title-fixed { color: #dc3545; border-bottom: 2px solid #dc3545; } 
     </style>""", unsafe_allow_html=True)
     
-    st.title("📟 Thiết Bị Đo Khí Riken Keiki")
+    st.title("📟 Showroom: Thiết Bị Đo Khí Riken Keiki")
     st.markdown("Hệ thống thiết bị được phân chia bài bản nhằm giúp Sales và Kỹ thuật lựa chọn chính xác giải pháp cho Khách hàng dựa trên nhu cầu Đo di động (Portable) hay Lắp giám sát cố định (Fixed).")
     st.markdown("---")
 
@@ -319,40 +335,40 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
         
         with col_m1:
             with st.container(border=True):
-                if os.path.exists("images/gx-3r.png"): st.image("images/gx-3r.png")
+                safe_image("images/gx-3r.png")
                 st.markdown("#### GX-3R (4 khí)")
                 st.markdown("- Dòng đo 4 khí khuếch tán **nhỏ và nhẹ nhất thế giới**.\n- Tích hợp R sensor (Bảo hành 3 năm).\n- Hỗ trợ Bluetooth báo động theo thời gian thực.\n- Chuẩn chống nước, chống bụi IP66/68.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gx-3r&post_type=any", use_container_width=True)
             
             with st.container(border=True):
-                if os.path.exists("images/sc-9000.png"): st.image("images/sc-9000.png")
+                safe_image("images/sc-9000.png")
                 st.markdown("#### SC-9000 (Khí độc)")
                 st.markdown("- Máy đa khí độc bơm hút, lắp tối đa 3 cảm biến (**3-in-1**).\n- Tuổi thọ pin sạc cực dài khoảng 60 giờ.\n- Chống va đập, IP66/68, hỗ trợ Bluetooth.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=sc-9000&post_type=any", use_container_width=True)
 
         with col_m2:
             with st.container(border=True):
-                if os.path.exists("images/gx-3r-pro.png"): st.image("images/gx-3r-pro.png")
+                safe_image("images/gx-3r-pro.png")
                 st.markdown("#### GX-3R Pro (5 khí)")
                 st.markdown("- Bản cao cấp, hỗ trợ Bluetooth. Đo tới **5 thành phần khí** bằng cảm biến kép.\n- Hoạt động linh hoạt bằng pin sạc hoặc pin khô.\n- Thiết kế không gây vướng víu.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gx-3r-pro&post_type=any", use_container_width=True)
             
             with st.container(border=True):
-                if os.path.exists("images/gx-force.png"): st.image("images/gx-force.png")
+                safe_image("images/gx-force.png")
                 st.markdown("#### GX-Force (4 khí)")
                 st.markdown("- Dòng bơm hút nhẹ gọn chỉ 300g.\n- Hoạt động liên tục **30 giờ**.\n- Chịu lực thả rơi 3m, cảm biến BH 3 năm.\n- Chuyển đổi đo cho 27 loại khí cháy khác nhau.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gx-force&post_type=any", use_container_width=True)
 
         with col_m3:
             with st.container(border=True):
-                if os.path.exists("images/gx-9000.png"): st.image("images/gx-9000.png")
+                safe_image("images/gx-9000.png")
                 st.markdown("#### GX-9000 / GX-9000H")
                 st.markdown("- Bơm hút công suất cao (hút xa 45m).\n- GX-9000: Đo tối đa **6 khí (kể cả VOC)**.\n- GX-9000H: Chuyên dùng cho môi trường H2S nồng độ cao.\n- Vượt test thả rơi 1.5m.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gx-9000&post_type=any", use_container_width=True)
             
             with st.container(border=True):
-                if os.path.exists("images/gx-6100.png"): st.image("images/gx-6100.png")
-                st.markdown("#### GX-6100 (6 khí)")
+                safe_image("images/gx-6000.png")
+                st.markdown("#### GX-6000 (6 khí)")
                 st.markdown("- Thiết bị bơm hút đo 6 khí, tích hợp đo **VOCs**.\n- Có chế độ đo chọn lọc Benzene.\n- Tính năng an toàn: Báo động hoảng loạn (panic), ngã (man down), tích hợp đèn LED.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gx-6000&post_type=any", use_container_width=True)
 
@@ -361,13 +377,13 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
         col_s1, col_s2 = st.columns(2, gap="medium")
         with col_s1:
             with st.container(border=True):
-                if os.path.exists("images/04-series.png"): st.image("images/04-series.png")
+                safe_image("images/04-series.png")
                 st.markdown("#### Series 04")
                 st.markdown("- Dòng khuếch tán **siêu bền**, chịu rơi từ 7 mét.\n- Hỗ trợ cả pin khô và pin sạc thời lượng cao.\n- Có tới 12 model chuyên biệt (Model CX-04 đo được 2 khí cùng lúc).")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=04-series&post_type=any", use_container_width=True)
         with col_s2:
             with st.container(border=True):
-                if os.path.exists("images/gw-3.png"): st.image("images/gw-3.png")
+                safe_image("images/gw-3.png")
                 st.markdown("#### Series GW-3")
                 st.markdown("- Thuộc nhóm thiết bị nhỏ gọn và **nhẹ nhất thế giới**.\n- Thiết kế mang tính cách mạng: Có thể **đeo trên cổ tay** bằng dây đeo đi kèm.\n- Chuẩn chống bụi/nước IP66/68.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gw-3&post_type=any", use_container_width=True)
@@ -377,13 +393,13 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
         col_c1, col_c2 = st.columns(2, gap="medium")
         with col_c1:
             with st.container(border=True):
-                if os.path.exists("images/gp-1000.png"): st.image("images/gp-1000.png")
+                safe_image("images/gp-1000.png")
                 st.markdown("#### GP-1000 / NC-1000")
                 st.markdown("- **GP-1000:** Bơm hút dải đo 0-100% LEL, chuyển đổi dễ dàng mục tiêu đo cho 25 loại khí cháy. Có bộ tăng cường bơm hút xa.\n- **NC-1000:** Chuyên đo LEL ở nồng độ cực thấp (ppm).")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gp-1000&post_type=any", use_container_width=True)
         with col_c2:
             with st.container(border=True):
-                if os.path.exists("images/np-1000.png"): st.image("images/np-1000.png")
+                safe_image("images/np-1000.png")
                 st.markdown("#### NP-1000 / GP-03")
                 st.markdown("- **NP-1000:** Đo nồng độ cao tới 100 vol% trong môi trường khí trơ (N2, CO2). Linh hoạt chuyển đổi 5 loại khí gốc.\n- **GP-03:** Máy khuếch tán đơn khí dễ cháy kèm ốp cao su chống sốc.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=np-1000&post_type=any", use_container_width=True)
@@ -393,13 +409,13 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
         col_l1, col_l2 = st.columns(2, gap="medium")
         with col_l1:
             with st.container(border=True):
-                if os.path.exists("images/sp-230.png"): st.image("images/sp-230.png")
+                safe_image("images/sp-230.png")
                 st.markdown("#### SP-230 Series")
                 st.markdown("- Dòng máy chuyên tìm tâm điểm rò rỉ kiểu bơm hút.\n- **TYPE F:** Đo khí Fluorocarbon (Freon tủ lạnh).\n- **TYPE FUM:** Đo 7 loại khí khử trùng.\n- **TYPE SC:** Dò tới 50 loại khí bán dẫn.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=sp-230&post_type=any", use_container_width=True)
         with col_l2:
             with st.container(border=True):
-                if os.path.exists("images/fi-8000.png"): st.image("images/fi-8000.png")
+                safe_image("images/fi-8000.png")
                 st.markdown("#### FI-8000 / FP-31")
                 st.markdown("- **FI-8000:** Dùng cảm biến giao thoa quang học, đo độ chính xác tuyệt đối cho khí gây mê y tế, khí hun trùng, nồng độ dung môi.\n- **FP-31:** Đo Formaldehyde (HCHO) chuyên dụng qua ruy băng quang điện.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=fi-8000&post_type=any", use_container_width=True)
@@ -413,29 +429,29 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
         
         with col_f1:
             with st.container(border=True):
-                if os.path.exists("images/gp-148.png"): st.image("images/gp-148.png")
+                safe_image("images/gp-148.png")
                 st.markdown("#### Hệ thống GP-148")
                 st.markdown("- Tủ cảnh báo khí dễ cháy cao cấp.\n- **Tích hợp sẵn UPS:** Duy trì hoạt động 3 ngày khi mất điện.\n- Cho phép kết hợp giám sát cả đầu dò khí và đầu dò ngọn lửa (Max 12 điểm).\n- Lý tưởng cho trạm chiết nạp LPG, CNG, H2.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gp-148&post_type=any", use_container_width=True)
                 
             with st.container(border=True):
-                if os.path.exists("images/rm-5000.png"): st.image("images/rm-5000.png")
+                safe_image("images/rm-5000.png")
                 st.markdown("#### RM-5000 Series")
                 st.markdown("- Tủ cảnh báo đa điểm (Multi-point).\n- Hiển thị nồng độ trực quan bằng **thanh bar meter** và số điện tử.\n- Tích hợp mạng truyền thông RS-485 (tùy chọn).")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=rm-5000&post_type=any", use_container_width=True)
 
         with col_f2:
             with st.container(border=True):
-                if os.path.exists("images/rm-6000.png"): st.image("images/rm-6000.png")
+                safe_image("images/rm-6000.png")
                 st.markdown("#### RM-6000 Series")
                 st.markdown("- Bộ cảnh báo điểm đơn thiết kế dạng **module độc lập** (dễ bảo trì tháo lắp).\n- Màn hình LCD **3 màu đổi theo trạng thái** (Xanh: Bình thường, Cam: Báo động 1, Đỏ: Báo động 2).")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=rm-6000&post_type=any", use_container_width=True)
 
             with st.container(border=True):
-                if os.path.exists("images/kanshiro.png"): st.image("images/kanshiro.png")
+                safe_image("images/kanshiro.png")
                 st.markdown("#### Phần mềm Kanshiro II")
                 st.markdown("- Hệ thống giám sát SCADA trên máy tính/điện thoại qua trình duyệt Web.\n- Quản lý siêu khủng: Lên tới **60.000 thẻ (tags)** tín hiệu.\n- Lưu trữ 100 triệu sự kiện và 3 năm dữ liệu xu hướng.")
-                st.link_button("🔍 Tra cứu trên Riken Viet", "https://product.rikenkeiki.co.jp/products/244-.html", use_container_width=True)
+                st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=kanshiro&post_type=any", use_container_width=True)
 
         # 2. ĐẦU DÒ THÔNG MINH
         st.markdown('<div class="branch-title branch-title-fixed">2. Đầu dò khí thông minh (Smart Detectors & Transmitters)</div>', unsafe_allow_html=True)
@@ -443,41 +459,41 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
         
         with col_f3:
             with st.container(border=True):
-                if os.path.exists("images/sd-3.png"): st.image("images/sd-3.png")
+                safe_image("images/sd-3.png")
                 st.markdown("#### SD-3 Series (Thế hệ mới)")
                 st.markdown("- **Cảm biến F-Sensor**: Hiệu suất cao, BH 3 năm, tự chẩn đoán suy giảm.\n- **Đạt chuẩn SIL2/SIL3** và chống nổ quốc tế IECEx/ATEX.\n- Vỏ thép SCS14 siêu bền, chịu nhiệt -40 đến +70°C.\n- Đo dải kép (ppm & LEL), ngõ ra HART/Modbus.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=sd-3&post_type=any", use_container_width=True)
 
             with st.container(border=True):
-                if os.path.exists("images/sd-1.png"): st.image("images/sd-1.png")
+                safe_image("images/sd-1.png")
                 st.markdown("#### Dòng SD-1 Series")
                 st.markdown("- Tiêu chuẩn chống nổ khắt khe (dùng được trong môi trường Hydro và Axetylen).\n- Vận hành hoàn toàn bằng **'khóa từ'** bên ngoài kính, an toàn không cần mở nắp.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=sd-1&post_type=any", use_container_width=True)
 
             with st.container(border=True):
-                if os.path.exists("images/gd-70d.png"): st.image("images/gd-70d.png")
+                safe_image("images/gd-70d.png")
                 st.markdown("#### Dòng GD-70D")
                 st.markdown("- Chuyên dùng cho nhà máy bán dẫn.\n- Thiết kế **Plug & Play**: Thay module cảm biến là đổi được loại khí đo, không cần thay vỏ máy. Tiết kiệm 20% điện năng.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gd-70d&post_type=any", use_container_width=True)
 
         with col_f4:
             with st.container(border=True):
-                if os.path.exists("images/gd-84d.png"): st.image("images/gd-84d.png")
+                safe_image("images/gd-84d.png")
                 st.markdown("#### Dòng GD-84D-EX")
                 st.markdown("- Máy đo đa khí cho nhà máy bán dẫn.\n- **Thay thế 4 máy cũ thành 1 máy** (Tiết kiệm 1/4 chi phí).\n- Hỗ trợ cấp nguồn và mạng qua cổng PoE.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gd-84d&post_type=any", use_container_width=True)
 
             with st.container(border=True):
-                if os.path.exists("images/gd-d58.png"): st.image("images/gd-d58.png")
+                safe_image("images/gd-d58.png")
                 st.markdown("#### Dòng GD-D58 & SD-D58")
                 st.markdown("- Máy đo kiểu bơm hút chống cháy nổ.\n- Cấu trúc siêu bền bỉ, an toàn tuyệt đối ngay cả trong bầu không khí chứa Hydro.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gd-d58&post_type=any", use_container_width=True)
 
             with st.container(border=True):
-                if os.path.exists("images/gd-a2400.png"): st.image("images/gd-a2400.png")
+                safe_image("images/gd-a2400.png")
                 st.markdown("#### GD-A2400 / SD-2500 Series")
                 st.markdown("- Chuyên dụng cho ống khói, lò đốt.\n- Có **thanh dài thọc sâu (250mm)** trực tiếp vào ống dẫn để lấy mẫu ở tâm dòng chảy.\n- Chịu nhiệt độ khắc nghiệt tới 160°C.")
-                st.link_button("🔍 Tra cứu trên Riken Viet", "https://product.rikenkeiki.co.jp/products/113-GD-A2400.html", use_container_width=True)
+                st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gd-a2400&post_type=any", use_container_width=True)
 
         # 3. MÁY PHÂN TÍCH & DÂN DỤNG
         st.markdown('<div class="branch-title branch-title-fixed">3. Máy phân tích đặc thù & Dùng trong nhà (Analyzers & Indoor)</div>', unsafe_allow_html=True)
@@ -485,37 +501,40 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
         
         with col_f5:
             with st.container(border=True):
-                if os.path.exists("images/600-series.png"): st.image("images/600-series.png")
+                safe_image("images/600-series.png")
                 st.markdown("#### Dòng 600 Series (OX, EC, RI)")
                 st.markdown("- Thiết kế siêu gọn nhẹ dùng cho văn phòng/trong nhà.\n- Màn hình 3 màu dễ nhìn, linh hoạt nguồn cấp (Điện AC, DC hoặc dùng Pin khô lên tới 1 năm).\n- Riêng OX-600 có cảm biến sửa lỗi áp suất.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=600-series&post_type=any", use_container_width=True)
 
             with st.container(border=True):
-                if os.path.exists("images/fp-300.png"): st.image("images/fp-300.png")
+                safe_image("images/fp-300.png")
                 st.markdown("#### Dòng FP-300 / FP-301")
                 st.markdown("- Dùng công nghệ **cuộn băng (tape)** chuyên dụng để đo khí độc nồng độ siêu nhỏ trong phòng sạch.\n- Có chức năng hiển thị lượng băng còn lại và cảnh báo sắp hết.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=fp-300&post_type=any", use_container_width=True)
 
         with col_f6:
             with st.container(border=True):
-                if os.path.exists("images/fi-900.png"): st.image("images/fi-900.png")
+                safe_image("images/fi-900.png")
                 st.markdown("#### FI-900 / FI-915")
                 st.markdown("- Máy phân tích **Giao thoa quang học**.\n- Đo cực kỳ ổn định, không cần thời gian khởi động (warm-up).\n- Cảm biến không bị suy giảm độ nhạy do nhiễm độc hóa chất silicon.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=fi-900&post_type=any", use_container_width=True)
 
             with st.container(border=True):
-                if os.path.exists("images/ohc-800.png"): st.image("images/ohc-800.png")
+                safe_image("images/ohc-800.png")
                 st.markdown("#### OHC-800 (Nhiệt lượng kế)")
                 st.markdown("- Chuyên ngành khí thiên nhiên chống cháy nổ.\n- Đo trực tiếp và liên tục giá trị **Nhiệt lượng (Calorific)** và **Trọng lượng riêng (Density)**.")
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=ohc-800&post_type=any", use_container_width=True)
+
 # ---------------- TRANG 4: TIÊU CHUẨN & THUẬT NGỮ ----------------
 elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
     st.title("📖 Từ Điển: Tiêu Chuẩn & Thuật Ngữ Kỹ Thuật")
-   
+    st.markdown("Để giải thích cho một người chưa biết gì có thể dễ dàng hiểu được, chúng ta hãy hình dung các tiêu chuẩn này giống như **các loại 'Hộ chiếu' và 'Giấy khám sức khỏe'** dành riêng cho máy móc công nghiệp. Việc thấu hiểu các chứng chỉ quốc tế và các giới hạn phơi nhiễm là yêu cầu bắt buộc để tư vấn giải pháp chính xác cho khách hàng.")
+    st.markdown("---")
+
     tab_std, tab_expo = st.tabs(["🛡️ Tiêu Chuẩn Chống Cháy Nổ & An Toàn", "⚠️ Giới Hạn Phơi Nhiễm Khí Độc"])
 
     with tab_std:
-        st.subheader("Nhóm 1: Các tiêu chuẩn chống cháy nổ theo khu vực địa lý")
+        st.subheader("Nhóm 1: Các 'Hộ chiếu' chống cháy nổ theo khu vực địa lý")
         st.markdown("Bất kỳ thiết bị nào mang vào môi trường nguy hiểm đều tuyệt đối không được phát ra tia lửa điện. Quá trình kiểm tra khả năng này sinh ra các tiêu chuẩn sau:")
         
         col1, col2 = st.columns(2, gap="large")
@@ -526,7 +545,7 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
             
             with st.container(border=True):
                 st.markdown("#### 🇺🇸 UL, FM, CSA (Của Bắc Mỹ)")
-                st.markdown("Mỹ và Canada không dùng hệ ATEX/IECEx mà có luật riêng (phân loại Class/Division thay vì Zone).\n\n- **UL (Underwriters Laboratories):** Công ty kiểm định lớn nhất Mỹ. 'UL Listed' là bảo chứng vàng tại thị trường Mỹ.\n- **FM (Factory Mutual):** Thiết bị có dấu 'FM Approved' đã trải qua các bài test cực kỳ khắc nghiệt.\n- **CSA:** Tiêu chuẩn tương đương nhưng dành cho Canada.")
+                st.markdown("Mỹ và Canada không dùng hệ ATEX/IECEx mà có luật riêng (phân loại Class/Division thay vì Zone).\n\n- **UL (Underwriters Laboratories):** Công ty kiểm định lớn nhất Mỹ. 'UL Listed' là bảo chứng vàng tại thị trường Mỹ.\n- **FM (Factory Mutual):** Thiết bị có dấu 'FM Approved' đã trải qua các bài test cực kỳ tàn bạo.\n- **CSA:** Tiêu chuẩn tương đương nhưng dành cho Canada.")
 
         with col2:
             with st.container(border=True):
@@ -537,7 +556,7 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
         
         col3, col4 = st.columns(2, gap="large")
         with col3:
-            st.subheader("Nhóm 2: Tiêu chuẩn hàng hải")
+            st.subheader("Nhóm 2: 'Hộ chiếu' Đi biển")
             with st.container(border=True):
                 st.markdown("#### ⚓ MED (Marine Equipment Directive)")
                 st.markdown("**Nó là gì?** Chỉ thị Thiết bị Hàng hải của Châu Âu.\n\n**Giải thích:** Môi trường tàu biển rất khắc nghiệt (muối mặn, rung lắc). Máy dùng tốt trên đất liền chưa chắc mang lên tàu đã thọ được. Máy đo khí muốn lắp trên tàu thủy quốc tế phải đạt chứng chỉ MED.\n\n**Nhận diện:** Biểu tượng **Bánh lái tàu (Wheelmark)**.")
@@ -548,7 +567,16 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
                 st.markdown("#### 🛡️ SIL (Safety Integrity Level)")
                 st.markdown("**Nó là gì?** Mức độ Toàn vẹn An toàn.\n\n**Giải thích:** SIL không đánh giá việc chống cháy nổ, mà chấm điểm **SỰ ĐÁNG TIN CẬY**. Khi khí xì ra, xác suất máy 'bị đơ' không báo động là bao nhiêu? SIL chia từ 1 đến 4 (Càng cao càng xịn).\n- **SIL 2:** Rất phổ biến, xác suất lỗi cực thấp (SD-3 đạt SIL 2).\n- **SIL 3:** Siêu an toàn, thường phải chạy 2 máy song song.\n- **SIL 4:** Dành cho điện hạt nhân, tàu vũ trụ.")
                 
-        
+        st.markdown("### 💡 TỔNG KẾT NHANH (Cheat-sheet cho Sales/Kỹ thuật)")
+        st.markdown("""
+        | Khách hàng hỏi | Có nghĩa là họ đang quan tâm đến... |
+        | :--- | :--- |
+        | **"Máy này có ATEX / IECEx không?"** | Máy của em có phát ra tia lửa gây nổ nhà máy dầu khí của anh không? |
+        | **"Máy này có FM / UL không?"** | Máy có đạt tiêu chuẩn an toàn để bán vào nhà máy kiểu Mỹ không? |
+        | **"Máy có chứng chỉ MED không?"** | Máy có chịu được muối biển và rung lắc trên tàu thủy không? |
+        | **"Máy đạt chuẩn SIL mấy?"** | Anh giao mạng sống cho máy này, nó có đáng tin không, hay lúc có sự cố nó lại lăn ra hỏng? |
+        """)
+
     with tab_expo:
         st.subheader("Nhóm Thuật ngữ Phơi nhiễm Khí độc")
         st.markdown("Khí độc không giết người ngay mà tích tụ qua đường hô hấp. Do đó, các tiêu chuẩn an toàn đặt ra các mức báo động dựa trên thời gian tiếp xúc.")
