@@ -97,7 +97,7 @@ def fetch_history_from_github():
 # ==========================================
 # 3. POPUP BÀI KIỂM TRA
 # ==========================================
-@st.dialog("📝 BÀI KIỂM TRA NĂNG LỰC & HỘI NHẬP", width="large")
+@st.dialog("📝 BÀI KIỂM HỘI NHẬP", width="large")
 def take_quiz_dialog():
     st.markdown("Vui lòng điền họ tên và hoàn thành các câu hỏi dưới đây.")
     user_name = st.text_input("👤 Nhập Họ và Tên của bạn (*Bắt buộc):", placeholder="VD: Nguyễn Văn A")
@@ -152,7 +152,7 @@ with st.sidebar:
 if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
     col_title, col_admin = st.columns([4, 1.5]) 
     with col_title:
-        st.title("🎓 Cổng Đào Tạo Năng Lực & Hội Nhập")
+        st.title("🎓 Cổng Đào Tạo Hội Nhập")
         st.markdown("**Xin chào thành viên mới!** Vui lòng tìm hiểu về lịch sử công ty, theo dõi video và hoàn thành bài kiểm tra.")
     with col_admin:
         st.markdown("<br>", unsafe_allow_html=True)
@@ -167,7 +167,7 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
                         st.info("Trống! Chưa có nhân viên nào nộp bài.")
 
     st.markdown("---")
-    st.subheader("📺 Phim Giới thiệu & Đào tạo Năng lực")
+    st.subheader("📺 Video tổng quan")
     st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ") 
     st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center;'>Đánh giá mức độ hội nhập</h3>", unsafe_allow_html=True)
@@ -202,7 +202,7 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
     .danger-blink { animation: blink 1s linear infinite; } 
     </style>""", unsafe_allow_html=True)
 
-    st.title("☣️ Kiến Thức Chuyên Sâu Các Loại Khí Nguy Hiểm")
+    st.title("☣️ Kiến Thức Các Loại Khí Nguy Hiểm")
     st.markdown("Trong môi trường công nghiệp, rủi ro về khí là những **'Kẻ thù vô hình'**. Các thiết bị được thiết kế để theo dõi và bảo vệ sinh mạng.")
     st.markdown("---")
 
@@ -266,7 +266,7 @@ elif app_mode == "☣️ Kiến Thức: Phân Loại Khí":
         st.markdown("Trong điều kiện bình thường, không khí chứa khoảng **20.93% oxy**. Tình trạng 'thiếu oxy' được xác định khi nồng độ giảm xuống dưới **18%**.")
         safe_image("images/image_oxygen.png", use_container_width=True)
         st.markdown("### 📊 Mức độ đe dọa sinh tồn khi Oxy suy giảm:")
-        html_oxy = """<div class="oxy-bg"><div class="oxy-bar" style="width: 100%; background: linear-gradient(90deg, #11998e, #38ef7d);">20.93% - KHÔNG KHÍ BÌNH THƯỜNG</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 86%; background: linear-gradient(90deg, #f2c94c, #f2994a); color: #000;">Dưới 18% - THIẾU OXY (Báo động an toàn)</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 67%; background: linear-gradient(90deg, #e65c00, #F9D423);">16% ~ 12% - Thở gấp, tăng nhịp tim, buồn nôn</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 38%; background: linear-gradient(90deg, #b20a2c, #fffbd5); color: #000;">10% ~ 6% - Ảo giác, bất tỉnh, co giật</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 15%; background: linear-gradient(90deg, #cb2d3e, #ef473a);">≤ 6% - TỬ VONG TRONG VÀI GIÂY</div></div>"""
+        html_oxy = """<div class="oxy-bg"><div class="oxy-bar" style="width: 100%; background: linear-gradient(90deg, #11998e, #38ef7d);">20.93% - KHÔNG KHÍ BÌNH THƯỜNG</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 86%; background: linear-gradient(90deg, #f2c94c, #f2994a); color: #000;">Dưới 18% - THIẾU OXY (Báo động an toàn)</div></div><div class="oxy-bg"><div class="oxy-bar" style="width: 67%; background: linear-gradient(90deg, #e65c00, #F9D423);">16% ~ 12% - Thở gấp, tăng nhịp tim, buồn nôn</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 38%; background: linear-gradient(90deg, #b20a2c, #fffbd5); color: #000;">10% ~ 6% - Ảo giác, bất tỉnh, co giật</div></div><div class="oxy-bg"><div class="oxy-bar danger-blink" style="width: 15%; background: linear-gradient(90deg, #cb2d3e, #ef473a);">≤ 6% - TỬ VONG LẬP TỨC</div></div>"""
         st.markdown(html_oxy, unsafe_allow_html=True)
         st.success("💡 **Quy tắc sống còn:** Tuyệt đối không tự ý bước vào không gian hạn hẹp (hầm, cống) mà không có máy đo khí đo kiểm trước!")
 
@@ -320,7 +320,7 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
     .branch-title-fixed { color: #dc3545; border-bottom: 2px solid #dc3545; } 
     </style>""", unsafe_allow_html=True)
     
-    st.title("📟 Showroom: Thiết Bị Đo Khí Riken Keiki")
+    st.title("📟 Thiết Bị Đo Khí Riken Keiki")
     st.markdown("Hệ thống thiết bị được phân chia bài bản nhằm giúp Sales và Kỹ thuật lựa chọn chính xác giải pháp cho Khách hàng dựa trên nhu cầu Đo di động (Portable) hay Lắp giám sát cố định (Fixed).")
     st.markdown("---")
 
@@ -534,17 +534,17 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
     tab_std, tab_expo = st.tabs(["🛡️ Tiêu Chuẩn Chống Cháy Nổ & An Toàn", "⚠️ Giới Hạn Phơi Nhiễm Khí Độc"])
 
     with tab_std:
-        st.subheader("Nhóm 1: Các 'Hộ chiếu' chống cháy nổ theo khu vực địa lý")
+        st.subheader("Nhóm 1: Tiêu chuẩn chống cháy nổ theo khu vực địa lý")
         st.markdown("Bất kỳ thiết bị nào mang vào môi trường nguy hiểm đều tuyệt đối không được phát ra tia lửa điện. Quá trình kiểm tra khả năng này sinh ra các tiêu chuẩn sau:")
         
         col1, col2 = st.columns(2, gap="large")
         with col1:
             with st.container(border=True):
-                st.markdown("#### 🇪🇺 ATEX (Của Châu Âu)")
+                st.markdown("#### ATEX (Của Châu Âu)")
                 st.markdown("**Nó là gì?** Viết tắt của *ATmosphères EXplosibles* (Bầu không khí dễ nổ).\n\n**Đặc điểm:** Đây là **Đạo luật bắt buộc** của Liên minh Châu Âu (EU). Bất kỳ máy móc nào muốn được bán và lắp đặt tại khu vực nguy hiểm ở Châu Âu đều phải có chứng chỉ này.\n\n**Nhận diện:** Biểu tượng hình lục giác màu vàng, có chữ 'Ex' bên trong.")
             
             with st.container(border=True):
-                st.markdown("#### 🇺🇸 UL, FM, CSA (Của Bắc Mỹ)")
+                st.markdown("#### UL, FM, CSA (Của Bắc Mỹ)")
                 st.markdown("Mỹ và Canada không dùng hệ ATEX/IECEx mà có luật riêng (phân loại Class/Division thay vì Zone).\n\n- **UL (Underwriters Laboratories):** Công ty kiểm định lớn nhất Mỹ. 'UL Listed' là bảo chứng vàng tại thị trường Mỹ.\n- **FM (Factory Mutual):** Thiết bị có dấu 'FM Approved' đã trải qua các bài test cực kỳ tàn bạo.\n- **CSA:** Tiêu chuẩn tương đương nhưng dành cho Canada.")
 
         with col2:
@@ -556,7 +556,7 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
         
         col3, col4 = st.columns(2, gap="large")
         with col3:
-            st.subheader("Nhóm 2: 'Hộ chiếu' Đi biển")
+            st.subheader("Nhóm 2: Tiêu chuẩn hàng hải")
             with st.container(border=True):
                 st.markdown("#### ⚓ MED (Marine Equipment Directive)")
                 st.markdown("**Nó là gì?** Chỉ thị Thiết bị Hàng hải của Châu Âu.\n\n**Giải thích:** Môi trường tàu biển rất khắc nghiệt (muối mặn, rung lắc). Máy dùng tốt trên đất liền chưa chắc mang lên tàu đã thọ được. Máy đo khí muốn lắp trên tàu thủy quốc tế phải đạt chứng chỉ MED.\n\n**Nhận diện:** Biểu tượng **Bánh lái tàu (Wheelmark)**.")
@@ -567,15 +567,7 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
                 st.markdown("#### 🛡️ SIL (Safety Integrity Level)")
                 st.markdown("**Nó là gì?** Mức độ Toàn vẹn An toàn.\n\n**Giải thích:** SIL không đánh giá việc chống cháy nổ, mà chấm điểm **SỰ ĐÁNG TIN CẬY**. Khi khí xì ra, xác suất máy 'bị đơ' không báo động là bao nhiêu? SIL chia từ 1 đến 4 (Càng cao càng xịn).\n- **SIL 2:** Rất phổ biến, xác suất lỗi cực thấp (SD-3 đạt SIL 2).\n- **SIL 3:** Siêu an toàn, thường phải chạy 2 máy song song.\n- **SIL 4:** Dành cho điện hạt nhân, tàu vũ trụ.")
                 
-        st.markdown("### 💡 TỔNG KẾT NHANH (Cheat-sheet cho Sales/Kỹ thuật)")
-        st.markdown("""
-        | Khách hàng hỏi | Có nghĩa là họ đang quan tâm đến... |
-        | :--- | :--- |
-        | **"Máy này có ATEX / IECEx không?"** | Máy của em có phát ra tia lửa gây nổ nhà máy dầu khí của anh không? |
-        | **"Máy này có FM / UL không?"** | Máy có đạt tiêu chuẩn an toàn để bán vào nhà máy kiểu Mỹ không? |
-        | **"Máy có chứng chỉ MED không?"** | Máy có chịu được muối biển và rung lắc trên tàu thủy không? |
-        | **"Máy đạt chuẩn SIL mấy?"** | Anh giao mạng sống cho máy này, nó có đáng tin không, hay lúc có sự cố nó lại lăn ra hỏng? |
-        """)
+      
 
     with tab_expo:
         st.subheader("Nhóm Thuật ngữ Phơi nhiễm Khí độc")
