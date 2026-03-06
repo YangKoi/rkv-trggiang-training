@@ -168,7 +168,7 @@ if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
 
     st.markdown("---")
     st.subheader("📺 Video tổng quan")
-    st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ") 
+    st.video("https://youtu.be/DL9K-LVeqdc?si=1bc0AvMt4X3JbkxO") 
     st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center;'>Đánh giá mức độ hội nhập</h3>", unsafe_allow_html=True)
     col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
@@ -367,10 +367,10 @@ elif app_mode == "📟 Phân Loại Thiết Bị":
                 st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gx-9000&post_type=any", use_container_width=True)
             
             with st.container(border=True):
-                safe_image("images/gx-6000.png")
-                st.markdown("#### GX-6000 (6 khí)")
+                safe_image("images/gx-6100.png")
+                st.markdown("#### GX-6100 (6 khí)")
                 st.markdown("- Thiết bị bơm hút đo 6 khí, tích hợp đo **VOCs**.\n- Có chế độ đo chọn lọc Benzene.\n- Tính năng an toàn: Báo động hoảng loạn (panic), ngã (man down), tích hợp đèn LED.")
-                st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gx-6000&post_type=any", use_container_width=True)
+                st.link_button("🔍 Tra cứu trên Riken Viet", "https://rikenviet.vn/?s=gx-6100&post_type=any", use_container_width=True)
 
         # 2. ĐƠN KHÍ VÀ 2 KHÍ NHỎ GỌN
         st.markdown('<div class="branch-title">2. Máy đo Đơn khí & 2 Khí nhỏ gọn</div>', unsafe_allow_html=True)
