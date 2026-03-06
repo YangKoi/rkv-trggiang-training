@@ -15,7 +15,12 @@ st.set_page_config(page_title="Riken Viet - Đào tạo nội bộ", page_icon="
 
 if 'quiz_passed' not in st.session_state:
     st.session_state.quiz_passed = False
-
+def hien_thi_anh_an_toan(duong_dan):
+    if os.path.exists(duong_dan):
+        try:
+            st.image(duong_dan)
+        except Exception:
+            st.warning(f"⚠️ Đang cập nhật ảnh: {duong_dan}")
 # ==========================================
 # 2. CÁC HÀM GIAO TIẾP VỚI GITHUB
 # ==========================================
