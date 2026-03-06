@@ -28,9 +28,9 @@ def safe_image(image_path, use_container_width=False):
             st.warning(f"⚠️ Ảnh '{image_path}' bị lỗi định dạng. Vui lòng thay file PNG khác.")
 
 # ==========================================
-# 2. CÁC HÀM GIAO TIẾP VỚI GITHUB
+# 2. CÁC HÀM GIAO TIẾP VỚI GITHUB (ĐÃ NÂNG CẤP CHO 10 CÂU)
 # ==========================================
-def save_to_github(name, score, q1_ans, q2_ans, q3_ans):
+def save_to_github(name, score, answers):
     if Github is None: return False, "Chưa cài đặt thư viện PyGithub."
     try:
         token = st.secrets["GITHUB_TOKEN"]
@@ -44,12 +44,13 @@ def save_to_github(name, score, q1_ans, q2_ans, q3_ans):
         content = f"--- KẾT QUẢ ĐÀO TẠO HỘI NHẬP RIKEN VIỆT ---\n"
         content += f"Họ và Tên: {name}\n"
         content += f"Thời gian hoàn thành: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}\n"
-        content += f"Điểm số đạt được: {score}/3\n"
-        content += f"Trạng thái: {'ĐẠT' if score == 3 else 'CHƯA ĐẠT'}\n"
+        content += f"Điểm số đạt được: {score}/10\n"
+        content += f"Trạng thái: {'ĐẠT' if score == 10 else 'CHƯA ĐẠT'}\n"
         content += f"--- CHI TIẾT BÀI LÀM ---\n"
-        content += f"Câu 1 chọn: {q1_ans}\n"
-        content += f"Câu 2 chọn: {q2_ans}\n"
-        content += f"Câu 3 chọn: {q3_ans}\n"
+        
+        # Tự động ghi 10 câu trả lời vào file text lưu trữ
+        for i, ans in enumerate(answers, 1):
+            content += f"Câu {i} chọn: {ans}\n"
         
         repo.create_file(file_path, f"Lưu bài thi của {name}", content, branch="main")
         return True, "Thành công"
@@ -73,21 +74,15 @@ def fetch_history_from_github():
                 text = file.decoded_content.decode("utf-8")
                 lines = text.split('\n')
                 name, date, score, status = "", "", "", ""
-                ans1, ans2, ans3 = "N/A", "N/A", "N/A" 
                 for line in lines:
                     if line.startswith("Họ và Tên:"): name = line.split(":", 1)[1].strip()
                     if line.startswith("Thời gian hoàn thành:"): date = line.replace("Thời gian hoàn thành:", "").strip()
                     if line.startswith("Điểm số đạt được:"): score = line.split(":", 1)[1].strip()
                     if line.startswith("Trạng thái:"): status = line.split(":", 1)[1].strip()
-                    if line.startswith("Câu 1 chọn:"): ans1 = line.split(":", 1)[1].strip()
-                    if line.startswith("Câu 2 chọn:"): ans2 = line.split(":", 1)[1].strip()
-                    if line.startswith("Câu 3 chọn:"): ans3 = line.split(":", 1)[1].strip()
                 
+                # Bảng Admin giờ sẽ gọn gàng hơn, chỉ hiện điểm và kết quả tổng quan
                 records.append({
-                    "Họ Tên": name, "Thời gian": date, "Điểm": score, "Kết quả": status,
-                    "Câu 1 (C)": ans1[:15] + "...", 
-                    "Câu 2 (B)": ans2[:15] + "...",
-                    "Câu 3 (C)": ans3[:15] + "..."
+                    "Họ Tên": name, "Thời gian": date, "Điểm": score, "Kết quả": status
                 })
         return records
     except Exception as e:
@@ -95,41 +90,105 @@ def fetch_history_from_github():
         return None
 
 # ==========================================
-# 3. POPUP BÀI KIỂM TRA
+# 3. POPUP BÀI KIỂM TRA (10 CÂU HỎI HỘI NHẬP RIKEN VIỆT)
 # ==========================================
-@st.dialog("📝 BÀI KIỂM HỘI NHẬP", width="large")
+@st.dialog("📝 BÀI KIỂM TRA NĂNG LỰC & HỘI NHẬP", width="large")
 def take_quiz_dialog():
-    st.markdown("Vui lòng điền họ tên và hoàn thành các câu hỏi dưới đây.")
+    st.markdown("Vui lòng điền họ tên và hoàn thành 10 câu hỏi dưới đây. (Yêu cầu đạt **10/10** để vượt qua khóa Onboarding).")
     user_name = st.text_input("👤 Nhập Họ và Tên của bạn (*Bắt buộc):", placeholder="VD: Nguyễn Văn A")
     st.markdown("---")
     
-    q1 = st.radio("Câu 1: Giải pháp cốt lõi mà công ty chúng ta cung cấp là gì?",
-                  ["A. Thiết bị PCCC", "B. Hệ thống camera an ninh", "C. Thiết bị đo, cảnh báo rò rỉ khí", "D. Thiết bị y tế"], index=None)
-    q2 = st.radio("Câu 2: Tủ điều khiển trung tâm trong hệ thống đo khí có chức năng chính là gì?",
-                  ["A. Đo nhiệt độ phòng", "B. Thu thập tín hiệu, hiển thị nồng độ và kích hoạt rơ-le", "C. Đóng ngắt điện", "D. Bơm hóa chất"], index=None)
-    q3 = st.radio("Câu 3: Nguyên tắc xử lý liên động (Interlock) cơ bản khi Alarm 2 kích hoạt?",
-                  ["A. Phát nhạc nền", "B. Chỉ nháy đèn vàng", "C. Đóng van ngắt cấp khí và bật quạt hút", "D. Mở tung cửa"], index=None)
+    q1 = st.radio("Câu 1: Công ty chúng ta chính thức được thành lập vào năm nào và tên gọi ban đầu là gì?",
+                  ["A. Năm 2012 - Công ty TNHH Thiết Bị Đo Lường Việt Nam", 
+                   "B. Năm 2014 - Công ty TNHH MTV Máy Đo Khí Việt Nam", 
+                   "C. Năm 2015 - Công ty CP Giải pháp An Toàn VN", 
+                   "D. Năm 2018 - Riken Viet Corporation"], index=None)
+                   
+    q2 = st.radio("Câu 2: Hiện tại, ngoài trụ sở chính tại TP. Hồ Chí Minh, Riken Việt có văn phòng chi nhánh đặt tại đâu?",
+                  ["A. TP. Đà Nẵng", 
+                   "B. Thủ đô Hà Nội", 
+                   "C. TP. Hải Phòng (Khu đô thị Vinhomes Imperia)", 
+                   "D. TP. Cần Thơ"], index=None)
+                  
+    q3 = st.radio("Câu 3: Phương châm hoạt động (Slogan) mang tính định hướng cốt lõi của Riken Việt là gì?",
+                  ["A. Safety First - An toàn là bạn", 
+                   "B. Selective Safety Solutions", 
+                   "C. Gas Detection Experts", 
+                   "D. Your Partner in Safety"], index=None)
+                  
+    q4 = st.radio("Câu 4: Riken Việt là đại diện ủy quyền chính thức của thương hiệu sản xuất thiết bị đo khí nào tại Việt Nam?",
+                  ["A. Dräger (Đức)", 
+                   "B. MSA (Mỹ)", 
+                   "C. Riken Keiki (Nhật Bản)", 
+                   "D. Honeywell (Mỹ)"], index=None)
+                  
+    q5 = st.radio("Câu 5: Trong lĩnh vực hiệu chuẩn thiết bị, Riken Việt đã xuất sắc đạt được chứng nhận tiêu chuẩn quốc tế nào?",
+                  ["A. ISO 9001:2015", 
+                   "B. ISO 14001:2015", 
+                   "C. ISO 45001:2018", 
+                   "D. ISO/IEC 17025:2017"], index=None)
+                  
+    q6 = st.radio("Câu 6: Dịch vụ hiệu chuẩn phương tiện đo của công ty được cấp giấy chứng nhận tuân thủ theo quy định nào của Tổng cục Tiêu chuẩn Đo lường Chất lượng?",
+                  ["A. Nghị định 105", 
+                   "B. Nghị định 136", 
+                   "C. Nghị định 79", 
+                   "D. Nghị định 45"], index=None)
+                  
+    q7 = st.radio("Câu 7: Ba mảng sản phẩm cốt lõi mà Riken Việt cung cấp cho thị trường là gì?",
+                  ["A. Thiết bị đo khí cầm tay, Thiết bị giám sát cố định, Bình khí chuẩn", 
+                   "B. Camera an ninh, Cảm biến nhiệt, Báo cháy", 
+                   "C. Thiết bị bảo hộ (PPE), Bình chữa cháy, Khí y tế", 
+                   "D. Thiết bị đo môi trường, Máy phân tích nước, Cân điện tử"], index=None)
+                  
+    q8 = st.radio("Câu 8: Đối với hệ thống đo khí cố định, các giải pháp của Riken Việt tập trung giám sát những nhóm khí chính nào?",
+                  ["A. Khí hiếm và Khí y tế", 
+                   "B. Khí cháy nổ, Khí độc và kiểm soát Oxy", 
+                   "C. Khí nhà kính và Bụi mịn", 
+                   "D. Phóng xạ và Khí trơ"], index=None)
+                  
+    q9 = st.radio("Câu 9: Ngoài việc cung cấp thiết bị, Riken Việt đảm nhận những dịch vụ 'sau bán hàng' nào?",
+                  ["A. Cho thuê xe vận tải, bảo vệ nhà máy", 
+                   "B. Cung cấp hóa chất công nghiệp", 
+                   "C. Hiệu chuẩn, bảo dưỡng, lắp đặt, đào tạo và tư vấn", 
+                   "D. Vận chuyển hàng hóa, lưu kho bãi"], index=None)
+                  
+    q10 = st.radio("Câu 10: Sứ mệnh lớn nhất của công ty khi cung cấp sản phẩm và dịch vụ đến tay khách hàng là gì?",
+                  ["A. Tối đa hóa lợi nhuận cho cổ đông", 
+                   "B. Trở thành tập đoàn phân phối đa quốc gia", 
+                   "C. Nâng cao an toàn cho người lao động Việt Nam bằng sản phẩm và dịch vụ hoàn hảo", 
+                   "D. Độc quyền phân phối thiết bị tại Đông Nam Á"], index=None)
 
+    st.markdown("<br>", unsafe_allow_html=True)
     if st.button("📤 NỘP BÀI VÀ LƯU KẾT QUẢ", type="primary", use_container_width=True):
-        if not user_name: st.error("⚠️ Vui lòng nhập Họ và Tên!")
-        elif not q1 or not q2 or not q3: st.error("⚠️ Vui lòng trả lời đầy đủ 3 câu hỏi!")
+        # Đóng gói 10 câu trả lời vào 1 danh sách
+        answers = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10]
+        
+        if not user_name: 
+            st.error("⚠️ Vui lòng nhập Họ và Tên!")
+        elif None in answers: 
+            st.error("⚠️ Vui lòng trả lời đầy đủ cả 10 câu hỏi trước khi nộp!")
         else:
-            with st.spinner("Đang nộp bài..."):
+            with st.spinner("Đang chấm điểm và gửi dữ liệu lên máy chủ..."):
                 score = 0
-                if q1.startswith("C"): score += 1
-                if q2.startswith("B"): score += 1
-                if q3.startswith("C"): score += 1
+                # Bộ đáp án chuẩn (10 câu tương ứng)
+                correct_keys = ["B", "C", "B", "C", "D", "A", "A", "B", "C", "C"]
                 
-                success, msg = save_to_github(user_name, score, str(q1), str(q2), str(q3))
+                # Thuật toán chấm điểm tự động
+                for i, ans in enumerate(answers):
+                    if ans.startswith(correct_keys[i]):
+                        score += 1
+                
+                # Gửi lên GitHub
+                success, msg = save_to_github(user_name, score, answers)
                 if success:
-                    if score == 3:
+                    if score == 10:
                         st.session_state.quiz_passed = True
-                        st.success("🎉 CHÚC MỪNG! Bạn đã đạt điểm tuyệt đối.")
+                        st.success("🎉 XUẤT SẮC! Bạn đã đạt điểm tuyệt đối 10/10.")
                     else:
                         st.session_state.quiz_passed = False
-                        st.error(f"⚠️ Bạn đạt {score}/3 điểm. Vui lòng học lại kiến thức!")
+                        st.error(f"⚠️ Bạn mới đạt {score}/10 điểm. Hãy đọc lại Sổ tay nhân viên và thử lại nhé!")
                 else:
-                    st.warning("⚠️ Lỗi kết nối máy chủ GitHub!")
+                    st.warning("⚠️ Lỗi kết nối máy chủ GitHub! Vui lòng báo cho Admin.")
 
 # ==========================================
 # 4. SIDEBAR
