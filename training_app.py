@@ -94,7 +94,7 @@ def fetch_history_from_github():
 # ==========================================
 # 3. POPUP BÀI KIỂM TRA (10 CÂU HỎI HỘI NHẬP RIKEN VIỆT)
 # ==========================================
-@st.dialog("📝 BÀI KIỂM TRA NĂNG LỰC & HỘI NHẬP", width="large")
+@st.dialog("📝 BÀI KIỂM TRA HỘI NHẬP", width="large")
 def take_quiz_dialog():
     st.markdown("Vui lòng điền họ tên và hoàn thành 10 câu hỏi dưới đây. (Yêu cầu đạt **10/10** để vượt qua khóa Onboarding).")
     user_name = st.text_input("👤 Nhập Họ và Tên của bạn (*Bắt buộc):", placeholder="VD: Nguyễn Văn A")
@@ -229,12 +229,12 @@ with st.sidebar:
 # 5. TRANG 1: ĐÀO TẠO HỘI NHẬP (GIAO DIỆN MỚI GỌN GÀNG HƠN)
 # ==========================================
 if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
-    st.title("🎓 Cổng Đào Tạo Năng Lực & Hội Nhập")
+    st.title("🎓 Cổng Đào Tạo Hội Nhập")
     st.markdown("**Xin chào thành viên mới!** Vui lòng tìm hiểu về lịch sử công ty, theo dõi video và hoàn thành bài kiểm tra.")
     
     st.markdown("---")
-    st.subheader("📺 Phim Giới thiệu & Đào tạo Năng lực")
-    st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ") 
+    st.subheader("📺 Video tổng quan")
+    st.video("https://youtu.be/DL9K-LVeqdc?si=1bc0AvMt4X3JbkxO") 
     st.markdown("<br><br>", unsafe_allow_html=True)
     
     st.markdown("<h3 style='text-align: center;'>Đánh giá mức độ hội nhập</h3>", unsafe_allow_html=True)
