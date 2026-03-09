@@ -197,7 +197,7 @@ def take_quiz_dialog():
 # ==========================================
 with st.sidebar:
     safe_image("images/rkv_logo.png", use_container_width=True)
-    st.markdown("## 📑 Menu Đào Tạo")
+    st.markdown("## 📑 ")
     app_mode = st.radio("Chọn chuyên mục:", [
         "🎓 Cổng Đào Tạo Hội Nhập",
         "☣️ Kiến Thức: Phân Loại Khí",
