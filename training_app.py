@@ -172,10 +172,6 @@ if not st.session_state.is_ready:
         st.markdown(hoa_roi_html, unsafe_allow_html=True)
         st.session_state.first_visit = False
     
-    # Canh giữa Lô gô
-    col_logo1, col_logo2, col_logo3 = st.columns([1.5, 1, 1.5])
-    with col_logo2:
-        safe_image("images/rkv_logo.png", use_container_width=True)
     
     # Canh giữa Lô gô
     col_logo1, col_logo2, col_logo3 = st.columns([1.5, 1, 1.5])
