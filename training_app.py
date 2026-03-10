@@ -24,8 +24,12 @@ if 'is_ready' not in st.session_state:
 if 'not_ready' not in st.session_state:
     st.session_state.not_ready = False
 
+# BIẾN MỚI: Ghi nhớ lần đầu tiên mở web để chạy hiệu ứng 1 lần duy nhất
+if 'first_visit' not in st.session_state:
+    st.session_state.first_visit = True
+
 # ==========================================
-# 2. HÀM BẢO VỆ ẢNH (ĐÃ ĐƯỢC CHUYỂN LÊN ĐÂY)
+# 2. HÀM BẢO VỆ ẢNH
 # ==========================================
 def safe_image(image_path, use_container_width=False):
     """Hàm tải ảnh an toàn, chặn đứng lỗi UnidentifiedImageError"""
@@ -36,12 +40,33 @@ def safe_image(image_path, use_container_width=False):
             st.warning(f"⚠️ Ảnh '{image_path}' bị lỗi định dạng. Vui lòng thay file PNG khác.")
 
 # ==========================================
-# 3. 🌟 MÀN HÌNH CHỜ NÂNG CẤP (WELCOME SCREEN)
+# 3. 🌟 MÀN HÌNH CHỜ NÂNG CẤP (CÓ HIỆU ỨNG CHUYỂN ĐỘNG)
 # ==========================================
 
-# CSS Custom cho Màn hình chờ
+# CSS Custom cho Màn hình chờ & Hiệu ứng
 st.markdown("""
 <style>
+    /* 🌟 Hiệu ứng Fade-in và Lướt lên */
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(30px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Ép hiệu ứng vào Lô gô (Hiện ra nhanh nhất) */
+    div[data-testid="stImage"] {
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    /* Ép hiệu ứng vào Tiêu đề chính (Hiện ra sau 1 chút) */
+    div[data-testid="stMarkdownContainer"] > h1 {
+        animation: fadeInUp 1.2s ease-out forwards;
+    }
+    
+    /* Ép hiệu ứng vào Tiêu đề phụ (Hiện ra sau cùng) */
+    div[data-testid="stMarkdownContainer"] > h3 {
+        animation: fadeInUp 1.6s ease-out forwards;
+    }
+
     /* Canh giữa Lô gô */
     div.stImage > img {
         display: block;
@@ -49,7 +74,7 @@ st.markdown("""
         margin-right: auto;
     }
     
-    /* Chỉnh lại nút bấm: Ép chiều cao, bo góc và đổ bóng. Chiều rộng sẽ do Python xử lý */
+    /* Chỉnh nút bấm */
     div.stButton > button {
         height: auto !important;
         padding-top: 20px !important;
@@ -59,9 +84,9 @@ st.markdown("""
         border-radius: 12px !important;
         box-shadow: 0 4px 6px rgba(0,0,0,0.2) !important;
         transition: all 0.3s ease;
+        animation: fadeInUp 2s ease-out forwards; /* Nút bấm lướt lên cuối cùng */
     }
     
-    /* Hiệu ứng nhô lên khi di chuột vào nút */
     div.stButton > button:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 12px rgba(0,0,0,0.3) !important;
@@ -90,6 +115,11 @@ if st.session_state.not_ready:
 # Xử lý: Hiển thị giao diện Màn hình chờ
 if not st.session_state.is_ready:
     
+    # Kích hoạt hiệu ứng "Mưa chúc mừng" 1 lần duy nhất khi vừa mở trang
+    if st.session_state.first_visit:
+        st.snow() # Tạo hiệu ứng các hạt rơi nhè nhẹ, rất sang trọng
+        st.session_state.first_visit = False
+    
     # Canh giữa Lô gô
     col_logo1, col_logo2, col_logo3 = st.columns([1.5, 1, 1.5])
     with col_logo2:
@@ -100,14 +130,13 @@ if not st.session_state.is_ready:
     st.markdown("<h1 style='text-align: center; color: #d10000; font-size: 3.5rem; margin-top: 50px;'>Chào mừng bạn gia nhập Riken Việt! 🎓</h1>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center; color: #555; margin-bottom: 70px;'>Bạn đã sẵn sàng để tham gia cùng chúng tôi chưa?</h3>", unsafe_allow_html=True)
     
-    # 2 Nút bấm: Chia tỉ lệ chuẩn xác để bằng nhau và canh giữa tuyệt đối
+    # 2 Nút bấm
     col_space1, col_btn_yes, col_btn_no, col_space2 = st.columns([1.5, 1, 1, 1.5], gap="large")
     
     with col_btn_yes:
-        # Lệnh use_container_width=True ép nút giãn đúng 100% cột chứa nó
         if st.button("🚀 SẴN SÀNG", type="primary", use_container_width=True):
             st.session_state.is_ready = True
-            st.balloons() 
+            st.balloons() # Nổ pháo hoa bóng bay khi chính thức bước vào
             st.rerun() 
             
     with col_btn_no:
@@ -115,7 +144,7 @@ if not st.session_state.is_ready:
             st.session_state.not_ready = True
             st.rerun() 
             
-    st.stop() # Chặn không cho load phần dưới nếu chưa bấm Sẵn sàng
+    st.stop()
 # ==========================================
 # HÀM BẢO VỆ ẢNH (CHỐNG SẬP WEB)
 # ==========================================
