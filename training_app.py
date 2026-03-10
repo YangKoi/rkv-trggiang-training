@@ -115,10 +115,67 @@ if st.session_state.not_ready:
 # Xử lý: Hiển thị giao diện Màn hình chờ
 if not st.session_state.is_ready:
     
-    # Kích hoạt hiệu ứng "Mưa chúc mừng" 1 lần duy nhất khi vừa mở trang
+    # 🌟 KÍCH HOẠT HIỆU ỨNG HOA RƠI & PHÁO HOA GIẤY (1 LẦN DUY NHẤT)
     if st.session_state.first_visit:
-        st.snow() # Tạo hiệu ứng các hạt rơi nhè nhẹ, rất sang trọng
+        hoa_roi_html = """
+        <style>
+            .falling-item {
+                position: fixed;
+                top: -10%;
+                z-index: 9999;
+                user-select: none;
+                cursor: default;
+                animation-name: fall-down, sway;
+                animation-duration: 4s, 3s;
+                animation-timing-function: linear, ease-in-out;
+                animation-iteration-count: 1, 1; /* Chỉ rơi 1 lần rồi thôi */
+                animation-fill-mode: forwards, forwards; /* Biến mất khi chạm đáy */
+                font-size: 2.5rem;
+                opacity: 0;
+            }
+            @keyframes fall-down {
+                0% { top: -10%; opacity: 1; }
+                80% { opacity: 1; }
+                100% { top: 110%; opacity: 0; }
+            }
+            @keyframes sway {
+                0% { transform: translateX(0px) rotate(0deg); }
+                50% { transform: translateX(50px) rotate(180deg); }
+                100% { transform: translateX(0px) rotate(360deg); }
+            }
+            /* Thiết lập vị trí và độ trễ ngẫu nhiên cho từng hạt */
+            .item1 { left: 10%; animation-delay: 0s, 0s; }
+            .item2 { left: 20%; animation-delay: 0.5s, 0.5s; font-size: 2rem; }
+            .item3 { left: 30%; animation-delay: 0.2s, 0.2s; }
+            .item4 { left: 40%; animation-delay: 0.8s, 0.8s; font-size: 3rem; }
+            .item5 { left: 50%; animation-delay: 0.1s, 0.1s; }
+            .item6 { left: 60%; animation-delay: 0.6s, 0.6s; font-size: 2rem; }
+            .item7 { left: 70%; animation-delay: 0.3s, 0.3s; }
+            .item8 { left: 80%; animation-delay: 0.7s, 0.7s; font-size: 2.5rem; }
+            .item9 { left: 90%; animation-delay: 0.4s, 0.4s; }
+            .item10 { left: 15%; animation-delay: 0.9s, 0.9s; }
+            .item11 { left: 85%; animation-delay: 0.2s, 0.2s; font-size: 3rem; }
+        </style>
+        
+        <div class="falling-item item1">🌸</div>
+        <div class="falling-item item2">🎉</div>
+        <div class="falling-item item3">✨</div>
+        <div class="falling-item item4">🌺</div>
+        <div class="falling-item item5">🎊</div>
+        <div class="falling-item item6">🌸</div>
+        <div class="falling-item item7">🎇</div>
+        <div class="falling-item item8">✨</div>
+        <div class="falling-item item9">🌺</div>
+        <div class="falling-item item10">🎉</div>
+        <div class="falling-item item11">🌸</div>
+        """
+        st.markdown(hoa_roi_html, unsafe_allow_html=True)
         st.session_state.first_visit = False
+    
+    # Canh giữa Lô gô
+    col_logo1, col_logo2, col_logo3 = st.columns([1.5, 1, 1.5])
+    with col_logo2:
+        safe_image("images/rkv_logo.png", use_container_width=True)
     
     # Canh giữa Lô gô
     col_logo1, col_logo2, col_logo3 = st.columns([1.5, 1, 1.5])
