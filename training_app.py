@@ -49,31 +49,34 @@ st.markdown("""
         margin-right: auto;
     }
     
-    /* Tăng kích thước nút bấm */
+    /* Chỉnh lại nút bấm: Ép chiều cao, bo góc và đổ bóng. Chiều rộng sẽ do Python xử lý */
     div.stButton > button {
-        width: 100% !important;
-        max-width: 400px !important;
         height: auto !important;
-        display: block !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        padding-top: 25px !important;
-        padding-bottom: 25px !important;
-        font-size: 1.5rem !important;
+        padding-top: 20px !important;
+        padding-bottom: 20px !important;
+        font-size: 1.3rem !important;
         font-weight: bold !important;
-        border-radius: 15px !important;
+        border-radius: 12px !important;
         box-shadow: 0 4px 6px rgba(0,0,0,0.2) !important;
-        text-align: center !important;
+        transition: all 0.3s ease;
+    }
+    
+    /* Hiệu ứng nhô lên khi di chuột vào nút */
+    div.stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.3) !important;
     }
     
     div.stButton > button[kind="primary"] {
         background-color: #d10000 !important;
         color: white !important;
+        border: none !important;
     }
     
     div.stButton > button[kind="secondary"] {
         background-color: #555555 !important;
         color: white !important;
+        border: none !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -97,21 +100,22 @@ if not st.session_state.is_ready:
     st.markdown("<h1 style='text-align: center; color: #d10000; font-size: 3.5rem; margin-top: 50px;'>Chào mừng bạn gia nhập Riken Việt! 🎓</h1>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center; color: #555; margin-bottom: 70px;'>Bạn đã sẵn sàng để tham gia cùng chúng tôi chưa?</h3>", unsafe_allow_html=True)
     
-    # 2 Nút bấm
-    col_btn_yes_space, col_btn_yes, col_btn_no, col_btn_no_space = st.columns([0.5, 1, 1, 0.5])
+    # 2 Nút bấm: Chia tỉ lệ chuẩn xác để bằng nhau và canh giữa tuyệt đối
+    col_space1, col_btn_yes, col_btn_no, col_space2 = st.columns([1.5, 1, 1, 1.5], gap="large")
     
     with col_btn_yes:
-        if st.button("🚀 SẴN SÀNG", type="primary"):
+        # Lệnh use_container_width=True ép nút giãn đúng 100% cột chứa nó
+        if st.button("🚀 SẴN SÀNG", type="primary", use_container_width=True):
             st.session_state.is_ready = True
+            st.balloons() 
             st.rerun() 
             
     with col_btn_no:
-        if st.button("❌ CHƯA SẴN SÀNG", type="secondary"):
+        if st.button("❌ CHƯA SẴN SÀNG", type="secondary", use_container_width=True):
             st.session_state.not_ready = True
             st.rerun() 
             
     st.stop() # Chặn không cho load phần dưới nếu chưa bấm Sẵn sàng
-
 # ==========================================
 # HÀM BẢO VỆ ẢNH (CHỐNG SẬP WEB)
 # ==========================================
