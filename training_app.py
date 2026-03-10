@@ -26,34 +26,88 @@ if 'not_ready' not in st.session_state:
     st.session_state.not_ready = False
 
 # ==========================================
-# 🌟 MÀN HÌNH CHỜ (WELCOME SCREEN)
+# 🌟 MÀN HÌNH CHỜ NÂNG CẤP (WELCOME SCREEN PRO V1.0)
 # ==========================================
-# Nếu chọn CHƯA SẴN SÀNG -> Dừng hệ thống và báo đóng Tab
+
+# 1. Thêm CSS Custom để thay đổi kiểu dáng nút bấm (PHẢI DÁN ĐẦU TRANG)
+st.markdown("""
+<style>
+    /* CSS Canh giữa Lô gô và Text */
+    div.stImage > img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* CSS Tăng kích thước nút bấm lên RẤT LỚN */
+    div.stButton > button {
+        width: 100% !important;
+        max-width: 400px !important;
+        height: auto !important;
+        display: block !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-top: 25px !important;
+        padding-bottom: 25px !important;
+        font-size: 1.5rem !important;
+        font-weight: bold !important;
+        border-radius: 15px !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2) !important;
+        text-align: center !important;
+    }
+    
+    /* CSS Màu đỏ cho nút SẴN SÀNG */
+    div.stButton > button[kind="primary"] {
+        background-color: #d10000 !important;
+        color: white !important;
+    }
+    
+    /* CSS Màu xám cho nút CHƯA SẴN SÀNG */
+    div.stButton > button[kind="secondary"] {
+        background-color: #555555 !important;
+        color: white !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# 2. Xử lý logic Màn hình chờ (CHƯA SẴN SÀNG)
 if st.session_state.not_ready:
     st.markdown("<h2 style='text-align: center; color: #555; margin-top: 150px;'>Hẹn gặp lại bạn khi khác! 👋</h2>", unsafe_allow_html=True)
     st.info("💡 Bạn có thể đóng tab trình duyệt này và quay trở lại bất cứ khi nào bạn đã sẵn sàng nhé!")
-    st.stop() # Lệnh này chặn toàn bộ phần code bên dưới không cho chạy
+    st.stop()
 
-# Nếu CHƯA bấm SẴN SÀNG -> Hiện màn hình chào mừng
+# 3. Giao diện Màn hình chào mừng (Bố cục mới)
 if not st.session_state.is_ready:
-    st.markdown("<br><br><br>", unsafe_allow_html=True)
-    st.markdown("<h1 style='text-align: center; color: #d10000; font-size: 3.5rem;'>Chào mừng bạn gia nhập Riken Việt! 🎓</h1>", unsafe_allow_html=True)
-    st.markdown("<h3 style='text-align: center; color: #555; margin-bottom: 50px;'>Bạn đã sẵn sàng để tham gia cùng chúng tôi chưa?</h3>", unsafe_allow_html=True)
     
-    # Canh giữa 2 nút bấm
-    col_space1, col_btn_yes, col_btn_no, col_space2 = st.columns([1.5, 1, 1, 1.5])
+    # Canh giữa Lô gô ở trên cùng
+    col_logo1, col_logo2, col_logo3 = st.columns([1.5, 1, 1.5])
+    with col_logo2:
+        # Nhớ đảm bảo file ảnh này có trong thư mụcimages/ nhé sếp
+        safe_image("images/rkv_logo.png", use_container_width=True)
+    
+    # Hạ dòng chữ xuống (Dùng HTML margin-top)
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: #d10000; font-size: 3.5rem; margin-top: 100px;'>Chào mừng bạn gia nhập Riken Việt! 🎓</h1>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center; color: #555; margin-bottom: 70px;'>Bạn đã sẵn sàng để tham gia cùng chúng tôi chưa?</h3>", unsafe_allow_html=True)
+    
+    # 4. Khu vực Nút bấm (RẤT LỚN và Canh giữa)
+    # Chia cột 2-2 cho nút bấm, ở giữa là khoảng trắng
+    col_btn_yes_space, col_btn_yes, col_btn_no, col_btn_no_space = st.columns([0.5, 1, 1, 0.5])
     
     with col_btn_yes:
-        if st.button("🚀 SẴN SÀNG", type="primary", use_container_width=True):
+        # Nút Sẵn sàng (Primary màu đỏ Riken)
+        if st.button("🚀 SẴN SÀNG", type="primary"):
             st.session_state.is_ready = True
-            st.rerun() # Tải lại trang để vào hệ thống chính
+            st.balloons() # 🌟 Kích hoạt hiệu ứng chúc mừng (bóng bay giống pháo hoa)
+            st.rerun() 
             
     with col_btn_no:
-        if st.button("❌ CHƯA SẴN SÀNG", use_container_width=True):
+        # Nút Chưa sẵn sàng (Secondary màu xám đậm)
+        if st.button("❌ CHƯA SẴN SÀNG", type="secondary"):
             st.session_state.not_ready = True
-            st.rerun() # Tải lại trang để chuyển sang màn hình Tạm biệt
+            st.rerun() 
             
-    st.stop() # Chặn code chính, không cho load Thanh Sidebar hay Nội dung bài học lúc này
+    st.stop()
 
 # ==========================================
 # HÀM BẢO VỆ ẢNH (CHỐNG SẬP WEB)
