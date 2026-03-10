@@ -13,14 +13,50 @@ except ImportError:
 # ==========================================
 st.set_page_config(page_title="Riken Viet - Đào tạo nội bộ", page_icon="🎓", layout="wide")
 
-# Bộ nhớ lưu trạng thái làm bài và dữ liệu Admin
+# Khởi tạo các biến bộ nhớ
 if 'quiz_passed' not in st.session_state:
     st.session_state.quiz_passed = False
 if 'admin_data' not in st.session_state:
     st.session_state.admin_data = None
+    
+# Thêm 2 biến bộ nhớ cho Màn hình chờ
+if 'is_ready' not in st.session_state:
+    st.session_state.is_ready = False
+if 'not_ready' not in st.session_state:
+    st.session_state.not_ready = False
 
 # ==========================================
-# HÀM BẢO VỆ ẢNH (CHỐNG SẬP WEB) - Giữ nguyên
+# 🌟 MÀN HÌNH CHỜ (WELCOME SCREEN)
+# ==========================================
+# Nếu chọn CHƯA SẴN SÀNG -> Dừng hệ thống và báo đóng Tab
+if st.session_state.not_ready:
+    st.markdown("<h2 style='text-align: center; color: #555; margin-top: 150px;'>Hẹn gặp lại bạn khi khác! 👋</h2>", unsafe_allow_html=True)
+    st.info("💡 Bạn có thể đóng tab trình duyệt này và quay trở lại bất cứ khi nào bạn đã sẵn sàng nhé!")
+    st.stop() # Lệnh này chặn toàn bộ phần code bên dưới không cho chạy
+
+# Nếu CHƯA bấm SẴN SÀNG -> Hiện màn hình chào mừng
+if not st.session_state.is_ready:
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: #d10000; font-size: 3.5rem;'>Chào mừng bạn gia nhập Riken Việt! 🎓</h1>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center; color: #555; margin-bottom: 50px;'>Bạn đã sẵn sàng để tham gia cùng chúng tôi chưa?</h3>", unsafe_allow_html=True)
+    
+    # Canh giữa 2 nút bấm
+    col_space1, col_btn_yes, col_btn_no, col_space2 = st.columns([1.5, 1, 1, 1.5])
+    
+    with col_btn_yes:
+        if st.button("🚀 SẴN SÀNG", type="primary", use_container_width=True):
+            st.session_state.is_ready = True
+            st.rerun() # Tải lại trang để vào hệ thống chính
+            
+    with col_btn_no:
+        if st.button("❌ CHƯA SẴN SÀNG", use_container_width=True):
+            st.session_state.not_ready = True
+            st.rerun() # Tải lại trang để chuyển sang màn hình Tạm biệt
+            
+    st.stop() # Chặn code chính, không cho load Thanh Sidebar hay Nội dung bài học lúc này
+
+# ==========================================
+# HÀM BẢO VỆ ẢNH (CHỐNG SẬP WEB)
 # ==========================================
 def safe_image(image_path, use_container_width=False):
     if os.path.exists(image_path):
