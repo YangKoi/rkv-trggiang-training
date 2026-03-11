@@ -409,7 +409,7 @@ with st.sidebar:
 # ==========================================
 if app_mode == "🎓 Cổng Đào Tạo Hội Nhập":
     st.title("🎓 Cổng Đào Tạo Hội Nhập")
-    st.markdown("**Xin chào thành viên mới!** Vui lòng tìm hiểu về lịch sử công ty, theo dõi video và hoàn thành bài kiểm tra.")
+    st.markdown("**Xin chào thành viên mới!** Vui lòng tìm hiểu về công ty, theo dõi video và hoàn thành bài kiểm tra.")
     
     st.markdown("---")
     st.subheader("📺 Video tổng quan")
