@@ -817,7 +817,7 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
         
         # --- BỔ SUNG KHỐI KIẾN THỨC LEL DÀNH RIÊNG CHO MED/ATEX ---
         st.markdown("### ⚠️ Lưu ý kỹ thuật: Sự khác biệt về %LEL theo chuẩn MED/ATEX")
-        st.info("💡 **Góc chuyên gia:** Các thiết bị tuân thủ chuẩn Châu Âu (ATEX) và Hàng hải (MED) áp dụng tiêu chuẩn đo lường **IEC 60079-20-1** (đo khí ở trạng thái khuấy động). Điều này khiến mốc 100% LEL bị hạ thấp xuống (khắt khe hơn) so với chuẩn ISO/Mỹ cũ (đo tĩnh). Các máy đo khí Riken Keiki mang hậu tố 'MED' (như GX-3R MED, RX-8000 MED) đều áp dụng hệ số an toàn cao này.")
+        st.info("💡 Các thiết bị tuân thủ chuẩn Châu Âu (ATEX) và Hàng hải (MED) áp dụng tiêu chuẩn đo lường **IEC 60079-20-1** (đo khí ở trạng thái khuấy động). Điều này khiến mốc 100% LEL bị hạ thấp xuống (khắt khe hơn) so với chuẩn ISO/Mỹ cũ (đo tĩnh). Các máy đo khí Riken Keiki mang hậu tố 'MED' (như GX-3R MED, GX-9000 MED) đều áp dụng hệ số an toàn cao này.")
         
         col_med1, col_med2 = st.columns([1.2, 1], gap="large")
         with col_med1:
@@ -841,15 +841,6 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
             
         st.markdown("---")
         
-        st.markdown("### 💡 TỔNG KẾT NHANH (Cheat-sheet cho Sales/Kỹ thuật)")
-        st.markdown("""
-        | Khách hàng hỏi | Có nghĩa là họ đang quan tâm đến... |
-        | :--- | :--- |
-        | **"Máy này có ATEX / IECEx không?"** | Máy của em có phát ra tia lửa gây nổ nhà máy dầu khí của anh không? |
-        | **"Máy này có FM / UL không?"** | Máy có đạt tiêu chuẩn an toàn để bán vào nhà máy kiểu Mỹ không? |
-        | **"Máy có chứng chỉ MED không?"** | Máy có chịu được muối biển và rung lắc trên tàu thủy không? |
-        | **"Máy đạt chuẩn SIL mấy?"** | Anh giao mạng sống cho máy này, nó có đáng tin không, hay lúc có sự cố nó lại lăn ra hỏng? |
-        """)
 
     with tab_expo:
         st.subheader("Nhóm Thuật ngữ Phơi nhiễm Khí độc")
