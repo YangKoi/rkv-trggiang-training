@@ -780,23 +780,23 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
     tab_std, tab_expo = st.tabs(["🛡️ Tiêu Chuẩn Chống Cháy Nổ & An Toàn", "⚠️ Giới Hạn Phơi Nhiễm Khí Độc"])
 
     with tab_std:
-        st.subheader("Nhóm 1: Tiêu chuẩn chống cháy nổ theo khu vực địa lý")
+        st.subheader("Nhóm 1: Các tiêu chuẩn chống cháy nổ theo khu vực địa lý")
         st.markdown("Bất kỳ thiết bị nào mang vào môi trường nguy hiểm đều tuyệt đối không được phát ra tia lửa điện. Quá trình kiểm tra khả năng này sinh ra các tiêu chuẩn sau:")
         
         col1, col2 = st.columns(2, gap="large")
         with col1:
             with st.container(border=True):
-                st.markdown("#### ATEX (Của Châu Âu)")
-                st.markdown("**Nó là gì?** Viết tắt của *ATmosphères EXplosibles* (Bầu không khí dễ nổ).\n\n**Đặc điểm:** Đây là **Đạo luật bắt buộc** của Liên minh Châu Âu (EU). Bất kỳ máy móc nào muốn được bán và lắp đặt tại khu vực nguy hiểm ở Châu Âu đều phải có chứng chỉ này.\n\n**Nhận diện:** Biểu tượng hình lục giác màu vàng, có chữ 'Ex' bên trong.")
+                st.markdown("#### <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Ex_mark.svg/120px-Ex_mark.svg.png' width='40'> 🇪🇺 ATEX (Của Châu Âu)", unsafe_allow_html=True)
+                st.markdown("**Nó là gì?** Viết tắt của *ATmosphères EXplosibles* (Bầu không khí dễ nổ).\n\n**Đặc điểm:** Đây là **Đạo luật bắt buộc** của Liên minh Châu Âu (EU). Bất kỳ máy móc nào muốn được bán và lắp đặt tại khu vực nguy hiểm ở Châu Âu đều phải có chứng chỉ này.")
             
             with st.container(border=True):
-                st.markdown("#### UL, FM, CSA (Của Bắc Mỹ)")
-                st.markdown("Mỹ và Canada không dùng hệ ATEX/IECEx mà có luật riêng (phân loại Class/Division thay vì Zone).\n\n- **UL (Underwriters Laboratories):** Công ty kiểm định lớn nhất Mỹ. 'UL Listed' là bảo chứng vàng tại thị trường Mỹ.\n- **FM (Factory Mutual):** Thiết bị có dấu 'FM Approved' đã trải qua các bài test cực kỳ tàn bạo.\n- **CSA:** Tiêu chuẩn tương đương nhưng dành cho Canada.")
+                st.markdown("#### 🇺🇸 UL, FM, CSA (Của Bắc Mỹ)")
+                st.markdown("Mỹ và Canada không dùng hệ ATEX/IECEx mà có luật riêng (phân loại Class/Division thay vì Zone).\n\n- **UL (Underwriters Laboratories):** 'UL Listed' là bảo chứng vàng tại thị trường Mỹ.\n- **FM (Factory Mutual):** Thiết bị có dấu 'FM Approved' đã trải qua các bài test cực kỳ tàn bạo.")
 
         with col2:
             with st.container(border=True):
-                st.markdown("#### 🌍 IECEx (Toàn cầu)")
-                st.markdown("**Nó là gì?** Hệ thống chứng nhận của Ủy ban Kỹ thuật Điện Quốc tế (IEC).\n\n**Đặc điểm:** Được lập ra với tham vọng trở thành **Tiêu chuẩn Quốc tế chung**. Rất nhiều quốc gia ngoài EU (Úc, Châu Á, Trung Đông) chấp nhận IECEx.\n\n**Sự khác biệt:** ATEX mang tính chất *pháp lý khu vực*, còn IECEx mang tính chất *kỹ thuật toàn cầu*. Máy Riken Keiki thường làm luôn cả 2 chứng chỉ này cùng lúc.")
+                st.markdown("#### <img src='https://upload.wikimedia.org/wikipedia/commons/b/b3/IECEx_logo.png' width='100'> 🌍 IECEx (Toàn cầu)", unsafe_allow_html=True)
+                st.markdown("**Nó là gì?** Hệ thống chứng nhận của Ủy ban Kỹ thuật Điện Quốc tế (IEC).\n\n**Đặc điểm:** Được lập ra với tham vọng trở thành **Tiêu chuẩn Quốc tế chung**. ATEX mang tính chất *pháp lý khu vực*, còn IECEx mang tính chất *kỹ thuật toàn cầu*.")
             
         st.markdown("---")
         
@@ -805,15 +805,51 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
             st.subheader("Nhóm 2: Tiêu chuẩn hàng hải")
             with st.container(border=True):
                 st.markdown("#### ⚓ MED (Marine Equipment Directive)")
-                st.markdown("**Nó là gì?** Chỉ thị Thiết bị Hàng hải của Châu Âu.\n\n**Giải thích:** Môi trường tàu biển rất khắc nghiệt (muối mặn, rung lắc). Máy dùng tốt trên đất liền chưa chắc mang lên tàu đã thọ được. Máy đo khí muốn lắp trên tàu thủy quốc tế phải đạt chứng chỉ MED.\n\n**Nhận diện:** Biểu tượng **Bánh lái tàu (Wheelmark)**.")
+                st.markdown("**Nó là gì?** Chỉ thị Thiết bị Hàng hải của Châu Âu (Biểu tượng Bánh lái tàu).\n\n**Giải thích:** Môi trường tàu biển rất khắc nghiệt (muối mặn, rung lắc). Máy đo khí muốn lắp trên tàu thủy quốc tế bắt buộc phải đạt chứng chỉ MED.")
 
         with col4:
             st.subheader("Nhóm 3: Chứng chỉ Độ tin cậy hệ thống")
             with st.container(border=True):
                 st.markdown("#### 🛡️ SIL (Safety Integrity Level)")
-                st.markdown("**Nó là gì?** Mức độ Toàn vẹn An toàn.\n\n**Giải thích:** SIL không đánh giá việc chống cháy nổ, mà chấm điểm **SỰ ĐÁNG TIN CẬY**. Khi khí xì ra, xác suất máy 'bị đơ' không báo động là bao nhiêu? SIL chia từ 1 đến 4 (Càng cao càng xịn).\n- **SIL 2:** Rất phổ biến, xác suất lỗi cực thấp (SD-3 đạt SIL 2).\n- **SIL 3:** Siêu an toàn, thường phải chạy 2 máy song song.\n- **SIL 4:** Dành cho điện hạt nhân, tàu vũ trụ.")
+                st.markdown("**Nó là gì?** Mức độ Toàn vẹn An toàn.\n\n**Giải thích:** SIL chấm điểm **SỰ ĐÁNG TIN CẬY**. Khi khí xì ra, xác suất máy 'bị đơ' không báo động là bao nhiêu? (Ví dụ: Dòng SD-3 của chúng ta đạt SIL 2).")
                 
-      
+        st.markdown("---")
+        
+        # --- BỔ SUNG KHỐI KIẾN THỨC LEL DÀNH RIÊNG CHO MED/ATEX ---
+        st.markdown("### ⚠️ Lưu ý kỹ thuật: Sự khác biệt về %LEL theo chuẩn MED/ATEX")
+        st.info("💡 **Góc chuyên gia:** Các thiết bị tuân thủ chuẩn Châu Âu (ATEX) và Hàng hải (MED) áp dụng tiêu chuẩn đo lường **IEC 60079-20-1** (đo khí ở trạng thái khuấy động). Điều này khiến mốc 100% LEL bị hạ thấp xuống (khắt khe hơn) so với chuẩn ISO/Mỹ cũ (đo tĩnh). Các máy đo khí Riken Keiki mang hậu tố 'MED' (như GX-3R MED, RX-8000 MED) đều áp dụng hệ số an toàn cao này.")
+        
+        col_med1, col_med2 = st.columns([1.2, 1], gap="large")
+        with col_med1:
+            st.markdown("""
+            | Tên Khí | Mốc 100% LEL (Chuẩn cũ/ISO) | Mốc 100% LEL (Chuẩn MED/ATEX) |
+            | :--- | :---: | :---: |
+            | **Methane (CH4)** | 5.0 %vol | **4.4 %vol** |
+            | **Propane (C3H8)** | 2.1 %vol | **1.7 %vol** |
+            | **Iso-butane (i-C4H10)**| 1.8 %vol | **1.3 %vol** |
+            | **Hydrogen (H2)** | 4.0 %vol | **4.0 %vol** (Không đổi) |
+            """)
+        with col_med2:
+            st.markdown("""
+            **Hệ quả thực tế khi tư vấn:**
+            Nếu nồng độ Methane rò rỉ đạt **4.4% thể tích**:
+            - Máy bản thường: Mới chỉ hiện `88% LEL`.
+            - **Máy bản MED:** Sẽ báo kịch kim `100% LEL` (Báo động đỏ tột đỉnh).
+            
+            👉 *Việc nắm rõ sự khác biệt này giúp Sales và Kỹ thuật tự tin giải thích cho khách hàng khi có sự chênh lệch số đọc giữa các thiết bị trên cùng một mặt bằng!*
+            """)
+            
+        st.markdown("---")
+        
+        st.markdown("### 💡 TỔNG KẾT NHANH (Cheat-sheet cho Sales/Kỹ thuật)")
+        st.markdown("""
+        | Khách hàng hỏi | Có nghĩa là họ đang quan tâm đến... |
+        | :--- | :--- |
+        | **"Máy này có ATEX / IECEx không?"** | Máy của em có phát ra tia lửa gây nổ nhà máy dầu khí của anh không? |
+        | **"Máy này có FM / UL không?"** | Máy có đạt tiêu chuẩn an toàn để bán vào nhà máy kiểu Mỹ không? |
+        | **"Máy có chứng chỉ MED không?"** | Máy có chịu được muối biển và rung lắc trên tàu thủy không? |
+        | **"Máy đạt chuẩn SIL mấy?"** | Anh giao mạng sống cho máy này, nó có đáng tin không, hay lúc có sự cố nó lại lăn ra hỏng? |
+        """)
 
     with tab_expo:
         st.subheader("Nhóm Thuật ngữ Phơi nhiễm Khí độc")
@@ -824,17 +860,17 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
         with col5:
             with st.container(border=True):
                 st.markdown("#### ⏳ TWA (Time-Weighted Average)")
-                st.markdown("**Trung bình gia quyền theo thời gian.**\n\nĐây là nồng độ khí độc trung bình mà một người lao động có thể tiếp xúc liên tục trong một ca làm việc tiêu chuẩn (8 giờ/ngày, 40 giờ/tuần) mà không gặp tác dụng phụ có hại nào. Thường được dùng làm mức **Báo động 1 (Alarm 1)** trên máy đo khí.")
+                st.markdown("**Trung bình gia quyền theo thời gian.**\n\nĐây là nồng độ khí độc trung bình mà một người lao động có thể tiếp xúc liên tục trong một ca làm việc tiêu chuẩn (8 giờ/ngày) mà không gặp tác dụng phụ có hại nào. Thường được dùng làm mức **Báo động 1 (Alarm 1)**.")
             
             with st.container(border=True):
                 st.markdown("#### ⏱️ STEL (Short-Term Exposure Limit)")
-                st.markdown("**Giới hạn phơi nhiễm ngắn hạn.**\n\nLà nồng độ tối đa mà người lao động có thể chịu đựng trong một khoảng thời gian ngắn (thường là **15 phút**), tối đa 4 lần/ngày. Thường được dùng làm mức **Báo động 2 (Alarm 2)**.")
+                st.markdown("**Giới hạn phơi nhiễm ngắn hạn.**\n\nLà nồng độ tối đa mà người lao động có thể chịu đựng trong một khoảng thời gian ngắn (thường là **15 phút**). Thường được dùng làm mức **Báo động 2 (Alarm 2)**.")
 
         with col6:
             with st.container(border=True):
                 st.markdown("#### ☠️ IDLH (Immediately Dangerous to Life or Health)")
-                st.markdown("**Nguy hiểm tức thời đến tính mạng hoặc sức khỏe.**\n\nĐây là mức nồng độ khí độc cực kỳ nguy hiểm. Môi trường đạt ngưỡng IDLH yêu cầu người lao động phải sơ tán khẩn cấp hoặc phải đeo mặt nạ dưỡng khí độc lập để sinh tồn.")
+                st.markdown("**Nguy hiểm tức thời đến tính mạng hoặc sức khỏe.**\n\nĐây là mức nồng độ khí độc cực kỳ nguy hiểm. Yêu cầu sơ tán khẩn cấp hoặc phải đeo mặt nạ dưỡng khí độc lập để sinh tồn.")
             
             with st.container(border=True):
                 st.markdown("#### 📏 TLV (Threshold Limit Value)")
-                st.markdown("**Giá trị giới hạn ngưỡng.**\n\nMột thuật ngữ chung (do hiệp hội ACGIH của Mỹ ban hành) chỉ nồng độ của một chất trong không khí mà hầu hết người lao động có thể tiếp xúc hàng ngày mà không bị ảnh hưởng xấu. TWA và STEL chính là 2 loại của TLV.")
+                st.markdown("**Giá trị giới hạn ngưỡng.**\n\nThuật ngữ chung chỉ nồng độ của một chất trong không khí mà hầu hết người lao động có thể tiếp xúc hàng ngày mà không bị ảnh hưởng xấu. TWA và STEL chính là 2 loại của TLV.")
