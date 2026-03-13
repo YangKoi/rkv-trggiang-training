@@ -148,25 +148,37 @@ if not st.session_state.is_ready:
     # ----------------------------------------------------------------------
     js_troll_button = """
     <script>
-    // Chờ 0.5s để nút bấm kịp render lên web rồi mới gắn cảm biến
-    setTimeout(function() {
-        // Tìm đúng cái nút chứa chữ CHƯA SẴN SÀNG
+    // Dùng setInterval để quét liên tục 0.5s/lần, chống tình trạng web bị đơ nút
+    setInterval(function() {
         var xpath = "//button[contains(., 'CHƯA SẴN SÀNG')]";
         var btn = window.parent.document.evaluate(xpath, window.parent.document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         
-        if (btn) {
-            // Chỉnh tốc độ chạy trốn siêu mượt
-            btn.style.transition = "all 0.15s ease-out";
+        // Nếu tìm thấy nút và nút chưa được gắn ma thuật (chưa có thẻ data-troll)
+        if (btn && !btn.hasAttribute('data-troll')) {
+            btn.setAttribute('data-troll', 'true'); // Đánh dấu đã gắn ma thuật
+            
+            btn.style.transition = "all 0.1s ease-out"; // Chỉnh tốc độ chạy trốn siêu nhanh
             btn.style.position = "relative";
             btn.style.zIndex = "9999";
             
-            // Kích hoạt cảm biến: Hễ rê chuột vào là nhảy tọa độ ngẫu nhiên!
-            btn.addEventListener('mouseenter', function() {
-                var x = (Math.random() - 0.5) * 600; // Nhảy ngang trái/phải tối đa 300px
-                var y = (Math.random() - 0.5) * 400; // Nhảy dọc lên/xuống tối đa 200px
+            // Hàm chạy trốn
+            function runAway(e) {
+                // Hủy ngay lệnh click nếu người dùng lỡ bấm trúng
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                var x = (Math.random() - 0.5) * 600; // Nhảy ngang
+                var y = (Math.random() - 0.5) * 400; // Nhảy dọc
                 btn.style.left = x + "px";
                 btn.style.top = y + "px";
-            });
+            }
+            
+            // Gắn hàng loạt cảm biến: Rê chuột, click chuột, bấm phím, chạm màn hình
+            btn.addEventListener('mouseenter', runAway, true);
+            btn.addEventListener('mousedown', runAway, true);
+            btn.addEventListener('click', runAway, true);
+            btn.addEventListener('touchstart', runAway, true);
         }
     }, 500);
     </script>
