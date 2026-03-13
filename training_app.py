@@ -774,7 +774,7 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
         col1, col2 = st.columns(2, gap="large")
         with col1:
             with st.container(border=True):
-                st.markdown("#### <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Ex_mark.svg/120px-Ex_mark.svg.png' width='40'> ATEX (Của Châu Âu)", unsafe_allow_html=True)
+                st.markdown("#### ATEX (Của Châu Âu)", unsafe_allow_html=True)
                 st.markdown("**Nó là gì?** Viết tắt của *ATmosphères EXplosibles* (Bầu không khí dễ nổ).\n\n**Đặc điểm:** Đây là **Đạo luật bắt buộc** của Liên minh Châu Âu (EU). Bất kỳ máy móc nào muốn được bán và lắp đặt tại khu vực nguy hiểm ở Châu Âu đều phải có chứng chỉ này.")
             
             with st.container(border=True):
@@ -783,7 +783,7 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
 
         with col2:
             with st.container(border=True):
-                st.markdown("#### <img src='https://upload.wikimedia.org/wikipedia/commons/b/b3/IECEx_logo.png' width='100'> 🌍 IECEx (Toàn cầu)", unsafe_allow_html=True)
+                st.markdown("####  🌍 IECEx (Toàn cầu)", unsafe_allow_html=True)
                 st.markdown("**Nó là gì?** Hệ thống chứng nhận của Ủy ban Kỹ thuật Điện Quốc tế (IEC).\n\n**Đặc điểm:** Được lập ra với tham vọng trở thành **Tiêu chuẩn Quốc tế chung**. ATEX mang tính chất *pháp lý khu vực*, còn IECEx mang tính chất *kỹ thuật toàn cầu*.")
             
         st.markdown("---")
