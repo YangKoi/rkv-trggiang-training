@@ -40,7 +40,7 @@ def safe_image(image_path, use_container_width=False):
             st.warning(f"⚠️ Ảnh '{image_path}' bị lỗi định dạng. Vui lòng thay file PNG khác.")
 
 # ==========================================
-# 3. 🌟 MÀN HÌNH CHỜ NÂNG CẤP (CÓ HIỆU ỨNG CHUYỂN ĐỘNG)
+# 3. 🌟 MÀN HÌNH CHỜ NÂNG CẤP (CÓ HIỆU ỨNG & NÚT "TROLL")
 # ==========================================
 
 # CSS Custom cho Màn hình chờ & Hiệu ứng
@@ -52,27 +52,10 @@ st.markdown("""
         100% { opacity: 1; transform: translateY(0); }
     }
     
-    /* Ép hiệu ứng vào Lô gô (Hiện ra nhanh nhất) */
-    div[data-testid="stImage"] {
-        animation: fadeInUp 0.8s ease-out forwards;
-    }
-    
-    /* Ép hiệu ứng vào Tiêu đề chính (Hiện ra sau 1 chút) */
-    div[data-testid="stMarkdownContainer"] > h1 {
-        animation: fadeInUp 1.2s ease-out forwards;
-    }
-    
-    /* Ép hiệu ứng vào Tiêu đề phụ (Hiện ra sau cùng) */
-    div[data-testid="stMarkdownContainer"] > h3 {
-        animation: fadeInUp 1.6s ease-out forwards;
-    }
-
-    /* Canh giữa Lô gô */
-    div.stImage > img {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
+    div[data-testid="stImage"] { animation: fadeInUp 0.8s ease-out forwards; }
+    div[data-testid="stMarkdownContainer"] > h1 { animation: fadeInUp 1.2s ease-out forwards; }
+    div[data-testid="stMarkdownContainer"] > h3 { animation: fadeInUp 1.6s ease-out forwards; }
+    div.stImage > img { display: block; margin-left: auto; margin-right: auto; }
     
     /* Chỉnh nút bấm */
     div.stButton > button {
@@ -83,8 +66,8 @@ st.markdown("""
         font-weight: bold !important;
         border-radius: 12px !important;
         box-shadow: 0 4px 6px rgba(0,0,0,0.2) !important;
-        transition: all 0.3s ease;
-        animation: fadeInUp 2s ease-out forwards; /* Nút bấm lướt lên cuối cùng */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        animation: fadeInUp 2s ease-out forwards;
     }
     
     div.stButton > button:hover {
@@ -92,17 +75,8 @@ st.markdown("""
         box-shadow: 0 6px 12px rgba(0,0,0,0.3) !important;
     }
     
-    div.stButton > button[kind="primary"] {
-        background-color: #d10000 !important;
-        color: white !important;
-        border: none !important;
-    }
-    
-    div.stButton > button[kind="secondary"] {
-        background-color: #555555 !important;
-        color: white !important;
-        border: none !important;
-    }
+    div.stButton > button[kind="primary"] { background-color: #d10000 !important; color: white !important; border: none !important; }
+    div.stButton > button[kind="secondary"] { background-color: #555555 !important; color: white !important; border: none !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -115,63 +89,35 @@ if st.session_state.not_ready:
 # Xử lý: Hiển thị giao diện Màn hình chờ
 if not st.session_state.is_ready:
     
-    # 🌟 KÍCH HOẠT HIỆU ỨNG HOA RƠI & PHÁO HOA GIẤY (1 LẦN DUY NHẤT)
+    # 🌟 KÍCH HOẠT HIỆU ỨNG HOA RƠI (1 LẦN DUY NHẤT)
     if st.session_state.first_visit:
         hoa_roi_html = """
         <style>
             .falling-item {
-                position: fixed;
-                top: -10%;
-                z-index: 9999;
-                user-select: none;
-                cursor: default;
-                animation-name: fall-down, sway;
-                animation-duration: 4s, 3s;
+                position: fixed; top: -10%; z-index: 9999; user-select: none; cursor: default;
+                animation-name: fall-down, sway; animation-duration: 4s, 3s;
                 animation-timing-function: linear, ease-in-out;
-                animation-iteration-count: 1, 1; /* Chỉ rơi 1 lần rồi thôi */
-                animation-fill-mode: forwards, forwards; /* Biến mất khi chạm đáy */
-                font-size: 2.5rem;
-                opacity: 0;
+                animation-iteration-count: 1, 1; animation-fill-mode: forwards, forwards;
+                font-size: 2.5rem; opacity: 0;
             }
-            @keyframes fall-down {
-                0% { top: -10%; opacity: 1; }
-                80% { opacity: 1; }
-                100% { top: 110%; opacity: 0; }
-            }
-            @keyframes sway {
-                0% { transform: translateX(0px) rotate(0deg); }
-                50% { transform: translateX(50px) rotate(180deg); }
-                100% { transform: translateX(0px) rotate(360deg); }
-            }
-            /* Thiết lập vị trí và độ trễ ngẫu nhiên cho từng hạt */
-            .item1 { left: 10%; animation-delay: 0s, 0s; }
-            .item2 { left: 20%; animation-delay: 0.5s, 0.5s; font-size: 2rem; }
-            .item3 { left: 30%; animation-delay: 0.2s, 0.2s; }
-            .item4 { left: 40%; animation-delay: 0.8s, 0.8s; font-size: 3rem; }
-            .item5 { left: 50%; animation-delay: 0.1s, 0.1s; }
-            .item6 { left: 60%; animation-delay: 0.6s, 0.6s; font-size: 2rem; }
-            .item7 { left: 70%; animation-delay: 0.3s, 0.3s; }
-            .item8 { left: 80%; animation-delay: 0.7s, 0.7s; font-size: 2.5rem; }
-            .item9 { left: 90%; animation-delay: 0.4s, 0.4s; }
-            .item10 { left: 15%; animation-delay: 0.9s, 0.9s; }
+            @keyframes fall-down { 0% { top: -10%; opacity: 1; } 80% { opacity: 1; } 100% { top: 110%; opacity: 0; } }
+            @keyframes sway { 0% { transform: translateX(0px) rotate(0deg); } 50% { transform: translateX(50px) rotate(180deg); } 100% { transform: translateX(0px) rotate(360deg); } }
+            .item1 { left: 10%; animation-delay: 0s, 0s; } .item2 { left: 20%; animation-delay: 0.5s, 0.5s; font-size: 2rem; }
+            .item3 { left: 30%; animation-delay: 0.2s, 0.2s; } .item4 { left: 40%; animation-delay: 0.8s, 0.8s; font-size: 3rem; }
+            .item5 { left: 50%; animation-delay: 0.1s, 0.1s; } .item6 { left: 60%; animation-delay: 0.6s, 0.6s; font-size: 2rem; }
+            .item7 { left: 70%; animation-delay: 0.3s, 0.3s; } .item8 { left: 80%; animation-delay: 0.7s, 0.7s; font-size: 2.5rem; }
+            .item9 { left: 90%; animation-delay: 0.4s, 0.4s; } .item10 { left: 15%; animation-delay: 0.9s, 0.9s; }
             .item11 { left: 85%; animation-delay: 0.2s, 0.2s; font-size: 3rem; }
         </style>
-        
-        <div class="falling-item item1">🌸</div>
-        <div class="falling-item item2">🎉</div>
-        <div class="falling-item item3">✨</div>
-        <div class="falling-item item4">🌺</div>
-        <div class="falling-item item5">🎊</div>
-        <div class="falling-item item6">🌸</div>
-        <div class="falling-item item7">🎇</div>
-        <div class="falling-item item8">✨</div>
-        <div class="falling-item item9">🌺</div>
-        <div class="falling-item item10">🎉</div>
+        <div class="falling-item item1">🌸</div><div class="falling-item item2">🎉</div>
+        <div class="falling-item item3">✨</div><div class="falling-item item4">🌺</div>
+        <div class="falling-item item5">🎊</div><div class="falling-item item6">🌸</div>
+        <div class="falling-item item7">🎇</div><div class="falling-item item8">✨</div>
+        <div class="falling-item item9">🌺</div><div class="falling-item item10">🎉</div>
         <div class="falling-item item11">🌸</div>
         """
         st.markdown(hoa_roi_html, unsafe_allow_html=True)
         st.session_state.first_visit = False
-    
     
     # Canh giữa Lô gô
     col_logo1, col_logo2, col_logo3 = st.columns([1.5, 1, 1.5])
@@ -189,7 +135,7 @@ if not st.session_state.is_ready:
     with col_btn_yes:
         if st.button("🚀 SẴN SÀNG", type="primary", use_container_width=True):
             st.session_state.is_ready = True
-            st.balloons() # Nổ pháo hoa bóng bay khi chính thức bước vào
+            st.balloons() 
             st.rerun() 
             
     with col_btn_no:
@@ -197,7 +143,37 @@ if not st.session_state.is_ready:
             st.session_state.not_ready = True
             st.rerun() 
             
-    st.stop()
+    # ----------------------------------------------------------------------
+    # 🛸 ĐOẠN MÃ MA THUẬT: LÀM NÚT "CHƯA SẴN SÀNG" BỎ CHẠY KHI DI CHUỘT
+    # ----------------------------------------------------------------------
+    js_troll_button = """
+    <script>
+    // Chờ 0.5s để nút bấm kịp render lên web rồi mới gắn cảm biến
+    setTimeout(function() {
+        // Tìm đúng cái nút chứa chữ CHƯA SẴN SÀNG
+        var xpath = "//button[contains(., 'CHƯA SẴN SÀNG')]";
+        var btn = window.parent.document.evaluate(xpath, window.parent.document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        
+        if (btn) {
+            // Chỉnh tốc độ chạy trốn siêu mượt
+            btn.style.transition = "all 0.15s ease-out";
+            btn.style.position = "relative";
+            btn.style.zIndex = "9999";
+            
+            // Kích hoạt cảm biến: Hễ rê chuột vào là nhảy tọa độ ngẫu nhiên!
+            btn.addEventListener('mouseenter', function() {
+                var x = (Math.random() - 0.5) * 600; // Nhảy ngang trái/phải tối đa 300px
+                var y = (Math.random() - 0.5) * 400; // Nhảy dọc lên/xuống tối đa 200px
+                btn.style.left = x + "px";
+                btn.style.top = y + "px";
+            });
+        }
+    }, 500);
+    </script>
+    """
+    st.components.v1.html(js_troll_button, height=0, width=0) # Ẩn thẻ div chứa script này đi
+
+    st.stop() # Dừng hệ thống, chờ người dùng đầu hàng và bấm nút đỏ!
 # ==========================================
 # HÀM BẢO VỆ ẢNH (CHỐNG SẬP WEB)
 # ==========================================
