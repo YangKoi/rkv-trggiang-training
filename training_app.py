@@ -774,11 +774,11 @@ elif app_mode == "📖 Tiêu Chuẩn & Thuật Ngữ":
         col1, col2 = st.columns(2, gap="large")
         with col1:
             with st.container(border=True):
-                st.markdown("#### <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Ex_mark.svg/120px-Ex_mark.svg.png' width='40'> 🇪🇺 ATEX (Của Châu Âu)", unsafe_allow_html=True)
+                st.markdown("#### <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Ex_mark.svg/120px-Ex_mark.svg.png' width='40'> ATEX (Của Châu Âu)", unsafe_allow_html=True)
                 st.markdown("**Nó là gì?** Viết tắt của *ATmosphères EXplosibles* (Bầu không khí dễ nổ).\n\n**Đặc điểm:** Đây là **Đạo luật bắt buộc** của Liên minh Châu Âu (EU). Bất kỳ máy móc nào muốn được bán và lắp đặt tại khu vực nguy hiểm ở Châu Âu đều phải có chứng chỉ này.")
             
             with st.container(border=True):
-                st.markdown("#### 🇺🇸 UL, FM, CSA (Của Bắc Mỹ)")
+                st.markdown("#### UL, FM, CSA (Của Bắc Mỹ)")
                 st.markdown("Mỹ và Canada không dùng hệ ATEX/IECEx mà có luật riêng (phân loại Class/Division thay vì Zone).\n\n- **UL (Underwriters Laboratories):** 'UL Listed' là bảo chứng vàng tại thị trường Mỹ.\n- **FM (Factory Mutual):** Thiết bị có dấu 'FM Approved' đã trải qua các bài test cực kỳ tàn bạo.")
 
         with col2:
